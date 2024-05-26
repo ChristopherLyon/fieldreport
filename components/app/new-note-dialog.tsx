@@ -104,7 +104,7 @@ export default function NewNoteDialog() {
                 <DialogHeader>
                     <DialogTitle>Add new stream</DialogTitle>
                     <DialogDescription>
-                        FieldReport's AI will process your stream and provide automatic insights for you.
+                        FieldReport&apos;s AI will process your stream and provide automatic insights for you.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="py-1">
