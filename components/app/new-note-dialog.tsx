@@ -58,7 +58,7 @@ export default function NewNoteDialog() {
                 },
             });
 
-            toast.success("S added successfully");
+            toast.success("Stream added successfully");
 
             if (!response.ok) {
                 throw new Error("Failed to add note");
