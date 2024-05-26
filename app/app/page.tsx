@@ -4,7 +4,7 @@
 import { INote } from "@/types/types";
 
 // Libraries
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 
 // UI
 import NoDataContextCard from "@/components/no-data-context-card";
@@ -13,7 +13,7 @@ import PagePadding from "@/components/page-padding";
 import PageBreadcrumb from "@/components/page-breadcrumb";
 import NotesCard from "@/components/app/notes-card";
 import NewNoteDialog from "@/components/app/new-note-dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { Button } from "@/components/ui/button";
 import { Grid, LayoutGrid, Table } from "lucide-react";
@@ -44,7 +44,7 @@ export default function Home() {
     <main className="h-full flex flex-col">
       <PagePadding>
 
-        <Tabs defaultValue="layout-grid" className="w-full">
+        <Tabs defaultValue="layout-grid" className="w-full flex-1 flex flex-col">
           <div className="flex flex-row items-center justify-between">
             <PageBreadcrumb />
 
@@ -60,7 +60,7 @@ export default function Home() {
               <NewNoteDialog />
             </div>
           </div>
-          <TabsContent value="layout-grid">
+          <TabsContent value="layout-grid" className="flex-1 flex flex-col">
 
             {fetchingNotes ? (
               <NoDataContextCard

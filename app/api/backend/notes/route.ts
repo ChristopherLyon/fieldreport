@@ -101,7 +101,6 @@ export async function POST(request: Request) {
     });
 
     const aiContent = chatCompletion.choices?.[0]?.message?.content;
-    console.log(aiContent);
     if (!aiContent) {
         return new NextResponse(JSON.stringify({ error: "Failed to generate AI content" }), {
             status: 500,

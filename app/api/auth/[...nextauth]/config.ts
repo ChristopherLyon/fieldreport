@@ -1,11 +1,21 @@
 import GoogleProvider from "next-auth/providers/google";
 import Stripe from "stripe";
 import { connectToDatabase } from "@/lib/mongodb";
-import type { AuthOptions } from "next-auth";
+import type { AuthOptions, User } from "next-auth";
+import type { JWT } from "next-auth/jwt";
 
-//@ts-expect-error
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2020-08-27",
+// Extend the User type to include the stripeCustomerId property
+interface ExtendedUser extends User {
+  stripeCustomerId?: string;
+}
+
+// Extend the JWT type to include the stripeCustomerId property
+interface ExtendedJWT extends JWT {
+  stripeCustomerId?: string;
+}
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2024-04-10",
 });
 
 export const CONFIG: AuthOptions = {
@@ -17,7 +27,6 @@ export const CONFIG: AuthOptions = {
   ],
   pages: {
     signIn: "/auth/signin",
-
   },
   callbacks: {
     signIn: async ({ user }) => {
@@ -43,8 +52,6 @@ export const CONFIG: AuthOptions = {
       }
       return true;
     },
-
-
     jwt: async ({ token, user }) => {
       // If this is the sign-in event where the user object is available
       if (user) {
@@ -53,14 +60,16 @@ export const CONFIG: AuthOptions = {
         const dbUser = await db
           .collection("users")
           .findOne({ email: user.email });
-        token.stripeCustomerId = dbUser.stripeCustomerId;
+
+        if (dbUser && dbUser.stripeCustomerId) {
+          (token as ExtendedJWT).stripeCustomerId = dbUser.stripeCustomerId;
+        }
       }
       return token;
     },
     session: async ({ session, token }) => {
       // Add the Stripe Customer ID to the session from the JWT token
-      //@ts-ignore
-      session.user.stripeCustomerId = token.stripeCustomerId;
+      (session.user as ExtendedUser).stripeCustomerId = (token as ExtendedJWT).stripeCustomerId;
       return session;
     },
   },

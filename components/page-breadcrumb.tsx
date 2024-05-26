@@ -12,6 +12,7 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { AudioLinesIcon } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function PageBreadcrumb() {
 
@@ -22,7 +23,9 @@ export default function PageBreadcrumb() {
         <Breadcrumb className="hidden md:flex">
             <BreadcrumbList>
                 <BreadcrumbItem>
-                    <BreadcrumbLink>{session.data?.user?.name}
+                    <BreadcrumbLink>
+                        {/* If !session show skeleton, else show session.user.name */}
+                        {session.data ? session.data.user?.name : <Skeleton className="w-28 h-5" />}
                     </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />

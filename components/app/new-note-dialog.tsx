@@ -46,7 +46,7 @@ export default function NewNoteDialog() {
 
         try {
             // Show success toast and reset the form
-            toast.info("Note added to AI queue 🚀");
+            toast.info("Stream added to AI queue 🚀");
             setRawInput("");
             setDialogOpen(false);
 
@@ -58,7 +58,7 @@ export default function NewNoteDialog() {
                 },
             });
 
-            toast.success("Note added successfully");
+            toast.success("S added successfully");
 
             if (!response.ok) {
                 throw new Error("Failed to add note");

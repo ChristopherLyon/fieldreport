@@ -63,7 +63,7 @@ export default function NotesCard({ note, setNotes }: { note: INote; setNotes: R
             body: JSON.stringify({ _id: note._id }),
         });
         setNotes((prevNotes) => prevNotes.filter((n) => n._id !== note._id));
-        toast.success("Note deleted successfully");
+        toast.success("Stream deleted successfully");
         
     };
 
@@ -75,7 +75,7 @@ export default function NotesCard({ note, setNotes }: { note: INote; setNotes: R
                         <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                         <AlertDialogDescription>
                             This action cannot be undone. This will permanently delete your
-                            account and remove your data from our servers.
+                            stream and all of its data.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>

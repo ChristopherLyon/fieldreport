@@ -13,6 +13,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function UserAvatar() {
 
@@ -20,7 +21,11 @@ export default function UserAvatar() {
 
     return (
         <div>
-            {session && (
+
+            {/* If !session show skeleton, else show avatar */}
+            {!session ? (
+                <Skeleton className="w-10 h-10 rounded-full" />
+            ) : (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Avatar>
@@ -46,6 +51,7 @@ export default function UserAvatar() {
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
+
             )}
         </div>
     );
