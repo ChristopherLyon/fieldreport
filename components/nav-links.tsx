@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link';
 
 // UI Components
-import { AppWindow, AudioLines, AudioWaveform, Brain, Hourglass, NotebookPen, Package2 } from 'lucide-react';
+import { AudioLines } from 'lucide-react';
 
 // Add all nav links here:
 const links = [
@@ -35,7 +35,7 @@ export function NavLinksMobile() {
     return (
         <nav className="grid gap-2 text-lg font-medium">
             <Link href="#" className="flex items-center mb-4 text-lg font-semibold">
-                <Hourglass className="h-6 w-6" />
+                <AudioLines className="h-6 w-6" />
                 <span className="sr-only">FieldReport</span>
             </Link>
 

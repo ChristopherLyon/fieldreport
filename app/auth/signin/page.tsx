@@ -6,7 +6,7 @@ import { signIn } from "next-auth/react"
 // UI Components
 import { Button } from "@/components/ui/button"
 import Header from "@/components/frontend/header";
-import { AudioLines, Hourglass } from "lucide-react";
+import { AudioLines } from "lucide-react";
 
 export default function SignIn() {
     return (
@@ -55,7 +55,7 @@ export default function SignIn() {
                     </video>
                 </div>
             </div>
-            <Hourglass className="absolute bottom-5 right-5 h-5 text-gray-100 dark:text-gray-300" />
+            <AudioLines className="absolute bottom-5 right-5 h-5 text-gray-100 dark:text-gray-300" />
 
         </main>
     );

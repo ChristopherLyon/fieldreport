@@ -1,7 +1,7 @@
 "use client";
 import { useState } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
-import { AudioLines, AudioWaveform, Hourglass, Menu, X } from 'lucide-react'
+import { AudioLines, Menu, X } from 'lucide-react'
 import { Button } from '../ui/button';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link'
@@ -58,7 +58,7 @@ export default function Header() {
                         <div className="flex items-center justify-between">
                             <Link href="/" className="-m-1.5 p-1.5">
                                 <span className="sr-only">FieldReport</span>
-                                <Hourglass className="h-8 w-auto" />
+                                <AudioLines className="h-8 w-auto" />
                             </Link>
                             <button
                                 type="button"
