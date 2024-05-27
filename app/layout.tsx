@@ -13,9 +13,6 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "FieldReport",
   description: "Field Reports for the Modern Age",
-  icons: {
-    icon: '/favicon.png', // /public path
-  },
 };
 
 export default function RootLayout({
