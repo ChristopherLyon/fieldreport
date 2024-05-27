@@ -3,6 +3,7 @@
 // Libraries
 import { signIn } from "next-auth/react";
 import Image from 'next/image';
+import Link from "next/link";
 
 // UI Components
 import { Button } from "@/components/ui/button";
@@ -49,7 +50,7 @@ export default function SignIn() {
                             </Button>
                         </div>
                         <div className="text-xs text-gray-900 dark:text-gray-300">
-                            By signing in, you agree to our <a href="#" className="underline">Terms</a> and <a href="#" className="underline">Privacy Policy</a>
+                            By signing in, you agree to our <Link href="/tos" className="underline">Terms</Link> and <Link href="/privacy" className="underline">Privacy Policy</Link>
                         </div>
                     </div>
                 </div>
