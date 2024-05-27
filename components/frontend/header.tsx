@@ -46,9 +46,11 @@ export default function Header() {
                     </div>
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-2">
                         <ThemeToggle />
-                        <Button onClick={() => signIn()} className="text-xs" variant={"outline"}>
-                            Login
-                        </Button>
+                        <Link href="/auth/signin">
+                            <Button className="text-xs" variant={"outline"}>
+                                Login
+                            </Button>
+                        </Link>
                     </div>
                 </nav>
 

@@ -1,12 +1,26 @@
 "use client";
+import Image from 'next/image';
 import { Button } from '../ui/button';
 import { signIn } from 'next-auth/react';
+import placeholderImage from '@/public/images/hero-section-placeholder.png';
 
 export default function HeroSection() {
     return (
         <div className="relative h-screen overflow-hidden">
+            {/* Placeholder Image */}
+            <Image
+                src={placeholderImage}
+                alt="Placeholder Image"
+                layout="fill"
+                objectFit="cover"
+                priority
+                className="absolute top-0 left-0 w-full h-full z-0"
+            />
+
+            {/* Video */}
             <video
                 autoPlay
+                
                 muted
                 loop
                 playsInline
@@ -14,7 +28,7 @@ export default function HeroSection() {
                 disableRemotePlayback
                 className="absolute top-0 left-0 w-full h-full object-cover z-0"
             >
-                <source src="videos/glass.mp4" type="video/mp4" />
+                <source src="videos/glass.mov" type="video/mp4" />
                 Your browser does not support the video tag.
             </video>
 

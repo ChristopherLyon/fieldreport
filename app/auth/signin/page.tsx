@@ -1,11 +1,11 @@
 "use client";
 
 // Libraries
-import { signIn } from "next-auth/react"
-import Image from 'next/image'
+import { signIn } from "next-auth/react";
+import Image from 'next/image';
 
 // UI Components
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import Header from "@/components/frontend/header";
 import { AudioLines } from "lucide-react";
 
@@ -27,13 +27,25 @@ export default function SignIn() {
                                 <span>
                                     Login with Google
                                 </span>
-                                <img src="/images/logos/google-logo.webp" alt="Google Icon" className="w-4 h-4 ml-2" />
+                                <Image
+                                    src="/images/logos/google-logo.webp"
+                                    alt="Google Icon"
+                                    width={16}
+                                    height={16}
+                                    className="ml-2"
+                                />
                             </Button>
                             <Button onClick={() => signIn("github", { callbackUrl: "/app" })} variant="outline" className="w-full">
                                 <span>
                                     Login with Github
                                 </span>
-                                <img src="/images/logos/github-logo.png" alt="Github Icon" className="w-4 h-4 ml-2 dark:invert" />
+                                <Image
+                                    src="/images/logos/github-logo.png"
+                                    alt="Github Icon"
+                                    width={16}
+                                    height={16}
+                                    className="ml-2 dark:invert"
+                                />
                             </Button>
                         </div>
                         <div className="text-xs text-gray-900 dark:text-gray-300">
@@ -62,13 +74,12 @@ export default function SignIn() {
                         disableRemotePlayback
                         className="absolute top-0 left-0 w-full h-full object-cover"
                     >
-                        <source src="/videos/fieldreport-login.mov" type="video/mp4" />
+                        <source src="/videos/fieldreport-login-hd.mov" type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
                 </div>
             </div>
             <AudioLines className="absolute bottom-5 right-5 h-5 text-gray-100 dark:text-gray-300" />
-
         </main>
     );
 }
