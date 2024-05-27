@@ -13,6 +13,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "FieldReport",
   description: "Field Reports for the Modern Age",
+  icons: {
+    icon: '/favicon.png', // /public path
+  },
 };
 
 export default function RootLayout({
@@ -24,7 +27,6 @@ export default function RootLayout({
   return (
     <SessionProviderWrapper>
       <html lang="en">
-      <link rel="icon" href="/favicon.ico" sizes="any" />
         <Analytics />
         <SpeedInsights />
         <body className={inter.className}>
