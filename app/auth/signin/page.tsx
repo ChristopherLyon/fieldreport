@@ -60,7 +60,9 @@ export default function SignIn() {
                         alt="Placeholder Image"
                         layout="fill"
                         objectFit="cover"
-                        priority
+                        priority={true}
+                        placeholder="blur"
+                        blurDataURL="/images/background-auth.jpg" // Path to your blurred image
                         className="absolute top-0 left-0 w-full h-full"
                     />
 

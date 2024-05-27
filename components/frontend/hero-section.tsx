@@ -14,14 +14,16 @@ export default function HeroSection() {
                 alt="Placeholder Image"
                 layout="fill"
                 objectFit="cover"
-                priority
+                priority={true}
+                placeholder="blur"
+                blurDataURL="/images/hero-section-placeholder.png"
                 className="absolute top-0 left-0 w-full h-full z-0"
+                quality={100}
             />
 
             {/* Video */}
             <video
                 autoPlay
-
                 muted
                 loop
                 playsInline
@@ -48,7 +50,7 @@ export default function HeroSection() {
                         Turbocharge Your Field Reporting with AI
                     </h1>
                     <p className="mt-6 text-lg leading-8 text-gray-200 font-raleway">
-                        FieldReport is the platform to help you to streamline 
+                        FieldReport is the platform to help you to streamline
                         your on-the-go critical reporting by using AI to
                         extract insights from your field reports.
                     </p>
