@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Button } from '../ui/button';
 import { signIn } from 'next-auth/react';
 import placeholderImage from '@/public/images/hero-section-placeholder.png';
+import Link from 'next/link';
 
 export default function HeroSection() {
     return (
@@ -20,7 +21,7 @@ export default function HeroSection() {
             {/* Video */}
             <video
                 autoPlay
-                
+
                 muted
                 loop
                 playsInline
@@ -50,12 +51,11 @@ export default function HeroSection() {
                         Seamless integration of smartwatch technology and AI-driven insights to enhance productivity and decision-making in real time.
                     </p>
                     <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-x-6 gap-y-4">
-                        <Button
-                            className="w-auto bg-white text-black hover:bg-gray-300 hover:text-black"
-                            onClick={() => signIn("google", { callbackUrl: "/app" })}
-                        >
-                            Get started
-                        </Button>
+                        <Link href="/auth/signin">
+                            <Button className="w-auto bg-white text-black hover:bg-gray-300 hover:text-black">
+                                Get started
+                            </Button>
+                        </Link>
                         <a href="#" className="text-sm font-semibold leading-6 text-gray-100">
                             Learn more <span aria-hidden="true">→</span>
                         </a>
