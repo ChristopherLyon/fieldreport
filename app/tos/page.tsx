@@ -39,11 +39,13 @@ If you have any questions about these Terms, please contact us at support@fieldr
 `;
 
 export default function TosPage() {
-  return (
-    <main className="h-screen font-raleway">
-      <Header />
-          <MarkdownWrapper content={markdown} />
-      <Footer />
-    </main>
-  );
+    return (
+        <main className="h-screen font-raleway">
+            <Header />
+            <div className='pt-12 lg:pt-24'>
+                <MarkdownWrapper content={markdown} />
+            </div>
+            <Footer />
+        </main>
+    );
 }

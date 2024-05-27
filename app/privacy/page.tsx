@@ -47,7 +47,9 @@ export default function TosPage() {
   return (
     <main className="h-screen font-raleway">
       <Header />
-          <MarkdownWrapper content={markdown} />
+      <div className='pt-12 lg:pt-24'>
+        <MarkdownWrapper content={markdown} />
+      </div>
       <Footer />
     </main>
   );
