@@ -25,10 +25,6 @@ export default function Header() {
                         <AudioLines className="h-5 w-auto" />
                         <span className="pl-1">FieldReport</span>
                     </Link>
-                    <div className='bg-yellow-400 p-1 rounded-sm text-xs ml-5 text-black px-2 flex flex-row items-center justify-between gap-2'>
-                        <OctagonAlertIcon className='h-4 w-4' />
-                        UNDER DEVELOPMENT
-                    </div>
                 </div>
 
                 <div className="flex lg:hidden">
