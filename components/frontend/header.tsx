@@ -1,7 +1,7 @@
 "use client";
 import { useState } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
-import { AudioLines, Menu, X } from 'lucide-react'
+import { AudioLines, Menu, OctagonAlertIcon, X } from 'lucide-react'
 import { Button } from '../ui/button';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link'
@@ -18,14 +18,19 @@ export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
     return (
-        <header className="absolute inset-x-0 top-0 z-50 bg-white dark:bg-[#0f0f0f] font-raleway">
+        <header className="absolute inset-x-0 top-0 z-50 bg-background font-raleway">
             <nav className="flex items-center justify-between p-3 lg:px-8 border-b border-gray-500" aria-label="Global">
                 <div className="flex lg:flex-1">
                     <Link className='flex items-center' href='/'>
                         <AudioLines className="h-5 w-auto" />
-                        <span className="pl-1 text-gray-900 dark:text-gray-300">FieldReport</span>
+                        <span className="pl-1">FieldReport</span>
                     </Link>
+                    <div className='bg-yellow-400 p-1 rounded-sm text-xs ml-5 text-black px-2 flex flex-row items-center justify-between gap-2'>
+                        <OctagonAlertIcon className='h-4 w-4' />
+                        UNDER DEVELOPMENT
+                    </div>
                 </div>
+
                 <div className="flex lg:hidden">
                     <button
                         type="button"

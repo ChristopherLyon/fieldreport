@@ -50,9 +50,7 @@ export default function HeroSection() {
                         Turbocharge Your Field Reporting with AI
                     </h1>
                     <p className="mt-6 text-lg leading-8 text-gray-200 font-raleway">
-                        FieldReport is the platform to help you to streamline
-                        your on-the-go critical reporting by using AI to
-                        extract insights from your field reports.
+                        FieldReport is <strong>the</strong> platform to help you streamline your on-the-go critical reporting - using AI to extract insights from your operations and field technicians.
                     </p>
                     <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-x-6 gap-y-4">
                         <Link href="/auth/signin">
