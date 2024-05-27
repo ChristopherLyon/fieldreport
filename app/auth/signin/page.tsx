@@ -2,6 +2,7 @@
 
 // Libraries
 import { signIn } from "next-auth/react"
+import Image from 'next/image'
 
 // UI Components
 import { Button } from "@/components/ui/button"
@@ -41,6 +42,17 @@ export default function SignIn() {
                     </div>
                 </div>
                 <div className="relative hidden lg:block">
+                    {/* Placeholder Image */}
+                    <Image
+                        src="/images/background-auth.jpg" // Path to your placeholder image
+                        alt="Placeholder Image"
+                        layout="fill"
+                        objectFit="cover"
+                        priority
+                        className="absolute top-0 left-0 w-full h-full"
+                    />
+
+                    {/* Video */}
                     <video
                         autoPlay
                         muted
@@ -50,7 +62,7 @@ export default function SignIn() {
                         disableRemotePlayback
                         className="absolute top-0 left-0 w-full h-full object-cover"
                     >
-                        <source src="/videos/solar-construction.mov" type="video/mp4" />
+                        <source src="/videos/fieldreport-login.mov" type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
                 </div>
