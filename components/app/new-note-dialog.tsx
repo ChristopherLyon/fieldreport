@@ -19,6 +19,7 @@ import { AudioLines, WandSparkles } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { Progress } from "@/components/ui/progress"
+import { ContextMenuShortcut } from "../ui/context-menu";
 
 export default function NewNoteDialog() {
 
@@ -96,9 +97,12 @@ export default function NewNoteDialog() {
     return (
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
-                <Button size={"sm"} variant={"outline"}>
-                    Add New Stream <AudioLines className="pl-2 h-6 w-6" />
+                <Button size={"sm"} variant={"outline"} className="flex flex-rol items-center justify-between gap-2">
+                    <ContextMenuShortcut>⌘N</ContextMenuShortcut>
+                    <span>Add New Stream </span>
+                    <AudioLines className="h-6 w-6" />
                 </Button>
+
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
@@ -120,9 +124,14 @@ export default function NewNoteDialog() {
                     />
                 </div>
                 <DialogFooter>
-                    <Label className="text-xs text-muted-foreground">
-                        Press <kbd>Enter</kbd> to submit
-                    </Label>
+                    {/* Based on the length of input and the max, tell the users to write more if ots less, or tell them how to submit */}
+                    {rawInput.length < minimumNoteLength ? (
+                        null
+                    ) : (
+                        <Label className="text-xs text-muted-foreground">
+                            Press <kbd>Enter</kbd> to submit
+                        </Label>
+                    )}
                 </DialogFooter>
             </DialogContent>
         </Dialog>

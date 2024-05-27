@@ -20,7 +20,7 @@ export default function PageBreadcrumb() {
     const session = useSession();
 
     return (
-        <Breadcrumb className="hidden md:flex">
+        <Breadcrumb className="hidden lg:flex">
             <BreadcrumbList>
                 <BreadcrumbItem>
                     <BreadcrumbLink>
