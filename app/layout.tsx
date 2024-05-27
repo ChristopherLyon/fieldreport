@@ -24,6 +24,7 @@ export default function RootLayout({
   return (
     <SessionProviderWrapper>
       <html lang="en">
+      <link rel="icon" href="/favicon.ico" sizes="any" />
         <Analytics />
         <SpeedInsights />
         <body className={inter.className}>
