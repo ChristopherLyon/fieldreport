@@ -12,7 +12,6 @@ export default function Home() {
       <ProductFeatures />
       <VideoAndTitleBlock videoUrl="/videos/solar-farm.mov" title="Built for the people who build our future." />
       <IndustryGallery />
-      <VideoAndTitleBlock videoUrl="/videos/solar-farm.mov" title="Built for the people who build our future." />
 
       <Footer />
     </main>
