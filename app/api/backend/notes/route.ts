@@ -1,3 +1,4 @@
+export const maxDuration = 40; // This function can run for a maximum of 40 seconds due to the OpenAI API's limit of 60
 import { connectToDatabase } from "@/lib/mongodb";
 import { getServerSession } from "next-auth/next";
 import { ObjectId } from "mongodb";
