@@ -1,4 +1,4 @@
-import { Earth, FileStack, Mic, Network, Podcast } from "lucide-react"
+import { AudioLines, Earth, FileStack, Mic, Network, Podcast } from "lucide-react"
 
 
 const features = [
