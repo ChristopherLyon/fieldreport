@@ -38,7 +38,7 @@ export default function UserAvatar() {
             ) : (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Avatar className="w-9 h-9 cursor-pointer grayscale">
+                        <Avatar className="w-9 h-9 cursor-pointer">
                             <AvatarImage src={session.user?.image || ""} />
                             <AvatarFallback>
                                 {(session.user?.name || "")

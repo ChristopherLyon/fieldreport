@@ -92,7 +92,7 @@ export default async function RootLayout({
               </DropdownMenuContent>
             </DropdownMenu>
           </header>
-          <main className="flex flex-1 flex-col gap-4 lg:gap-6 h-full mr-4 mb-4 rounded-lg overflow-hidden border border-dashed">
+          <main className="flex flex-1 flex-col gap-4 lg:gap-6 h-full mr-4 mb-4 rounded-lg overflow-hidden">
             {children}
           </main>
         </div>

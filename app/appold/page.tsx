@@ -8,8 +8,6 @@ import { useState, useEffect } from "react";
 // UI
 import NoDataContextCard from "@/components/no-data-context-card";
 import React from "react";
-import PagePadding from "@/components/page-padding";
-import PageBreadcrumb from "@/components/page-breadcrumb";
 import NotesCard from "@/components/app/notes-card";
 import NewNoteDialog from "@/components/app/new-note-dialog";
 import { Button } from "@/components/ui/button";
@@ -48,9 +46,7 @@ export default function Home() {
 
   return (
     <main className="h-full flex flex-col">
-      <PagePadding>
         <div className="flex flex-row items-center justify-end lg:justify-between">
-          <PageBreadcrumb />
           <div className="flex flex-row items-center gap-2">
             <Button onClick={() => setView("grid")} variant={"ghost"} size={"icon"} className="hidden sm:block">
               <TooltipProvider>
@@ -101,7 +97,6 @@ export default function Home() {
             <DataTable data={notes} />
           )}
         </div>
-      </PagePadding>
     </main>
   );
 }
