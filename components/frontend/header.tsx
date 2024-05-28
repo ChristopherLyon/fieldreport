@@ -8,10 +8,8 @@ import Link from 'next/link'
 import { ThemeToggle } from '../darkmode-toggle';
 
 const navigation = [
-    { name: 'Product', href: '#' },
-    { name: 'Features', href: '#' },
-    { name: 'Marketplace', href: '#' },
-    { name: 'Company', href: '#' },
+    { name: 'Features', href: '/#features' },
+    { name: 'Industries', href: '/#industries' },
 ]
 
 export default function Header() {
@@ -39,9 +37,9 @@ export default function Header() {
                 </div>
                 <div className="hidden lg:flex lg:gap-x-12">
                     {navigation.map((item) => (
-                        <a key={item.name} href={item.href} className="text-xs leading-6 text-gray-900 dark:text-gray-300">
+                        <Link key={item.name} href={item.href} className="text-xs leading-6 text-gray-900 dark:text-gray-300">
                             {item.name}
-                        </a>
+                        </Link>
                     ))}
                 </div>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end pr-2">

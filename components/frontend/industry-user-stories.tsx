@@ -40,9 +40,8 @@ const industries = [
 
 export default function IndustryGallery() {
     return (
-        <div className="p-4">
+        <section className="p-4" id="industries" aria-label="Industries">
             <span className="text-4xl">
-
                 Key Industries
             </span>
 
@@ -68,6 +67,6 @@ export default function IndustryGallery() {
                     </div>
                 ))}
             </div>
-        </div>
+        </section>
     );
 }
