@@ -56,7 +56,7 @@ export default function SignIn() {
                         </div>
                     </div>
                 </div>
-                <div className="relative hidden lg:block">
+                <div className="relative hidden lg:block border-l border-gray-500">
                     <Image
                         src="/images/signin-page.png"
                         alt="Login Background"
