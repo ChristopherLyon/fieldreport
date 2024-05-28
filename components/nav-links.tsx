@@ -5,11 +5,11 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link';
 
 // UI Components
-import { AudioLines } from 'lucide-react';
+import { AudioLines, AudioWaveform } from 'lucide-react';
 
 // Add all nav links here:
 const links = [
-    { href: '/app', label: 'Brain Stream', icon: AudioLines },
+    { href: '/app', label: 'Report Stream', icon: AudioWaveform },
 ]
 
 export function NavLinks() {

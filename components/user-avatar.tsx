@@ -14,13 +14,14 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
+import { LogOut, LogOutIcon, Replace } from "lucide-react";
 
 export default function UserAvatar() {
 
     const { data: session, status } = useSession();
 
     return (
-        <div>
+        <div className="font-raleway">
 
             {/* If !session show skeleton, else show avatar */}
             {!session ? (
@@ -28,7 +29,7 @@ export default function UserAvatar() {
             ) : (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Avatar>
+                        <Avatar className="w-8 h-8">
                             <AvatarImage src={session.user?.image || ""} />
                             <AvatarFallback>
                                 {(session.user?.name || "")
@@ -40,13 +41,15 @@ export default function UserAvatar() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>
-                            My Account
+                            {session.user?.name}
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => signIn()}>
+                            <Replace className="w-4 h-4 mr-2" />
                             Switch Account
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
+                            <LogOut className="w-4 h-4 mr-2" />
                             Logout
                         </DropdownMenuItem>
                     </DropdownMenuContent>

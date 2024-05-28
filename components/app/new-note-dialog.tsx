@@ -15,7 +15,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
-import { AudioLines, WandSparkles } from "lucide-react";
+import { AudioLines, AudioWaveform, WandSparkles } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { Progress } from "@/components/ui/progress"
@@ -97,10 +97,9 @@ export default function NewNoteDialog() {
     return (
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
-                <Button size={"sm"} variant={"outline"} className="flex flex-rol items-center justify-between gap-2">
-                    <ContextMenuShortcut>⌘N</ContextMenuShortcut>
-                    <span>Add New Stream </span>
-                    <AudioLines className="h-6 w-6" />
+                <Button  className="flex flex-rol items-center justify-between gap-2 ">
+                    <span>New Stream </span>
+                    <AudioWaveform className="w-4 h-4" />
                 </Button>
 
             </DialogTrigger>

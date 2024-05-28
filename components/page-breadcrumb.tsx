@@ -11,7 +11,7 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import { AudioLinesIcon } from "lucide-react";
+import { AudioLinesIcon, AudioWaveform } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function PageBreadcrumb() {
@@ -31,7 +31,7 @@ export default function PageBreadcrumb() {
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
                     <BreadcrumbPage className="flex flex-row gap-2 items-center">
-                    Brain Stream <AudioLinesIcon size="1.5em" />
+                    Report Stream <AudioWaveform className="w-4 h-4" />
                     </BreadcrumbPage>
                 </BreadcrumbItem>
                {/*  <BreadcrumbSeparator />
