@@ -5,13 +5,14 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link';
 
 // UI Components
-import { AudioLines, AudioWaveform, Replace } from 'lucide-react';
+import { AudioLines, AudioWaveform, Map, Replace } from 'lucide-react';
 import { Button } from './ui/button';
+
 
 // Add all nav links here:
 const links = [
     { href: '/app', label: 'Report Stream', icon: AudioWaveform },
-    { href: '/app2', label: 'Report Stream', icon: Replace },
+    { href: '/app/earth', label: 'Earth', icon: Map },
 ]
 
 export function NavLinks() {

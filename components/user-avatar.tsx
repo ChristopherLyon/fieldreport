@@ -14,7 +14,16 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
-import { LogOut, LogOutIcon, Replace } from "lucide-react";
+import { LogOut, LogOutIcon, Maximize, Replace } from "lucide-react";
+
+// Handle function to make the app fullscreen
+function toggleFullscreen() {
+    if (document.fullscreenElement) {
+        document.exitFullscreen();
+    } else {
+        document.documentElement.requestFullscreen();
+    }
+}
 
 export default function UserAvatar() {
 
@@ -44,6 +53,10 @@ export default function UserAvatar() {
                             {session.user?.name}
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={toggleFullscreen}>
+                            <Maximize className="w-4 h-4 mr-2" />
+                            Toggle Immersive
+                        </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => signIn()}>
                             <Replace className="w-4 h-4 mr-2" />
                             Switch Account
