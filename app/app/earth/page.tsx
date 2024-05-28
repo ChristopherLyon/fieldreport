@@ -19,7 +19,7 @@ export default function Page() {
     }, []);
 
     return (
-        <main className="h-full border border-dashed rounded-lg">
+        <main className="h-full border border-dashed rounded-lg overflow-hidden">
             <Map
                 ref={mapRef as React.RefObject<MapRef>}
                 mapLib={import('mapbox-gl')}

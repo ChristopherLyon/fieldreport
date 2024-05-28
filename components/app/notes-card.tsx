@@ -16,6 +16,7 @@ import {
     MoreVertical,
     Truck,
     Trash,
+    Calendar,
 } from "lucide-react"
 
 import {
@@ -98,41 +99,38 @@ export default function NotesCard({ note, setNotes }: { note: INote; setNotes: R
 
             <ContextMenu>
                 <ContextMenuTrigger>
-                    <Card className="overflow-hidden h-72 flex flex-col justify-between" onClick={() => setExpandedDialogOpen(true)}>
-                        <CardHeader className="flex flex-row items-start bg-muted/50 flex-none">
-                            <div className="grid gap-0.5">
-                                <CardTitle className="group flex items-center gap-2 text-lg">
-                                    {note.ai_generated.title}
-                                    <Button
-                                        size="icon"
-                                        variant="outline"
-                                        className="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
-                                    >
-                                        <Copy className="h-3 w-3" />
-                                        <span className="sr-only">Copy Order ID</span>
-                                    </Button>
-                                </CardTitle>
-                                <CardDescription>
-                                    gweinguiowrng
-                                </CardDescription>
+                    <Card
+                        onClick={() => setExpandedDialogOpen(true)}
+                        className="h-[250px] w-full rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow bg-background">
+                        <CardContent className="h-full grid grid-rows-[auto_1fr_auto] p-6 gap-4">
+                            <div className="flex items-center justify-between">
+                                <CardTitle className="text-lg font-semibold">{note.ai_generated.title}</CardTitle>
+                                <div className="flex items-start gap-2 flex-wrap justify-end">
+                                    {note.ai_generated.tags.map((tag) => (
+                                        <Badge
+                                            variant={"outline"}
+                                            key={tag}
+                                            className="capitalize first-letter:text-lg"
+                                        >
+                                            {tag}
+                                        </Badge>
+                                    ))}
+                                </div>
                             </div>
-                            <div className="ml-auto flex items-center gap-1">
+                            <div className="text-gray-500 dark:text-gray-400 line-clamp-3">
+                                {note.ai_generated.summary}
                             </div>
-                        </CardHeader>
-                        <CardContent className="p-6 text-sm overflow-hidden flex-auto">
-                            <div className="grid gap-3 h-full">
-                                <div className="font-semibold">Note Summary</div>
-                                <p className="text-muted-foreground overflow-hidden text-ellipsis">
-                                    {note.ai_generated.summary}
-                                </p>
+                            <Separator />
+                            <div className="flex items-center justify-between">
+                                <div className="bg-primary/10 px-3 py-1 rounded-full text-primary font-medium text-xs">Finance</div>
+                                <div className="text-gray-500 dark:text-gray-400 text-sm items-center flex">
+                                    <Calendar className="w-4 h-4 mr-1 inline-block" />
+                                    {format(new Date(note.created_at), "MMM dd, yyyy")}
+                                </div>
                             </div>
                         </CardContent>
-                        <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3 flex-none">
-                            <div className="text-xs text-muted-foreground">
-                                Updated <time>{format(new Date(note.updated_at), "MMMM dd, yyyy")}</time>
-                            </div>
-                        </CardFooter>
                     </Card>
+
                 </ContextMenuTrigger>
                 <ContextMenuContent>
                     <ContextMenuItem className="text-red-500 flex flex-row items-center gap-2" onClick={() => setDeleteDialogAlertOpen(true)}>

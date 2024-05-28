@@ -34,11 +34,11 @@ export default function UserAvatar() {
 
             {/* If !session show skeleton, else show avatar */}
             {!session ? (
-                <Skeleton className="w-9 h-9 rounded-full" />
+                <Skeleton className="w-8 h-8 rounded-full" />
             ) : (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Avatar className="w-9 h-9 cursor-pointer">
+                        <Avatar className="w-8 h-8 cursor-pointer">
                             <AvatarImage src={session.user?.image || ""} />
                             <AvatarFallback>
                                 {(session.user?.name || "")
