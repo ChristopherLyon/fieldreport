@@ -44,13 +44,8 @@ export default function Header() {
                         </a>
                     ))}
                 </div>
-                <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-2">
+                <div className="hidden lg:flex lg:flex-1 lg:justify-end pr-44">
                     <ThemeToggle />
-                    <Link href="/auth/signin">
-                        <Button className="text-xs" variant={"outline"}>
-                            Login
-                        </Button>
-                    </Link>
                 </div>
             </nav>
 

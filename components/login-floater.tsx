@@ -1,22 +1,22 @@
 "use client";
 
 // Libraries
-import { signIn } from "next-auth/react"
-
+import Link from "next/link";
 // UI Components
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
 export function LoginFloater() {
     return (
-        <div className="md:hidden lg:block fixed top-2 right-4 z-auto p-4 z-50">
-            <div className="grid gap-4">
-                <Button onClick={() => signIn("google", { callbackUrl: "/app" })} variant="outline" className="w-full bg-white text-black hover:bg-gray-300 hober:text-black">
-                    <span className="">
-                        Login with Google
+        <div className="hidden lg:block fixed top-3 right-8 z-50">
+            <Link href="/auth/signin">
+                <Button className="text-xs flex items-center" variant={"outline"}>
+                    <span className="relative flex h-2 w-2 mr-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                     </span>
-                    <img src="/images/logos/google-logo.webp" alt="Google Icon" className="w-4 h-4 ml-2" />
+                    Login to FieldReport
                 </Button>
-            </div>
+            </Link>
         </div>
-    )
+    );
 }

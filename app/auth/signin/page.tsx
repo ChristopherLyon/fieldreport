@@ -9,11 +9,13 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/frontend/header";
 import { AudioLines } from "lucide-react";
+import { LoginFloater } from "@/components/login-floater";
 
 export default function SignIn() {
     return (
         <main className="flex flex-col min-h-screen overflow-hidden font-raleway">
             <Header />
+            <LoginFloater />
             <div className="flex flex-1 w-full lg:grid lg:grid-cols-2 dark:bg-[#0f0f0f]">
                 <div className="flex items-center justify-center py-12 w-full">
                     <div className="mx-auto w-[350px] gap-10 flex flex-col items-center text-center">
