@@ -44,8 +44,11 @@ export default function Header() {
                         </a>
                     ))}
                 </div>
-                <div className="hidden lg:flex lg:flex-1 lg:justify-end pr-44">
+                <div className="hidden lg:flex lg:flex-1 lg:justify-end pr-2">
                     <ThemeToggle />
+                    <div className='w-40'>
+
+                    </div>
                 </div>
             </nav>
 
