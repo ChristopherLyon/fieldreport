@@ -17,7 +17,7 @@ export default function Header() {
 
     return (
         <header className="absolute inset-x-0 top-0 z-50 bg-background font-raleway">
-            <nav className="flex items-center justify-between p-3 lg:px-8 border-b border-gray-500" aria-label="Global">
+            <nav className="flex items-center justify-between p-3 py-8 lg:py-3 lg:px-8 border-b border-gray-500" aria-label="Global">
                 <div className="flex lg:flex-1">
                     <Link className='flex items-center' href='/'>
                         <AudioLines className="h-5 w-auto" />
@@ -51,8 +51,8 @@ export default function Header() {
             </nav>
 
             <Dialog className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
-                <div className="fixed inset-0 z-50" />
-                <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white dark:bg-[#0f0f0f] px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+                <div className="fixed inset-0 z-50 font-raleway" />
+                <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-background px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                     <div className="flex items-center justify-between">
                         <Link href="/" className="-m-1.5 p-1.5">
                             <span className="sr-only">FieldReport</span>
@@ -69,12 +69,12 @@ export default function Header() {
                     </div>
                     <div className="mt-6 flow-root">
                         <div className="-my-6 divide-y divide-gray-500/10">
-                            <div className="space-y-2 py-6">
+                            <div className="flex flex-col space-y-2 py-6">
                                 {navigation.map((item) => (
                                     <Link
                                         key={item.name}
                                         href={item.href}
-                                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                                        className="-mx-3 block rounded-lg px-3 py-2 text-base leading-7 text-gray-900 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-muted"
                                     >
                                         {item.name}
                                     </Link>
@@ -82,8 +82,12 @@ export default function Header() {
                             </div>
                             <div className="py-6">
                                 <Link href="/auth/signin">
-                                    <Button className="-mx-3 w-full rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700" variant="outline">
-                                        Login
+                                    <Button className="flex items-center w-full">
+                                        <span className="relative flex h-2 w-2 mr-2">
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500"></span>
+                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                        </span>
+                                        Login to FieldReport
                                     </Button>
                                 </Link>
                             </div>
