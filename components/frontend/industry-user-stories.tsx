@@ -10,40 +10,33 @@ import {
 import Image from 'next/image';
 
 const industries = [
-    {
+/*     {
         name: 'Offshore',
-        description: 'Predict equipment failures and prevent downtime, even in remote locations.',
-        userStory: 'An offshore technician uses the FieldReport app to log a maintenance request. The data is analyzed to predict equipment failures, allowing the team to take proactive action and prevent downtime.',
-        icon: Network,
+        description: 'Streamline maintenance reporting and facilitate proactive actions, even in remote locations.',
+        userStory: 'An offshore technician uses the FieldReport app to quickly log a maintenance request with a few spoken words. The AI processes the report, creating a structured report and sending it to the maintenance system, which analyzes the data to forecast potential failures. This streamlined reporting process enhances efficiency and reliability in remote locations.',
         src: '/images/offshore.jpg',
     },
     {
+        name: 'Energy',
+        description: 'Optimize field operations and ensure regulatory compliance.',
+        userStory: 'An energy field technician uses voice-to-text to document an equipment inspection. The AI processes the data, generating a compliance report that the management team reviews to ensure all regulations are met.',
+        src: '/images/offshore.jpg',
+
+    }, */
+    {
         name: 'Agriculture',
         description: 'Monitor environmental conditions and manage field activities.',
-        userStory: 'A farmer logs soil moisture levels using the FieldReport app. The data is analyzed to provide insights into irrigation needs, helping to optimize water usage and improve crop yields.',
-        icon: Mic,
+        userStory: 'A farmer uses the FieldReport app to record soil moisture levels by speaking into their smartwatch. The AI converts the input into a detailed report, providing actionable insights into irrigation needs. The system categorizes the data, summarizes key points, and suggests optimal irrigation schedules, helping farmers make informed decisions quickly and efficiently.',
         src: '/images/agriculture.jpg',
     },
-    /*   {
-        name: 'Logistics',
-        description: 'Improve asset tracking and operational efficiency.',
-        userStory: 'A logistics coordinator tags shipments with geolocation data using the FieldReport app. The onshore team tracks the shipments in real-time, optimizing routes and reducing delivery times.',
-        icon: FileStack,
-    },
     {
-        name: 'Construction',
-        description: 'Enhance site management and safety compliance.',
-        userStory: 'A construction site manager uses their smartwatch to log a safety violation. The report is instantly available to the safety compliance team, who can take action and ensure the site meets regulatory standards.',
-        icon: Earth,
-    },
-      {
-          name: 'Energy',
-          description: 'Optimize field operations and ensure regulatory compliance.',
-          userStory: 'An energy field technician uses voice-to-text to document an equipment inspection. The AI processes the data, generating a compliance report that the management team reviews to ensure all regulations are met.',
-          icon: Podcast,
-      },
-      */
+        name: 'Telecommunications',
+        description: 'Improve network performance and reduce maintenance costs.',
+        userStory: 'A telecom climber, equipped with heavy gear, uses their smartwatch to report rust and missing bolts on a cell tower with a single button press. The AI instantly processes the report, generates a maintenance schedule, and informs the safety compliance team. The system compiles weekly reports of multiple towers needing attention, streamlining maintenance and enhancing network reliability and safety.',
+        src: '/images/telecom.jpeg',
+    }
 ];
+
 
 export default function IndustryGallery() {
     return (

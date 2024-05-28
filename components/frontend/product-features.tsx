@@ -3,7 +3,7 @@ import { Earth, FileStack, Mic, Network, Podcast } from "lucide-react"
 
 const features = [
     {
-        name: 'Voice-to-Text Report Taking',
+        name: 'AI Voice-to-Text Reporting',
         description:
             'Allows field workers to record thoughts or events hands-free through smartwatch integration, ensuring seamless and efficient data capture without interrupting their work - in any environment',
         icon: Podcast,
@@ -11,7 +11,7 @@ const features = [
     {
         name: 'Real-Time AI Processing',
         description:
-            'Automatically processes and summarizes extensive field data into actionable reports, saving time and enhancing decision-making with precise insights.',
+            'Automatically processes and summarizes extensive field data into actionable reports, data-tables, action items - saving time and enhancing decision-making with precise insights.',
         icon: FileStack,
     },
     {
