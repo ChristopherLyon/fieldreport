@@ -114,7 +114,9 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
                             <div className="text-gray-500 dark:text-gray-400 line-clamp-3 text-sm">
                                 {stream.ai_generated.summary}
                             </div>
-                            <Separator />
+
+                            {/* A seperator, but is stream is a task, make it blue-500 */}
+                            <Separator className={stream.ai_generated.task.is_task ? "bg-blue-500" : ""} />
                             <div className="flex items-center justify-between">
                                 <div className="bg-primary/10 px-3 py-1 rounded-full text-primary font-medium text-xs">
                                     {stream.ai_generated.topic_category.charAt(0).toUpperCase() + stream.ai_generated.topic_category.slice(1)}

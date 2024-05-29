@@ -24,6 +24,7 @@ export async function GET() {
 
     return NextResponse.json(streams);
 }
+
 // Creates a new stream for the authenticated user
 export async function POST(request: Request) {
     const session = await getServerSession();
@@ -36,26 +37,7 @@ export async function POST(request: Request) {
     const openai = new OpenAI();
     const data = await request.json();
 
-
-    /* 
-    
-     ai_generated: {
-        title: string;
-        topic_category: string;
-        summary: string;
-        reformatted_markdown_content: string;
-        // Let the AI decide if this stream should be flagged as a task, and have the metadata for it
-        task: {
-            is_task: boolean;
-            due_date: Date;
-            completed: boolean;
-            priority: "low" | "medium" | "high" | "urgent";
-        };
-        tags: string[];
-    };
-    */
-
-    // Todays date for the AI to use
+    // Today's date for the AI to use
     const today = new Date().toISOString().split('T')[0];
 
     const chatCompletion = await openai.chat.completions.create({
@@ -144,6 +126,7 @@ export async function POST(request: Request) {
 
     return new NextResponse(JSON.stringify({ success: true, stream }), { status: 200 });
 }
+
 // Updates an existing stream for the authenticated user
 export async function PUT(request: Request) {
     const session = await getServerSession();
@@ -158,7 +141,6 @@ export async function PUT(request: Request) {
         raw_stream: data.raw_stream,
         updated_at: new Date(),
     };
-
 
     const { db } = await connectToDatabase();
     const streamId = new ObjectId(data._id);
