@@ -11,6 +11,11 @@ import Header from "@/components/frontend/header";
 import { AudioLines } from "lucide-react";
 import { LoginFloater } from "@/components/login-floater";
 
+// Images
+import googleLogo from "@/public/images/logos/google-logo.webp";
+import githubLogo from "@/public/images/logos/github-logo.png";
+import signInBackground from "@/public/images/signin-page.png";
+
 export default function SignIn() {
     return (
         <main className="flex flex-col min-h-screen overflow-hidden font-raleway">
@@ -31,12 +36,14 @@ export default function SignIn() {
                                     Login with Google
                                 </span>
                                 <Image
-                                    src="/images/logos/google-logo.webp"
+                                    src={googleLogo}
                                     alt="Google Icon"
                                     width={16}
                                     height={16}
                                     className="ml-2"
                                     priority={true}
+                                    quality={15}
+
                                 />
                             </Button>
                             <Button onClick={() => signIn("github", { callbackUrl: "/app" })} variant="outline" className="w-full">
@@ -44,12 +51,13 @@ export default function SignIn() {
                                     Login with Github
                                 </span>
                                 <Image
-                                    src="/images/logos/github-logo.png"
+                                    src={githubLogo}
                                     alt="Github Icon"
                                     width={16}
                                     height={16}
                                     className="ml-2 dark:invert"
                                     priority={true}
+                                    quality={15}
                                 />
                             </Button>
                         </div>
@@ -60,15 +68,14 @@ export default function SignIn() {
                 </div>
                 <div className="relative hidden lg:block border-l border-gray-500">
                     <Image
-                        src="/images/signin-page.png"
+                        src={signInBackground}
                         alt="Login Background"
                         layout="fill"
                         objectFit="cover"
                         priority={true}
                         placeholder="blur"
-                        blurDataURL="/images/signin-page.png"
                         className="absolute top-0 left-0 w-full h-full object-cover"
-                        quality={100}
+                        quality={70}
                     />
                 </div>
             </div>
