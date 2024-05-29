@@ -80,8 +80,37 @@ export default function NotesCard({ note, setNotes }: { note: INote; setNotes: R
     };
 
     return (
-        <>
-            <AlertDialog open={deleteDialogAlertOpen} onOpenChange={setDeleteDialogAlertOpen}>
+        <Card onClick={() => setExpandedDialogOpen(true)} className="h-[250px] w-full rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow bg-background">
+            <CardContent className="h-full grid grid-rows-[auto_1fr_auto] p-6 gap-4">
+                <div className="flex items-center justify-between">
+                    <CardTitle className="text-lg font-semibold">{note.ai_generated.title}</CardTitle>
+                    <div className="flex items-start gap-2 flex-wrap justify-end">
+                        {note.ai_generated.tags.map((tag) => (
+                            <Badge variant={"outline"} key={tag} className="capitalize first-letter:text-lg">
+                                {tag}
+                            </Badge>
+                        ))}
+                    </div>
+                </div>
+                <div className="text-gray-500 dark:text-gray-400 line-clamp-3">
+                    {note.ai_generated.summary}
+                </div>
+                <Separator />
+                <div className="flex items-center justify-between">
+                    <div className="bg-primary/10 px-3 py-1 rounded-full text-primary font-medium text-xs">Finance</div>
+                    <div className="text-gray-500 dark:text-gray-400 text-sm items-center flex">
+                        <Calendar className="w-4 h-4 mr-1 inline-block" />
+                        {format(new Date(note.created_at), "MMM dd, yyyy")}
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+    );
+}
+
+
+/* 
+ <AlertDialog open={deleteDialogAlertOpen} onOpenChange={setDeleteDialogAlertOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
                         <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -140,7 +169,4 @@ export default function NotesCard({ note, setNotes }: { note: INote; setNotes: R
                 </ContextMenuContent>
             </ContextMenu>
 
-            <ExpandedCardDialog note={note} expandedDialogOpen={expandedDialogOpen} setExpandedDialogOpen={setExpandedDialogOpen} />
-        </>
-    );
-}
+*/

@@ -1,3 +1,5 @@
+// page.tsx
+
 "use client";
 // Types
 import { INote } from "@/types/types";
@@ -13,22 +15,10 @@ import NewNoteDialog from "@/components/app/new-note-dialog";
 import { Button } from "@/components/ui/button";
 import { Grid, LayoutGrid, Table } from "lucide-react";
 import { DataTable } from "@/components/app/notes-table";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea"
-import { toast } from "sonner"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
 
 export default function App() {
   const [notes, setNotes] = useState<INote[]>([]);
@@ -53,13 +43,12 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
-
   // State for raw_input
   const [rawInput, setRawInput] = React.useState("");
   const [dialogOpen, setDialogOpen] = React.useState(false);
 
   const minimumNoteLength = 20;
-  // Progress is grom 0-100, calculate the percentage of the minimum note length
+  // Progress is from 0-100, calculate the percentage of the minimum note length
   const progress = (rawInput.length / minimumNoteLength) * 100;
 
   // Submit function
@@ -108,30 +97,39 @@ export default function App() {
         e.preventDefault();
         handleSubmit();
       }
-    }
+    };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [rawInput]);
 
-
   return (
-    <main className="h-full flex flex-row gap-4">
-      {fetchingNotes ? (
-        <NoDataContextCard title="Loading Notes" description="Please wait while we fetch your notes." />
-      ) : notes.length === 0 ? (
-        <NoDataContextCard title="No Notes Found" description="You have no notes. Click the button below to create a new note." />
-      ) : (
-        <div className="w-3/4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-          {notes.map((note) => (
-            <NotesCard key={note._id.toString()} note={note} setNotes={setNotes} />
-          ))}
-        </div>
-      )}
-      <div className="w-1/4 flex flex-col gap-4">
-        <Textarea className="w-full h-[340px] bg-background border-dashed" placeholder="Quick Report" value={rawInput} onChange={(e) => setRawInput(e.target.value)} />
-        <Card className="w-full h-full flex flex-col bg-background border-dashed">
+    <div className="flex flex-1 h-full gap-4">
+      <div className="flex-1 h-full overflow-hidden flex flex-col">
+        {fetchingNotes ? (
+          <NoDataContextCard title="Loading Notes" description="Please wait while we fetch your notes." />
+        ) : notes.length === 0 ? (
+          <NoDataContextCard title="No Notes Found" description="You have no notes. Click the button below to create a new note." />
+        ) : (
+          <div className="flex-1 overflow-y-auto max-h-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              {notes.map((note) => (
+                <NotesCard key={note._id.toString()} note={note} setNotes={setNotes} />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+      <div className="hidden lg:flex flex-col h-full w-96 gap-4">
+        <Textarea
+          placeholder="Type your note here..."
+          value={rawInput}
+          onChange={(e) => setRawInput(e.target.value)}
+          rows={10}
+        />
+        <Card className="h-full">
+
         </Card>
       </div>
-    </main>
+    </div>
   );
 }
