@@ -11,7 +11,6 @@ import { CornerDownLeft, Mic, Paperclip } from "lucide-react";
 import { TooltipProvider, Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
-import JSConfetti from 'js-confetti'
 
 
 interface QuickStreamInputProps {
@@ -23,7 +22,6 @@ const QuickStreamInput: React.FC<QuickStreamInputProps> = ({ setStreams, setStre
     const [rawInput, setRawInput] = React.useState("");
     const minimumStreamLength = 0;
     const [location, setLocation] = useState<GeolocationCoordinates | null>(null);
-    const jsConfetti = new JSConfetti()
 
     useEffect(() => {
         // Request high accuracy location
@@ -79,7 +77,6 @@ const QuickStreamInput: React.FC<QuickStreamInputProps> = ({ setStreams, setStre
 
             // If the stream score is a 10, show a confetti animation and a toast, else just show a toast
             if (newStream.stream.ai_generated.user_input_quality_ranking.score === 10) {
-                jsConfetti.addConfetti();
                 toast.success("Perfect Stream added successfully 🎉");
             } else {
                 toast.success("Stream added successfully");
