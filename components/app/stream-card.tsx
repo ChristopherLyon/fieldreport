@@ -99,7 +99,7 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
 
             <ContextMenu>
                 <ContextMenuTrigger>
-                    <Card onClick={() => setExpandedDialogOpen(true)} className="h-[250px] w-full rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow bg-background">
+                    <Card onClick={() => setExpandedDialogOpen(true)} className="h-64 w-full rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow bg-muted/10">
                         <CardContent className="h-full grid grid-rows-[auto_1fr_auto] p-6 gap-4">
                             <div className="flex items-center justify-between">
                                 <CardTitle className="text-lg font-semibold">{stream.ai_generated.title}</CardTitle>

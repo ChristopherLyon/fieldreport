@@ -1,6 +1,6 @@
 "use client";
 // Types
-import { IStream } from "@/types/types";
+import { IStream, ILocation } from "@/types/types";
 
 // UI
 import React from "react";
@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { CornerDownLeft, Mic, Paperclip } from "lucide-react";
 import { TooltipProvider, Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { toast } from "sonner";
+import { useEffect, useState } from "react";
 
 interface QuickStreamInputProps {
     setStreams: React.Dispatch<React.SetStateAction<IStream[]>>;
@@ -18,9 +19,23 @@ interface QuickStreamInputProps {
 
 const QuickStreamInput: React.FC<QuickStreamInputProps> = ({ setStreams, setStreamAiProcessing }) => {
     const [rawInput, setRawInput] = React.useState("");
-    const minimumStreamLength = 20;
+    const minimumStreamLength = 0;
+    const [location, setLocation] = useState<GeolocationCoordinates | null>(null);
+
 
     const progress = (rawInput.length / minimumStreamLength) * 100;
+
+    useEffect(() => {
+        // Request high accuracy location
+        navigator.geolocation.getCurrentPosition((position) => {
+            setLocation(position.coords);
+        }, (error) => {
+            console.error(error);
+        }, {
+            enableHighAccuracy: true
+        });
+    }
+        , []);
 
     const handleSubmit = async () => {
         if (rawInput.trim() === "") {
@@ -38,9 +53,18 @@ const QuickStreamInput: React.FC<QuickStreamInputProps> = ({ setStreams, setStre
             toast.info("Stream added to AI queue 🚀");
             setRawInput("");
 
+            // Sanitize location object 
+            const sanitizedLocation: ILocation | null = location
+                ? {
+                    type: "Point",
+                    coordinates: [location.longitude, location.latitude],
+                    accuracy: location.accuracy,
+                }
+                : null;
+
             const response = await fetch("/api/backend/streams", {
                 method: "POST",
-                body: JSON.stringify({ raw_stream: rawInput, source: "web" }),
+                body: JSON.stringify({ raw_stream: rawInput, source: "web", location: sanitizedLocation }),
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -60,6 +84,7 @@ const QuickStreamInput: React.FC<QuickStreamInputProps> = ({ setStreams, setStre
         }
     };
 
+
     React.useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === "Enter" && !e.shiftKey) {
@@ -72,7 +97,7 @@ const QuickStreamInput: React.FC<QuickStreamInputProps> = ({ setStreams, setStre
     }, [rawInput]);
 
     return (
-        <div className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring h-96 flex flex-col justify-between">
+        <div className="relative overflow-hidden rounded-lg border focus-within:ring-1 focus-within:ring-ring h-full flex flex-col justify-between">
             <Label htmlFor="message" className="sr-only">Message</Label>
             <Textarea
                 id="message"

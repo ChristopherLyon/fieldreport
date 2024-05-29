@@ -39,7 +39,7 @@ export default async function RootLayout({
           </div>
         </div>
         <div className="flex flex-col h-full overflow-hidden">
-          <header className="flex flex-row items-center h-16 gap-2 px-4">
+          <header className="flex flex-row items-center h-16 gap-2 px-4 md:px-0 md:pr-4">
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon" className="shrink-0 md:hidden mr-2">
@@ -72,7 +72,7 @@ export default async function RootLayout({
               </DropdownMenuContent>
             </DropdownMenu>
           </header>
-            <div className="flex-1 max-h-[calc(98vh-4rem)] mx-4">
+            <div className="flex-1 max-h-[calc(98vh-4rem)] mr-4 ml-4 md:ml-0">
               {children}
             </div>
         </div>

@@ -11,11 +11,14 @@ import React from "react";
 import StreamCard from "@/components/app/stream-card";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import QuickStreamInput from "@/components/app/quick-stream-input";
+import LockedMapWidget from "@/components/app/locked-map-widget";
 
 export default function App() {
   const [streams, setStreams] = useState<IStream[]>([]);
   const [streamAiProcessing, setStreamAiProcessing] = useState<boolean>(false);
   const [fetchingStreams, setFetchingStreams] = useState<boolean>(true);
+
+
 
   useEffect(() => {
     const fetchStreams = () => {
@@ -46,7 +49,7 @@ export default function App() {
           <div className="flex-1 overflow-y-auto max-h-full">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
               {streamAiProcessing && (
-                <Card className="h-[250px] w-full rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow bg-background flex items-center justify-center">
+                <Card className="h-64 w-full rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow bg-background flex items-center justify-center">
                   <div className="flex items-center space-x-2">
                     <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
                     <div className="text-lg font-medium">AI is processing...</div>
@@ -61,6 +64,9 @@ export default function App() {
         )}
       </div>
       <div className="hidden lg:flex flex-col h-full w-96 gap-4">
+        <div className="h-64">
+          <LockedMapWidget />
+        </div>
         <QuickStreamInput setStreams={setStreams} setStreamAiProcessing={setStreamAiProcessing} />
       </div>
     </div>

@@ -14,6 +14,7 @@ export interface IUser {
 export interface ILocation {
     type: "Point";  // Restricted to 'Point' for this use case
     coordinates: [number, number];  // [longitude, latitude]
+    accuracy?: number;  // OPTIONAL: Accuracy of the location
 }
 
 // Add fields for AI generated tags title, summary, reformatted content, tags
@@ -23,7 +24,7 @@ export interface IStream {
     raw_stream: string;                       // REQUIRED: Raw stream content
     created_at: Date;                       // REQUIRED: Date the stream was created
     updated_at: Date;                       // REQUIRED: Date the stream was last updated
-    location?: ILocation;                   // OPTIONAL: Location of the stream pulled from the device
+    location: ILocation;                   // OPTIONAL: Location of the stream pulled from the device
     source: "watch" | "web" | "mobile";     // REQUIRED: Source of the stream
     ai_generated: {
         title: string;

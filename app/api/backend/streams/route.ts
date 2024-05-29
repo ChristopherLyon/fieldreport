@@ -35,7 +35,10 @@ export async function POST(request: Request) {
     }
 
     const openai = new OpenAI();
+    
     const data = await request.json();
+    console.log("API RECEIVED THIS LOCATION", data.location); // Debug log for received location
+
 
     // Today's date for the AI to use
     const today = new Date().toISOString().split('T')[0];
@@ -106,6 +109,7 @@ export async function POST(request: Request) {
         raw_stream: data.raw_stream,
         created_at: new Date(),
         updated_at: new Date(),
+        location: data.location,
         source: data.source,
         ai_generated: {
             title: parsedAiContent.title,
