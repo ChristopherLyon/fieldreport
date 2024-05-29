@@ -35,10 +35,8 @@ export async function POST(request: Request) {
     }
 
     const openai = new OpenAI();
-    
-    const data = await request.json();
-    console.log("API RECEIVED THIS LOCATION", data.location); // Debug log for received location
 
+    const data = await request.json();
 
     // Today's date for the AI to use
     const today = new Date().toISOString().split('T')[0];
@@ -64,6 +62,10 @@ export async function POST(request: Request) {
                         "completed": "boolean" | null, // Whether the task has been completed
                         "priority": "low" | "medium" | "high" | "urgent" // The priority level of the task, if applicable
                     },
+                    "user_input_quality_ranking": {
+                        "score": 0, // A score from 0-10 indicating the quality of the user's input
+                        "score_tooltip": "string" // A tooltip explaining the score
+                    },
                     "tags": ["string"] // A list of 2-3 relevant keywords
                 }
 
@@ -72,6 +74,7 @@ export async function POST(request: Request) {
                 - **Summary**: Provide a brief yet comprehensive overview.
                 - **Reformatted Markdown Content**: Use rich markdown syntax. Incorporate headings, bullet points, code blocks, and emojis to enhance readability and engagement. Include suggestions for the user where applicable.
                 - **Task Section**: Clearly indicate if there are actionable items, due dates, and their priority.
+                - **User Input Quality Ranking**: Evaluate the quality of the user's raw_input on a scale of 0 - 10. Provide a tooltip with a very, VERY brief explanation (couple of words), or a suggestion for improvement.
                 - **Tags**: Extract key themes and topics from the stream.
                 - Never hallucinate or provide false information or broken links.
                 - ONLY RETURN VALID JSON STARTING WITH "{" AND ENDING WITH "}" 
@@ -121,6 +124,10 @@ export async function POST(request: Request) {
                 due_date: parsedAiContent.task.due_date,
                 completed: parsedAiContent.task.completed,
                 priority: parsedAiContent.task.priority,
+            },
+            user_input_quality_ranking: {
+                score: parsedAiContent.user_input_quality_ranking.score,
+                score_tooltip: parsedAiContent.user_input_quality_ranking.score_tooltip,
             },
             tags: parsedAiContent.tags,
         },

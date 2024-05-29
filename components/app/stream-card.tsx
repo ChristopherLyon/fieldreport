@@ -17,8 +17,15 @@ import {
     Truck,
     Trash,
     Calendar,
+    Medal,
+    ThumbsDown,
 } from "lucide-react"
-
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -102,7 +109,7 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
                     <Card onClick={() => setExpandedDialogOpen(true)} className="h-64 w-full rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow bg-muted/10">
                         <CardContent className="h-full grid grid-rows-[auto_1fr_auto] p-6 gap-4">
                             <div className="flex items-center justify-between">
-                                <CardTitle className="text-lg font-semibold">{stream.ai_generated.title}</CardTitle>
+                                <CardTitle className="text-lg">{stream.ai_generated.title}</CardTitle>
                                 <div className="flex items-start gap-2 flex-wrap justify-end">
                                     {stream.ai_generated.tags.map((tag) => (
                                         <Badge variant={"outline"} key={tag} className="capitalize first-letter:text-lg">
@@ -116,10 +123,23 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
                             </div>
 
                             {/* A seperator, but is stream is a task, make it blue-500 */}
-                            <Separator className={stream.ai_generated.task.is_task ? "bg-blue-500" : ""} />
-                            <div className="flex items-center justify-between">
-                                <div className="bg-primary/10 px-3 py-1 rounded-full text-primary font-medium text-xs">
-                                    {stream.ai_generated.topic_category.charAt(0).toUpperCase() + stream.ai_generated.topic_category.slice(1)}
+{/*                             <Separator className={stream.ai_generated.task.is_task ? "bg-blue-500" : ""} />
+ */}                            <div className="flex items-center justify-between">
+                                <div className="flex flex-row items-center gap-2">
+                                    <div className="bg-primary/10 px-3 py-1 rounded-full text-primary font-medium text-xs">
+                                        {stream.ai_generated.topic_category.charAt(0).toUpperCase() + stream.ai_generated.topic_category.slice(1)}
+                                    </div>
+                                    {/* Each steam has a AI generated score. If under 5, show one emoji, if between 5 and 8 show another, over 80 show a third */}
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger>{stream.ai_generated.user_input_quality_ranking.score < 5 ?
+                                                <ThumbsDown className="w-4 h-4 text-red-500" />
+                                                : stream.ai_generated.user_input_quality_ranking.score < 8 ? null : <Medal className="w-4 h-4 text-blue-500" />}</TooltipTrigger>
+                                            <TooltipContent>
+                                                <p className="font-mono text-xs">{stream.ai_generated.user_input_quality_ranking.score_tooltip} [score: {stream.ai_generated.user_input_quality_ranking.score}]</p>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
                                 </div>
                                 <div className="text-gray-500 dark:text-gray-400 text-xs items-center flex font-mono">
                                     <Calendar className="w-4 h-4 mr-2 inline-block" />

@@ -38,6 +38,10 @@ export interface IStream {
             completed: boolean | null;
             priority: "low" | "medium" | "high" | "urgent" | null;
         };
+        user_input_quality_ranking: {
+            score: number;
+            score_tooltip: string;
+        };
         tags: string[];
     };
 }
