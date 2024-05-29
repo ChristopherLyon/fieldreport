@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import NoDataContextCard from "@/components/no-data-context-card";
 import React from "react";
 import StreamCard from "@/components/app/stream-card";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import QuickStreamInput from "@/components/app/quick-stream-input";
 
 export default function App() {
@@ -40,8 +40,8 @@ export default function App() {
       <div className="flex-1 h-full overflow-hidden flex flex-col">
         {fetchingStreams ? (
           <NoDataContextCard title="Loading Streams" description="Please wait while we fetch your streams." />
-        ) : streams.length === 0 ? (
-          <NoDataContextCard title="No Streams Found" description="You have no streams. Click the button below to create a new stream." />
+        ) : streams.length === 0 && !streamAiProcessing ? (
+          <NoDataContextCard title="No Streams" description="Create a new stream to get started." />
         ) : (
           <div className="flex-1 overflow-y-auto max-h-full">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -52,7 +52,6 @@ export default function App() {
                     <div className="text-lg font-medium">AI is processing...</div>
                   </div>
                 </Card>
-
               )}
               {streams.map((stream) => (
                 <StreamCard key={stream._id.toString()} stream={stream} setStreams={setStreams} />
