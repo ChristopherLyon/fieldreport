@@ -13,10 +13,10 @@ To deliver a transformative tool for field operations that:
 - **Increases Operational Visibility**: Ensures key insights and reports are accessible at varying levels of management.
 
 ### Key Features
-- **Voice-to-Text Note Taking**: Allows field workers to record notes hands-free through smartwatch integration.
+- **Voice-to-Text Stream Taking**: Allows field workers to record streams hands-free through smartwatch integration.
 - **AI-Driven Summarization**: Automatically processes and summarizes extensive field data into actionable reports.
 - **Hierarchical Reporting**: Generates reports that respect organizational structure, ensuring information reaches relevant managerial levels.
-- **Geolocation Features**: Enables tagging of notes with location data for enhanced tracking and analytics.
+- **Geolocation Features**: Enables tagging of streams with location data for enhanced tracking and analytics.
 - **Real-Time Data Synchronization**: Keeps data synchronized across devices to provide stakeholders with up-to-date information.
 - **Role-Based Access Control**: Ensures data security by providing access based on user roles.
 
@@ -62,7 +62,7 @@ To deliver a transformative tool for field operations that:
 ## Sales Pitches
 
 ### Sales Pitch for Field Operators
-FieldReport empowers you to capture critical data effortlessly while you work. Whether you're at a remote site or in the office, our AI-driven platform streamlines note-taking, enhances accuracy, and ensures your insights are instantly accessible. No more manual reporting – just efficient, hands-free logging and intelligent summarization.
+FieldReport empowers you to capture critical data effortlessly while you work. Whether you're at a remote site or in the office, our AI-driven platform streamlines stream-taking, enhances accuracy, and ensures your insights are instantly accessible. No more manual reporting – just efficient, hands-free logging and intelligent summarization.
 
 ### Sales Pitch for Managers
 As a manager, FieldReport provides you with real-time visibility into field operations. Our platform's AI-driven analytics and hierarchical reporting ensure you get actionable insights quickly. Improve decision-making, enhance team productivity, and maintain operational control with up-to-date data synchronization across all devices.
@@ -73,7 +73,7 @@ For executives, FieldReport offers comprehensive analytics and strategic insight
 ## User Stories
 
 ### User Story 1: Field Operator
-As a field operator, I need a hands-free way to take notes while on-site so that I can document observations without interrupting my work. FieldReport's voice-to-text feature allows me to record notes using my smartwatch, which are then automatically summarized by the AI and synced with my team's database.
+As a field operator, I need a hands-free way to take streams while on-site so that I can document observations without interrupting my work. FieldReport's voice-to-text feature allows me to record streams using my smartwatch, which are then automatically summarized by the AI and synced with my team's database.
 
 ### User Story 2: Manager
 As a manager, I need real-time insights into my team's activities and findings so that I can make informed decisions quickly. FieldReport's AI-driven summarization and hierarchical reporting provide me with concise, actionable reports that are updated in real-time, helping me stay on top of operations.
@@ -84,7 +84,7 @@ As an executive, I need comprehensive analytics to understand trends and make st
 ## Pricing
 
 ### Basic Plan
-- **Features**: Voice-to-Text Note Taking, AI-Driven Summarization, Geolocation Features, Real-Time Data Synchronization.
+- **Features**: Voice-to-Text Stream Taking, AI-Driven Summarization, Geolocation Features, Real-Time Data Synchronization.
 - **Price**: $29/month per user.
 
 ### Professional Plan
@@ -116,7 +116,7 @@ As an executive, I need comprehensive analytics to understand trends and make st
 - **Call to Action**: Get Started | Learn More
 
 #### Product Features
-- **Voice-to-Text Note Taking**
+- **Voice-to-Text Stream Taking**
 - **AI-Driven Summarization**
 - **Hierarchical Reporting**
 - **Geolocation Features**
@@ -124,7 +124,7 @@ As an executive, I need comprehensive analytics to understand trends and make st
 - **Role-Based Access Control**
 
 #### How It Works
-- **Step 1**: Record notes using your smartwatch or mobile device.
+- **Step 1**: Record streams using your smartwatch or mobile device.
 - **Step 2**: AI processes and summarizes your data.
 - **Step 3**: Access real-time reports and insights on your dashboard.
 

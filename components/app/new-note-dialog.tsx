@@ -21,27 +21,27 @@ import { toast } from "sonner"
 import { Progress } from "@/components/ui/progress"
 import { ContextMenuShortcut } from "../ui/context-menu";
 
-export default function NewNoteDialog() {
+export default function NewStreamDialog() {
 
     // State for raw_input
     const [rawInput, setRawInput] = React.useState("");
     const [dialogOpen, setDialogOpen] = React.useState(false);
 
-    const minimumNoteLength = 20;
-    // Progress is grom 0-100, calculate the percentage of the minimum note length
-    const progress = (rawInput.length / minimumNoteLength) * 100;
+    const minimumStreamLength = 20;
+    // Progress is grom 0-100, calculate the percentage of the minimum stream length
+    const progress = (rawInput.length / minimumStreamLength) * 100;
 
     // Submit function
     const handleSubmit = async () => {
         // If rawInput is empty, is "" or has only spaces, show a sonner toast and return
         if (rawInput === "" || rawInput.trim() === "") {
-            toast.error("Note cannot be empty");
+            toast.error("Stream cannot be empty");
             return;
         }
 
-        // If the note is less than the minimum length, show a sonner toast and return
-        if (rawInput.length < minimumNoteLength) {
-            toast.error(`Note must be at least ${minimumNoteLength} characters long`);
+        // If the stream is less than the minimum length, show a sonner toast and return
+        if (rawInput.length < minimumStreamLength) {
+            toast.error(`Stream must be at least ${minimumStreamLength} characters long`);
             return;
         }
 
@@ -51,9 +51,9 @@ export default function NewNoteDialog() {
             setRawInput("");
             setDialogOpen(false);
 
-            const response = await fetch("/api/backend/notes", {
+            const response = await fetch("/api/backend/streams", {
                 method: "POST",
-                body: JSON.stringify({ raw_note: rawInput, source: "web" }),
+                body: JSON.stringify({ raw_stream: rawInput, source: "web" }),
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -62,15 +62,15 @@ export default function NewNoteDialog() {
             toast.success("Stream added successfully");
 
             if (!response.ok) {
-                throw new Error("Failed to add note");
+                throw new Error("Failed to add stream");
             }
 
         } catch (error) {
-            toast.error("Failed to add note");
+            toast.error("Failed to add stream");
         }
     };
 
-    // If enter is pressed at any time, as long as shift is not pressed, submit the note and close the dialog
+    // If enter is pressed at any time, as long as shift is not pressed, submit the stream and close the dialog
     React.useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === "Enter" && !e.shiftKey) {
@@ -113,7 +113,7 @@ export default function NewNoteDialog() {
                 <div className="py-1">
                     <Progress value={progress} className="w-full h-1 mb-7" />
                     <Textarea
-                        id="note"
+                        id="stream"
                         value={rawInput}
                         placeholder="Start typing here..."
                         onChange={(e) => setRawInput(e.target.value)}
@@ -124,7 +124,7 @@ export default function NewNoteDialog() {
                 </div>
                 <DialogFooter>
                     {/* Based on the length of input and the max, tell the users to write more if ots less, or tell them how to submit */}
-                    {rawInput.length < minimumNoteLength ? (
+                    {rawInput.length < minimumStreamLength ? (
                         null
                     ) : (
                         <Label className="text-xs text-muted-foreground">

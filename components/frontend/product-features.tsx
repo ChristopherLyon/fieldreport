@@ -23,7 +23,7 @@ const features = [
     {
         name: 'Geolocation Features',
         description:
-            'Enables tagging of notes with location data for enhanced tracking and analytics, providing valuable context for field activities.',
+            'Enables tagging of streams with location data for enhanced tracking and analytics, providing valuable context for field activities.',
         icon: Earth,
     },
 ]
