@@ -64,10 +64,10 @@ export default function App() {
         )}
       </div>
       <div className="hidden lg:flex flex-col h-full w-96 gap-4">
+        <QuickStreamInput setStreams={setStreams} setStreamAiProcessing={setStreamAiProcessing} />
         <div className="h-64">
           <LockedMapWidget />
         </div>
-        <QuickStreamInput setStreams={setStreams} setStreamAiProcessing={setStreamAiProcessing} />
       </div>
     </div>
   );

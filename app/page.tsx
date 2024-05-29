@@ -17,8 +17,6 @@ export default function Home() {
       <VideoAndTitleBlock videoUrl="/videos/solar-farm.mov" title="Built for the people who build our future." />
       <IndustryGallery />
       <VideoAndTitleBlock videoUrl="/videos/office.mp4" title="Effortlessly manage millions of moving parts." />
-
-
       <Footer />
     </main>
   );
