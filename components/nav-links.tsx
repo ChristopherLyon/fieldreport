@@ -19,13 +19,12 @@ const links = [
 export function NavLinks() {
 
     const pathname = usePathname()
-    
+
     return (
         <nav className="justify-center grid space-y-2">
-
             {links.map(({ href, label, icon: Icon }) => (
                 <Link key={href} href={href}>
-                    <Button size="icon" variant={"ghost"} className={`${pathname === href ? 'bg-muted' : ''}`}>  
+                    <Button size="icon" variant={"ghost"} className={`${pathname === href ? 'bg-muted' : ''}`}>
                         <Icon className='w-5 h-5' />
                     </Button>
                 </Link>
@@ -39,10 +38,10 @@ export function NavLinksMobile() {
     const pathname = usePathname()
 
     return (
-        <nav className="grid gap-2 text-lg font-medium">
-            <Link href="#" className="flex items-center mb-4 text-lg font-semibold">
-                <AudioLines className="h-6 w-6" />
-                <span className="sr-only">FieldReport</span>
+        <nav className="grid gap-2 text-lg font-raleway">
+            <Link className='flex items-center font-raleway pb-5' href='/app'>
+                <AudioLines className="h-5 w-auto" />
+                <span className="pl-1">FieldReport</span>
             </Link>
 
             {links.map(({ href, label, icon: Icon }) => (
