@@ -1,4 +1,3 @@
-// Types 
 import { IStream, ITask } from "@/types/types";
 
 // Libraries
@@ -58,14 +57,12 @@ import { Badge } from "../ui/badge";
 import ExpandedCardDialog from "./expanded-card-dialog";
 import Link from "next/link";
 
-// Function component for the stream card
 export default function StreamCard({ stream, setStreams }: { stream: IStream; setStreams: React.Dispatch<React.SetStateAction<IStream[]>> }) {
     const [expandedDialogOpen, setExpandedDialogOpen] = useState(false);
     const [deleteDialogAlertOpen, setDeleteDialogAlertOpen] = useState(false);
     const [task, setTask] = useState<ITask | null>(null);
 
     useEffect(() => {
-        // Fetch the associated task if it exists
         async function fetchTask() {
             if (stream.ai_generated?.spawned_task_id) {
                 try {
@@ -84,7 +81,6 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
         fetchTask();
     }, [stream]);
 
-    // Handle delete stream
     const handleDeleteStream = () => {
         fetch("/api/backend/streams", {
             method: "DELETE",
@@ -92,6 +88,15 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
         });
         setStreams((prevStreams) => prevStreams.filter((n) => n._id !== stream._id));
         toast.success("Stream deleted successfully");
+    };
+
+    const handleCardClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        const target = event.target as HTMLElement;
+
+        // Check if the clicked element is not a button, a link, or any element with data-no-expand attribute
+        if (!(target.closest('button') || target.closest('a') || target.closest('[data-no-expand]'))) {
+            setExpandedDialogOpen(true);
+        }
     };
 
     const { ai_generated } = stream;
@@ -117,7 +122,7 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
             <ContextMenu>
                 <ContextMenuTrigger>
                     <Card
-                        onClick={() => setExpandedDialogOpen(true)}
+                        onClick={handleCardClick}
                         className="h-64 w-full rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow bg-muted/10"
                     >
                         <CardContent className="h-full grid grid-rows-[auto_1fr_auto] p-6 gap-4">
@@ -141,15 +146,12 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
                                             {ai_generated.topic_category.charAt(0).toUpperCase() + ai_generated.topic_category.slice(1)}
                                         </div>
                                     )}
-
-                                    {/* Tooltip for auto-generated task */}
                                     {task && (
                                         <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger>
-                                                    <Link href={`/app/tasks/`}>
-                                                        {/* Show colour of task based on urgency, else show blue */}
-                                                        <ListTodo className="w-4 h-4 text-blue-500" />
+                                                    <Link href={`/app/tasks/`} data-no-expand>
+                                                        <ListTodo className="w-4 h-4 " />
                                                     </Link>
                                                 </TooltipTrigger>
                                                 <TooltipContent>
@@ -161,16 +163,14 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
                                             </Tooltip>
                                         </TooltipProvider>
                                     )}
-
-                                    {/* AI-generated score tooltip */}
                                     <TooltipProvider>
                                         <Tooltip>
                                             <TooltipTrigger>
                                                 {ai_generated?.user_input_quality_ranking?.score !== undefined && (
                                                     ai_generated.user_input_quality_ranking.score < 5 ? (
-                                                        <ThumbsDown className="w-4 h-4 text-red-500" />
+                                                        <ThumbsDown className="w-4 h-4 text-red-500" data-no-expand />
                                                     ) : ai_generated.user_input_quality_ranking.score >= 8 ? (
-                                                        <Medal className="w-4 h-4 text-blue-500" />
+                                                        <Medal className="w-4 h-4 text-blue-500" data-no-expand />
                                                     ) : null
                                                 )}
                                             </TooltipTrigger>
@@ -201,4 +201,3 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
         </>
     );
 }
-
