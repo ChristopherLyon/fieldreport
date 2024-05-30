@@ -57,6 +57,8 @@ export async function POST(request: Request) {
             "due_date": "Date" | null, // The due date of the task, if applicable
             "completed": "boolean" | null, // Whether the task has been completed
             "priority": "low" | "medium" | "high" | "urgent" | null, // The priority level of the task, if applicable
+            "title": "string", // The title of the task
+            "description": "string", // The description of the task
             "sub_tasks": [  // An array of sub-tasks, if applicable
                 {
                     "title": "string", // The title of the sub-task

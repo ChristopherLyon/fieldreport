@@ -22,8 +22,6 @@ export interface ISubTask {
   description?: string; // OPTIONAL: Description of the subtask
   due_date?: Date; // OPTIONAL: Due date for the subtask
   completed?: boolean; // OPTIONAL: Completion status of the subtask
-  tags?: string[]; // OPTIONAL: Tags for categorizing the subtask
-  priority?: "low" | "medium" | "high" | "urgent"; // OPTIONAL: Priority of the subtask
 }
 
 export interface IStream {
@@ -44,7 +42,10 @@ export interface IStream {
       due_date?: Date | null; // OPTIONAL: Due date for the task
       completed?: boolean | null; // OPTIONAL: Completion status of the task
       priority?: "low" | "medium" | "high" | "urgent" | null; // OPTIONAL: Priority of the task
+      title?: string; // OPTIONAL: Title of the task
+      description?: string; // OPTIONAL: Description of the task
       sub_tasks?: ISubTask[]; // OPTIONAL: List of subtasks
+
     };
     user_input_quality_ranking?: {
       score: number; // REQUIRED: Quality score of user input
