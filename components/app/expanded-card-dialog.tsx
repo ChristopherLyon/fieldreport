@@ -4,10 +4,8 @@ import { IStream } from "@/types/types";
 
 // UI
 import MarkdownWrapper from "./markdown-wrapper";
-import { format } from 'date-fns';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { X } from 'lucide-react';
 
 export default function ExpandedCardDialog({
     stream,
@@ -37,6 +35,10 @@ export default function ExpandedCardDialog({
     return (
         <div className="absolute inset-0 z-40 flex items-center justify-center bg-background">
             <Card className="h-full w-full bg-background rounded-lg shadow-lg overflow-auto relative">
+                <X
+                    className='absolute top-2 left-2 cursor-pointer z-50 p-1'
+                    onClick={() => setExpandedDialogOpen(false)}
+                />
                 <CardContent className='pt-5'>
                     <MarkdownWrapper markdown={stream.ai_generated?.reformatted_markdown_content || stream.raw_stream} />
                 </CardContent>

@@ -9,6 +9,7 @@ import Map, { MapRef, Marker } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useRef, useState, useEffect } from 'react';
 import { useTheme } from "next-themes";
+import { PersonStanding } from "lucide-react";
 
 export default function Page() {
 
@@ -61,15 +62,15 @@ export default function Page() {
 
                 {location &&
                     <Marker longitude={location.longitude} latitude={location.latitude}>
-                        <div className='border p-2 rounded-full dark:bg-black bg-black dark:bg-opacity-10 dark:border-white border-black bg-opacity-10 backdrop-blur-sm'>
-                        </div>
+                        <PersonStanding />
                     </Marker>
                 }
 
                 {streams.map((stream) => (
                     stream.location?.coordinates && (
                         <Marker key={stream._id.toString()} longitude={stream.location.coordinates[0]} latitude={stream.location.coordinates[1]}>
-                            <div className="w-2 h-2 bg-blue-500 rounded-full">
+                            <div className='relative flex items-center justify-center w-5 h-5 border border-foreground rounded-full bg-background'>
+                                <div className='w-1.5 h-1.5 bg-foreground'></div>
                             </div>
                         </Marker>
                     )

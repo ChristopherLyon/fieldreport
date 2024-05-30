@@ -28,8 +28,8 @@ export default async function RootLayout({
   }
 
   return (
-    <main className="font-raleway h-screen overflow-hidden">
-      <div className="grid min-h-screen w-full md:grid-cols-[70px_1fr]">
+    <main className="font-raleway h-screen overflow-hidden relative">
+      <div className="grid min-h-screen w-full md:grid-cols-[70px_1fr] relative">
         <div className="hidden md:block">
           <div className="flex h-full max-h-screen flex-col gap-2">
             <div className="flex h-14 items-center border-b mx-auto"></div>
@@ -38,7 +38,7 @@ export default async function RootLayout({
             </div>
           </div>
         </div>
-        <div className="flex flex-col h-full overflow-hidden">
+        <div className="flex flex-col h-full overflow-hidden relative">
           <header className="flex flex-row items-center h-16 gap-2 px-4 md:px-0 md:pr-4">
             <Sheet>
               <SheetTrigger asChild>
@@ -72,9 +72,9 @@ export default async function RootLayout({
               </DropdownMenuContent>
             </DropdownMenu>
           </header>
-            <div className="flex-1 max-h-[calc(98vh-4rem)] mr-4 ml-4 md:ml-0">
-              {children}
-            </div>
+          <div className="flex-1 max-h-[calc(98vh-4rem)] mr-4 ml-4 md:ml-0 relative">
+            {children}
+          </div>
         </div>
       </div>
     </main>
