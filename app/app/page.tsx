@@ -47,7 +47,7 @@ export default function App() {
           <NoDataContextCard title="No Streams" description="Create a new stream to get started." />
         ) : (
           <div className="flex-1 overflow-y-auto max-h-full">
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
               {streamAiProcessing && (
                 <Card className="h-64 w-full rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow bg-background flex items-center justify-center">
                   <div className="flex flex-row items-center gap-2">
