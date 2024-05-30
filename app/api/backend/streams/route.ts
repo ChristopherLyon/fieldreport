@@ -66,20 +66,22 @@ export async function POST(request: Request) {
                         "score": 0, // A score from 0-10 indicating the quality of the user's input
                         "score_tooltip": "string" // A tooltip explaining the score
                     },
-                    "tags": ["string"] // A list of 2-3 relevant keywords
+                    "tags": ["string"]
                 }
 
                 Guidelines:
                 - **Title**: Ensure it is concise and captures the essence of the stream.
-                - **Summary**: Provide a brief yet comprehensive overview.
+                - **Summary**: Provide a brief yet comprehensive overview. [16 - 20 words]
                 - **Reformatted Markdown Content**: Use rich markdown syntax. Incorporate headings, bullet points, code blocks, and emojis to enhance readability and engagement. Include suggestions for the user where applicable.
                 - **Task Section**: Clearly indicate if there are actionable items, due dates, and their priority.
                 - **User Input Quality Ranking**: Evaluate the quality of the user's raw_input on a scale of 0 - 10. Provide a tooltip with a very, VERY brief explanation (couple of words), or a suggestion for improvement.
-                - **Tags**: Extract key themes and topics from the stream.
-                - Never hallucinate or provide false information or broken links.
-                - ONLY RETURN VALID JSON STARTING WITH "{" AND ENDING WITH "}" 
+                - **Tags**: Extract key themes and topics from the stream. [2-3 tags, max 2 words each]
 
-                Additionally, if the stream content suggests the user is struggling with a concept, provide helpful links or resources in the markdown. Make sure to enrich the content with additional insights or suggested follow-ups where appropriate.
+                Rules:
+                - NEVER hallucinate or provide false information or broken links.
+                - ONLY RETURN VALID JSON STARTING WITH "{" AND ENDING WITH "}" 
+                - You are their assistant, help them extrapolate their thoughts, not add your own.
+                - Everything you produce provides the bases for further AI processing, so make sure it's clean and structured and make sure critical information is prioritized.
             `
             },
             {
