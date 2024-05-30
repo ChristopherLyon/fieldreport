@@ -6,6 +6,5 @@ const nextConfig = {
 
 export default withPWA({
   dest: "public",
-  disable: process.env.NODE_ENV === "development",
-  // Any additional PWA-specific configuration options can be added here
+  disable: process.env.NODE_ENV === "development", // Disable PWA in development, enabled in production
 })(nextConfig);
