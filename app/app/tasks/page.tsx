@@ -1,31 +1,38 @@
-"use client"
+"use client";
 import { useEffect, useState } from "react";
 import { ObjectId } from "mongodb";
-import { IStream, ISubTask } from "@/types/types"; // Import the types
+import { ITask, ISubTask } from "@/types/types"; // Import the types
 import {
-    TableHead, TableRow, TableHeader, TableCell, TableBody, Table
+    TableHead,
+    TableRow,
+    TableHeader,
+    TableCell,
+    TableBody,
+    Table,
 } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { SelectValue, SelectTrigger, SelectItem, SelectContent, Select } from "@/components/ui/select";
+import {
+    SelectValue,
+    SelectTrigger,
+    SelectItem,
+    SelectContent,
+    Select,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Calendar, ChevronDown } from "lucide-react";
 import React from "react";
 
 export default function TaskTable() {
-    const [streams, setStreams] = useState<IStream[]>([]);
-    const [tasks, setTasks] = useState<IStream[]>([]);
+    const [tasks, setTasks] = useState<ITask[]>([]);
 
     useEffect(() => {
-        // Fetch streams
-        async function fetchStreams() {
-            const response = await fetch("/api/backend/streams");
-            const data: IStream[] = await response.json();
-            setStreams(data);
-            // Filter streams to get only tasks
-            const taskStreams = data.filter(stream => stream.ai_generated?.task?.is_task);
-            setTasks(taskStreams);
+        // Fetch tasks
+        async function fetchTasks() {
+            const response = await fetch("/api/backend/tasks");
+            const data: ITask[] = await response.json();
+            setTasks(data);
         }
-        fetchStreams();
+        fetchTasks();
     }, []);
 
     return (
@@ -42,16 +49,19 @@ export default function TaskTable() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {tasks.map(task => (
+                        {tasks.map((task) => (
                             <React.Fragment key={task._id.toString()}>
                                 <TableRow>
                                     <TableCell>
                                         <div className="flex items-center gap-3">
-                                            <Checkbox id={`task-${task._id}`} checked={task.ai_generated?.task?.completed ?? false} />
+                                            <Checkbox
+                                                id={`task-${task._id}`}
+                                                checked={task.completed ?? false}
+                                            />
                                             <div>
-                                                <div className="font-medium">{task.ai_generated?.task?.title}</div>
+                                                <div className="font-medium">{task.title}</div>
                                                 <div className="text-sm text-gray-500 dark:text-gray-400">
-                                                    {task.ai_generated?.task?.description}
+                                                    {task.description}
                                                 </div>
                                             </div>
                                         </div>
@@ -59,16 +69,24 @@ export default function TaskTable() {
                                     <TableCell>
                                         <div className="flex items-center gap-2">
                                             <Calendar className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                                            <span>{task.ai_generated?.task?.due_date ? new Date(task.ai_generated.task.due_date).toLocaleDateString() : "No due date"}</span>
+                                            <span>
+                                                {task.due_date
+                                                    ? new Date(task.due_date).toLocaleDateString()
+                                                    : "No due date"}
+                                            </span>
                                         </div>
                                     </TableCell>
                                     <TableCell>
-                                        <Select defaultValue={task.ai_generated?.task?.priority ?? "medium"}>
+                                        <Select defaultValue={task.priority ?? "medium"}>
                                             <SelectTrigger className="w-24">
                                                 <SelectValue>
                                                     <div className="flex items-center gap-2">
-                                                        <div className={`w-2 h-2 rounded-full ${getPriorityColor(task.ai_generated?.task?.priority ?? "medium")}`} />
-                                                        <span>{capitalizeFirstLetter(task.ai_generated?.task?.priority ?? "medium")}</span>
+                                                        <div
+                                                            className={`w-2 h-2 rounded-full ${getPriorityColor(
+                                                                task.priority ?? "medium"
+                                                            )}`}
+                                                        />
+                                                        <span>{capitalizeFirstLetter(task.priority ?? "medium")}</span>
                                                     </div>
                                                 </SelectValue>
                                             </SelectTrigger>
@@ -101,10 +119,14 @@ export default function TaskTable() {
                                         </Select>
                                     </TableCell>
                                     <TableCell>
-                                        <Select defaultValue={task.ai_generated?.task?.completed ? "completed" : "in-progress"}>
+                                        <Select
+                                            defaultValue={task.completed ? "completed" : "in-progress"}
+                                        >
                                             <SelectTrigger className="w-32">
                                                 <SelectValue>
-                                                    <span>{task.ai_generated?.task?.completed ? "Completed" : "In Progress"}</span>
+                                                    <span>
+                                                        {task.completed ? "Completed" : "In Progress"}
+                                                    </span>
                                                 </SelectValue>
                                             </SelectTrigger>
                                             <SelectContent>
@@ -120,14 +142,20 @@ export default function TaskTable() {
                                         </Button>
                                     </TableCell>
                                 </TableRow>
-                                {task.ai_generated?.task?.sub_tasks && (
+                                {task.sub_tasks && task.sub_tasks.length > 0 && (
                                     <TableRow>
                                         <TableCell colSpan={5}>
                                             <div className="p-4 bg-muted/30">
                                                 <div className="grid gap-4">
-                                                    {task.ai_generated.task.sub_tasks.map((subtask, index) => (
-                                                        <div className="flex items-center gap-3" key={`sub-task-${task._id}-${index}`}>
-                                                            <Checkbox id={`sub-task-${task._id}-${index}`} checked={subtask.completed ?? false} />
+                                                    {task.sub_tasks.map((subtask, index) => (
+                                                        <div
+                                                            className="flex items-center gap-3"
+                                                            key={`sub-task-${task._id}-${index}`}
+                                                        >
+                                                            <Checkbox
+                                                                id={`sub-task-${task._id}-${index}`}
+                                                                checked={subtask.completed ?? false}
+                                                            />
                                                             <div>
                                                                 <div className="font-medium">{subtask.title}</div>
                                                                 <div className="text-sm text-gray-500 dark:text-gray-400">
@@ -136,13 +164,21 @@ export default function TaskTable() {
                                                             </div>
                                                             <div className="flex items-center gap-2 ml-auto">
                                                                 <Calendar className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                                                                <span>{subtask.due_date ? new Date(subtask.due_date).toLocaleDateString() : "No due date"}</span>
+                                                                <span>
+                                                                    {subtask.due_date
+                                                                        ? new Date(subtask.due_date).toLocaleDateString()
+                                                                        : "No due date"}
+                                                                </span>
                                                             </div>
                                                             <div className="flex items-center gap-2">
-                                                                <Select defaultValue={subtask.completed ? "completed" : "in-progress"}>
+                                                                <Select
+                                                                    defaultValue={subtask.completed ? "completed" : "in-progress"}
+                                                                >
                                                                     <SelectTrigger className="w-32">
                                                                         <SelectValue>
-                                                                            <span>{subtask.completed ? "Completed" : "In Progress"}</span>
+                                                                            <span>
+                                                                                {subtask.completed ? "Completed" : "In Progress"}
+                                                                            </span>
                                                                         </SelectValue>
                                                                     </SelectTrigger>
                                                                     <SelectContent>

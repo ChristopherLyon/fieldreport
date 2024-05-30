@@ -1,8 +1,8 @@
 // Types 
-import { IStream } from "@/types/types";
+import { IStream, ITask } from "@/types/types";
 
 // Libraries
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { format } from "date-fns";
 
 // UI Components
@@ -56,11 +56,33 @@ import {
 import { toast } from "sonner";
 import { Badge } from "../ui/badge";
 import ExpandedCardDialog from "./expanded-card-dialog";
+import Link from "next/link";
 
 // Function component for the stream card
 export default function StreamCard({ stream, setStreams }: { stream: IStream; setStreams: React.Dispatch<React.SetStateAction<IStream[]>> }) {
     const [expandedDialogOpen, setExpandedDialogOpen] = useState(false);
     const [deleteDialogAlertOpen, setDeleteDialogAlertOpen] = useState(false);
+    const [task, setTask] = useState<ITask | null>(null);
+
+    useEffect(() => {
+        // Fetch the associated task if it exists
+        async function fetchTask() {
+            if (stream.ai_generated?.spawned_task_id) {
+                try {
+                    const response = await fetch(`/api/backend/tasks?id=${stream.ai_generated.spawned_task_id}`);
+                    if (response.ok) {
+                        const taskData: ITask = await response.json();
+                        setTask(taskData);
+                    } else {
+                        console.error("Failed to fetch task:", response.statusText);
+                    }
+                } catch (error) {
+                    console.error("Error fetching task:", error);
+                }
+            }
+        }
+        fetchTask();
+    }, [stream]);
 
     // Handle delete stream
     const handleDeleteStream = () => {
@@ -121,16 +143,19 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
                                     )}
 
                                     {/* Tooltip for auto-generated task */}
-                                    {ai_generated?.task?.is_task && (
+                                    {task && (
                                         <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger>
-                                                    <ListTodo className="w-4 h-4" />
+                                                    <Link href={`/app/tasks/`}>
+                                                        {/* Show colour of task based on urgency, else show blue */}
+                                                        <ListTodo className="w-4 h-4 text-blue-500" />
+                                                    </Link>
                                                 </TooltipTrigger>
                                                 <TooltipContent>
                                                     <p className="font-mono text-xs flex flex-row items-center gap-1">
                                                         <AudioLines className="w-4 h-4 inline-block" />
-                                                        FieldReport auto-generated a task[s] from this Stream
+                                                        {task.completed ? "Task Completed" : "Task Incomplete"}
                                                     </p>
                                                 </TooltipContent>
                                             </Tooltip>
@@ -159,7 +184,7 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
                                 </div>
                                 <div className="text-gray-500 dark:text-gray-400 text-xs items-center flex font-mono">
                                     <Calendar className="w-4 h-4 mr-2 inline-block" />
-                                    {format(new Date(stream.created_at), "MMM dd, yyyy")}
+                                    {format(new Date(stream.created_at), "MMM dd")}
                                 </div>
                             </div>
                         </CardContent>
@@ -168,7 +193,7 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
                 <ContextMenuContent>
                     <ContextMenuItem className="text-red-500 flex flex-row items-center gap-2" onClick={() => setDeleteDialogAlertOpen(true)}>
                         <Trash className="h-3 w-3" />
-                        Delete
+                        Delete Stream & Tasks
                     </ContextMenuItem>
                 </ContextMenuContent>
             </ContextMenu>
@@ -176,3 +201,4 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
         </>
     );
 }
+
