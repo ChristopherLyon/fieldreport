@@ -149,11 +149,11 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({ setStreams, setStream
             </div>
 
             {/* Mobile Input */}
-            <div className="lg:hidden fixed bottom-10 right-4 z-20">
-    
+            <div className="lg:hidden fixed bottom-4 right-4 z-20">
+
                 <Dialog >
                     <DialogTrigger asChild>
-                    <Button className="p-3 h-36 w-20 opacity-90">
+                        <Button className="p-3 h-36 opacity-90">
                             <AudioLines className="" />
                         </Button>
                     </DialogTrigger>
