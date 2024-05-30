@@ -39,7 +39,7 @@ export default function ExpandedCardDialog({
                     className='absolute top-2 left-2 cursor-pointer z-50 p-1'
                     onClick={() => setExpandedDialogOpen(false)}
                 />
-                <CardContent className='pt-5'>
+                <CardContent className='pt-10 md:pt-5'>
                     <MarkdownWrapper markdown={stream.ai_generated?.reformatted_markdown_content || stream.raw_stream} />
                 </CardContent>
             </Card>
