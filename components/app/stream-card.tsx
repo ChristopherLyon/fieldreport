@@ -123,7 +123,7 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
                 <ContextMenuTrigger>
                     <Card
                         onClick={handleCardClick}
-                        className="h-64 w-full rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow bg-muted/10"
+                        className="h-64 w-full rounded-lg overflow-hidden hover:shadow-md transition-shadow bg-muted/10"
                     >
                         <CardContent className="h-full grid grid-rows-[auto_1fr_auto] p-6 gap-4">
                             <div className="flex items-center justify-between">
