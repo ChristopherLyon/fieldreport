@@ -17,7 +17,7 @@ export default function Header() {
 
     return (
         <header className="absolute inset-x-0 top-0 z-50 bg-background font-raleway">
-            <nav className="flex items-center justify-between p-3 py-8 lg:py-3 lg:px-8 border-b border-gray-500" aria-label="Global">
+            <nav className="flex items-center justify-between p-3 py-6 lg:py-3 lg:px-8 border-b border-gray-500" aria-label="Global">
                 <div className="flex lg:flex-1">
                     <Link className='flex items-center' href='/'>
                         <AudioLines className="h-5 w-auto" />
