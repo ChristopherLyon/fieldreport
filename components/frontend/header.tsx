@@ -10,6 +10,7 @@ import { ThemeToggle } from '../darkmode-toggle';
 const navigation = [
     { name: 'Features', href: '/#features' },
     { name: 'Industries', href: '/#industries' },
+    { name: 'Use Cases', href: '/#use-cases' },
 ]
 
 export default function Header() {
