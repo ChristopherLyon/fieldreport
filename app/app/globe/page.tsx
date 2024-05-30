@@ -8,7 +8,7 @@ import * as React from 'react';
 import Map, { MapRef, Marker } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useRef, useState, useEffect } from 'react';
-import { useTheme } from "next-themes"
+import { useTheme } from "next-themes";
 
 export default function Page() {
 
@@ -28,8 +28,7 @@ export default function Page() {
         }, {
             enableHighAccuracy: true
         });
-    }
-        , []);
+    }, []);
 
     useEffect(() => {
         const fetchStreams = () => {
@@ -57,20 +56,23 @@ export default function Page() {
                 logoPosition='bottom-right'
                 projection={"globe" as any}
                 initialViewState={{ longitude: 5.74, latitude: 58.84, zoom: 2 }}
-                mapStyle={theme.theme == "light" ? "mapbox://styles/mapbox/standard" : "mapbox://styles/christopherlyon/clws0irjp015y01ny6vaacinw"}
+                mapStyle={theme.theme === "light" ? "mapbox://styles/mapbox/standard" : "mapbox://styles/christopherlyon/clws0irjp015y01ny6vaacinw"}
                 mapboxAccessToken={"pk.eyJ1IjoiY2hyaXN0b3BoZXJseW9uIiwiYSI6ImNrZXh0Z3dvazA0dWcydG84eGZudDNiZ3EifQ.o4v1FsSerU9M9tbF_lVaiw"}>
 
-                {location ?
+                {location &&
                     <Marker longitude={location.longitude} latitude={location.latitude}>
                         <div className='border p-2 rounded-full dark:bg-black bg-black dark:bg-opacity-10 dark:border-white border-black bg-opacity-10 backdrop-blur-sm'>
                         </div>
-                    </Marker> : null}
+                    </Marker>
+                }
 
                 {streams.map((stream) => (
-                    <Marker key={stream._id.toString()} longitude={stream.location.coordinates[0]} latitude={stream.location.coordinates[1]}>
-                        <div className="w-2 h-2 bg-blue-500 rounded-full">
-                        </div>
-                    </Marker>
+                    stream.location?.coordinates && (
+                        <Marker key={stream._id.toString()} longitude={stream.location.coordinates[0]} latitude={stream.location.coordinates[1]}>
+                            <div className="w-2 h-2 bg-blue-500 rounded-full">
+                            </div>
+                        </Marker>
+                    )
                 ))}
             </Map>
         </main>

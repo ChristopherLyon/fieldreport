@@ -2,12 +2,10 @@
 import { IStream } from "@/types/types";
 
 // Libraries
-import { useState, useEffect, use } from "react";
-// date fns
+import { useState } from "react";
 import { format } from "date-fns";
 
-// UI
-
+// UI Components
 import {
     ChevronLeft,
     ChevronRight,
@@ -19,24 +17,17 @@ import {
     Calendar,
     Medal,
     ThumbsDown,
-} from "lucide-react"
+    ClipboardList,
+    ListTodo,
+    AudioLines,
+} from "lucide-react";
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
-} from "@/components/ui/tooltip"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-
-import { Separator } from "@/components/ui/separator"
-
-import { Button } from "@/components/ui/button"
+} from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -44,7 +35,7 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -55,23 +46,19 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
 import {
     ContextMenu,
     ContextMenuContent,
     ContextMenuItem,
     ContextMenuTrigger,
-} from "@/components/ui/context-menu"
-
-import { toast } from "sonner"
-
+} from "@/components/ui/context-menu";
+import { toast } from "sonner";
 import { Badge } from "../ui/badge";
 import ExpandedCardDialog from "./expanded-card-dialog";
 
-// takes in a stream as well as the setStreams function to be able to delete streams. Set the types for the stream
+// Function component for the stream card
 export default function StreamCard({ stream, setStreams }: { stream: IStream; setStreams: React.Dispatch<React.SetStateAction<IStream[]>> }) {
-
-    // State for opening the expanded dialog
     const [expandedDialogOpen, setExpandedDialogOpen] = useState(false);
     const [deleteDialogAlertOpen, setDeleteDialogAlertOpen] = useState(false);
 
@@ -83,8 +70,9 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
         });
         setStreams((prevStreams) => prevStreams.filter((n) => n._id !== stream._id));
         toast.success("Stream deleted successfully");
-
     };
+
+    const { ai_generated } = stream;
 
     return (
         <>
@@ -106,12 +94,15 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
 
             <ContextMenu>
                 <ContextMenuTrigger>
-                    <Card onClick={() => setExpandedDialogOpen(true)} className="h-64 w-full rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow bg-muted/10">
+                    <Card
+                        onClick={() => setExpandedDialogOpen(true)}
+                        className="h-64 w-full rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow bg-muted/10"
+                    >
                         <CardContent className="h-full grid grid-rows-[auto_1fr_auto] p-6 gap-4">
                             <div className="flex items-center justify-between">
-                                <CardTitle className="text-lg">{stream.ai_generated.title}</CardTitle>
+                                <CardTitle className="text-lg">{ai_generated?.title}</CardTitle>
                                 <div className="flex items-start gap-2 flex-wrap justify-end">
-                                    {stream.ai_generated.tags.map((tag) => (
+                                    {ai_generated?.tags?.map((tag) => (
                                         <Badge variant={"outline"} key={tag} className="capitalize first-letter:text-lg">
                                             {tag}
                                         </Badge>
@@ -119,25 +110,50 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
                                 </div>
                             </div>
                             <div className="text-gray-500 dark:text-gray-400 line-clamp-3 text-sm">
-                                {stream.ai_generated.summary}
+                                {ai_generated?.summary}
                             </div>
-
-                            {/* A seperator, but is stream is a task, make it blue-500 */}
-{/*                             <Separator className={stream.ai_generated.task.is_task ? "bg-blue-500" : ""} />
- */}                            <div className="flex items-center justify-between">
+                            <div className="flex items-center justify-between">
                                 <div className="flex flex-row items-center gap-2">
-                                    <div className="bg-primary/10 px-3 py-1 rounded-full text-primary font-medium text-xs">
-                                        {stream.ai_generated.topic_category.charAt(0).toUpperCase() + stream.ai_generated.topic_category.slice(1)}
-                                    </div>
-                                    {/* Each steam has a AI generated score. If under 5, show one emoji, if between 5 and 8 show another, over 80 show a third */}
+                                    {ai_generated?.topic_category && (
+                                        <div className="bg-primary/10 px-3 py-1 rounded-full text-primary font-medium text-xs">
+                                            {ai_generated.topic_category.charAt(0).toUpperCase() + ai_generated.topic_category.slice(1)}
+                                        </div>
+                                    )}
+
+                                    {/* Tooltip for auto-generated task */}
+                                    {ai_generated?.task?.is_task && (
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger>
+                                                    <ListTodo className="w-4 h-4" />
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    <p className="font-mono text-xs flex flex-row items-center gap-1">
+                                                        <AudioLines className="w-4 h-4 inline-block" />
+                                                        FieldReport auto-generated a task[s] from this Stream
+                                                    </p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
+                                    )}
+
+                                    {/* AI-generated score tooltip */}
                                     <TooltipProvider>
                                         <Tooltip>
-                                            <TooltipTrigger>{stream.ai_generated.user_input_quality_ranking.score < 5 ?
-                                                <ThumbsDown className="w-4 h-4 text-red-500" />
-                                                : stream.ai_generated.user_input_quality_ranking.score < 8 ? null : <Medal className="w-4 h-4 text-blue-500" />}</TooltipTrigger>
-                                            <TooltipContent>
-                                                <p className="font-mono text-xs">{stream.ai_generated.user_input_quality_ranking.score_tooltip} [score: {stream.ai_generated.user_input_quality_ranking.score}]</p>
-                                            </TooltipContent>
+                                            <TooltipTrigger>
+                                                {ai_generated?.user_input_quality_ranking?.score !== undefined && (
+                                                    ai_generated.user_input_quality_ranking.score < 5 ? (
+                                                        <ThumbsDown className="w-4 h-4 text-red-500" />
+                                                    ) : ai_generated.user_input_quality_ranking.score >= 8 ? (
+                                                        <Medal className="w-4 h-4 text-blue-500" />
+                                                    ) : null
+                                                )}
+                                            </TooltipTrigger>
+                                            {ai_generated?.user_input_quality_ranking?.score_tooltip && (
+                                                <TooltipContent>
+                                                    <p className="font-mono text-xs">{ai_generated.user_input_quality_ranking.score_tooltip} [score: {ai_generated.user_input_quality_ranking.score}]</p>
+                                                </TooltipContent>
+                                            )}
                                         </Tooltip>
                                     </TooltipProvider>
                                 </div>
@@ -148,7 +164,6 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
                             </div>
                         </CardContent>
                     </Card>
-
                 </ContextMenuTrigger>
                 <ContextMenuContent>
                     <ContextMenuItem className="text-red-500 flex flex-row items-center gap-2" onClick={() => setDeleteDialogAlertOpen(true)}>
@@ -159,70 +174,5 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
             </ContextMenu>
             <ExpandedCardDialog stream={stream} expandedDialogOpen={expandedDialogOpen} setExpandedDialogOpen={setExpandedDialogOpen} />
         </>
-
-
     );
 }
-
-
-/* 
- <AlertDialog open={deleteDialogAlertOpen} onOpenChange={setDeleteDialogAlertOpen}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete your
-                            stream and all of its data.
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleDeleteStream}>Continue</AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
-
-            <ContextMenu>
-                <ContextMenuTrigger>
-                    <Card
-                        onClick={() => setExpandedDialogOpen(true)}
-                        className="h-[250px] w-full rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow bg-background">
-                        <CardContent className="h-full grid grid-rows-[auto_1fr_auto] p-6 gap-4">
-                            <div className="flex items-center justify-between">
-                                <CardTitle className="text-lg font-semibold">{stream.ai_generated.title}</CardTitle>
-                                <div className="flex items-start gap-2 flex-wrap justify-end">
-                                    {stream.ai_generated.tags.map((tag) => (
-                                        <Badge
-                                            variant={"outline"}
-                                            key={tag}
-                                            className="capitalize first-letter:text-lg"
-                                        >
-                                            {tag}
-                                        </Badge>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className="text-gray-500 dark:text-gray-400 line-clamp-3">
-                                {stream.ai_generated.summary}
-                            </div>
-                            <Separator />
-                            <div className="flex items-center justify-between">
-                                <div className="bg-primary/10 px-3 py-1 rounded-full text-primary font-medium text-xs">Finance</div>
-                                <div className="text-gray-500 dark:text-gray-400 text-sm items-center flex">
-                                    <Calendar className="w-4 h-4 mr-1 inline-block" />
-                                    {format(new Date(stream.created_at), "MMM dd, yyyy")}
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                </ContextMenuTrigger>
-                <ContextMenuContent>
-                    <ContextMenuItem className="text-red-500 flex flex-row items-center gap-2" onClick={() => setDeleteDialogAlertOpen(true)}>
-                        <Trash className="h-3 w-3" />
-                        Delete
-                    </ContextMenuItem>
-                </ContextMenuContent>
-            </ContextMenu>
-
-*/

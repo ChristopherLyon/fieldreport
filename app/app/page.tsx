@@ -52,7 +52,7 @@ export default function App() {
                 <Card className="h-64 w-full rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow bg-background flex items-center justify-center">
                   <div className="flex flex-row items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                    <div className="text-sm font-medium animate-pulse">Processing Stream AI</div>
+                    <div className="text-sm font-medium animate-pulse">Processing Stream</div>
                   </div>
                 </Card>
               )}

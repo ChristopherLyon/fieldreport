@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link';
 
 // UI Components
-import { AudioLines, AudioWaveform, Globe, Map, Replace } from 'lucide-react';
+import { AudioLines, AudioWaveform, Globe, ListTodo, Map, Replace } from 'lucide-react';
 import { Button } from './ui/button';
 
 
@@ -13,6 +13,7 @@ import { Button } from './ui/button';
 const links = [
     { href: '/app', label: 'Report Stream', icon: AudioWaveform },
     { href: '/app/globe', label: 'Globe', icon: Globe },
+    { href: '/app/tasks', label: 'Tasks', icon: ListTodo },
 ]
 
 export function NavLinks() {
