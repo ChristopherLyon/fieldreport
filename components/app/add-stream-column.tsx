@@ -13,7 +13,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import LockedMapWidget from "@/components/app/locked-map-widget";
-import { Progress } from "../ui/progress";
+import { Progress } from "@/components/ui/progress";
 
 interface AddStreamColumnProps {
     setStreams: React.Dispatch<React.SetStateAction<IStream[]>>;
@@ -100,7 +100,7 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({ setStreams, setStream
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, [handleSubmit]);
 
-    // Progress is grom 0-100, calculate the percentage of the minimum stream length
+    // Progress is from 0-100, calculate the percentage of the minimum stream length
     const progress = (rawInput.length / minimumStreamLength) * 100;
 
     return (
@@ -150,14 +150,13 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({ setStreams, setStream
 
             {/* Mobile Input */}
             <div className="lg:hidden fixed bottom-4 right-4 z-20">
-
-                <Dialog >
+                <Dialog>
                     <DialogTrigger asChild>
                         <Button className="p-3 h-36 opacity-90">
                             <AudioLines className="" />
                         </Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]">
+                    <DialogContent className="sm:max-w-[425px] mt-20"> {/* Adjust the margin-top */}
                         <DialogHeader>
                             <DialogTitle>Add new stream</DialogTitle>
                             <DialogDescription>
