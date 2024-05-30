@@ -156,7 +156,7 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({ setStreams, setStream
                             <AudioLines className="" />
                         </Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px] -mt-28">
+                    <DialogContent className="sm:max-w-[425px] -mt-40">
                         <DialogHeader>
                             <DialogTitle>Add new stream</DialogTitle>
                             <DialogDescription>
