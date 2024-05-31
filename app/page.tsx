@@ -12,7 +12,8 @@ import AtTheBase from '@/public/images/at-the-base.jpg';
 import MacBookMockup from '@/public/images/macbook-mockup.jpeg';
 import IpadMockup from '@/public/images/ipad-mockup.jpeg';
 import HardwarePrototype from '@/public/images/hardware-prototype.png';
-import Image from 'next/image';
+import Logistics from '@/public/images/logistics.jpg';
+import Warehouse from '@/public/images/signin-page.png';
 
 export default function Home() {
   return (
@@ -29,15 +30,21 @@ export default function Home() {
             {
               name: 'Agriculture',
               description: 'Monitor environmental conditions and manage field activities.',
-              userStory: 'A farmer uses the FieldReport app to record soil moisture levels by speaking into their smartwatch. The AI converts the input into a detailed report, providing actionable insights into irrigation needs. The system categorizes the data, summarizes key points, and suggests optimal irrigation schedules, helping farmers make informed decisions quickly and efficiently.',
+              userStory: 'A farmer uses the FieldReport app to record soil moisture levels by speaking into their smartwatch. The AI assistant converts the input into a structured report, providing a summary of key points and actionable insights into irrigation needs. It suggests optimal irrigation schedules and tags the data with relevant keywords, helping farmers make informed decisions quickly and efficiently.',
               src: Agriculture,
             },
             {
               name: 'Telecommunications',
               description: 'Improve network performance and reduce maintenance costs.',
-              userStory: 'A telecom climber, equipped with heavy gear, uses their smartwatch to report rust and missing bolts on a cell tower with a single button press. The AI instantly processes the report, generates a maintenance schedule, and informs the safety compliance team. The system compiles weekly reports of multiple towers needing attention, streamlining maintenance and enhancing network reliability and safety.',
+              userStory: 'A telecom worker, equipped with heavy gear, uses their smartwatch to report rust and missing bolts on a cell tower with a single button press. The AI assistant instantly processes the input, generating a maintenance schedule and informing the safety compliance team. The AI compiles weekly reports of multiple towers needing attention, providing summaries and prioritizing tasks, thus streamlining maintenance and enhancing network reliability and safety.',
               src: Telecom,
-            }
+            },
+            {
+              name: 'Logistics',
+              description: 'Optimize delivery routes and manage shipment statuses.',
+              userStory: 'A logistics manager uses the FieldReport app to record delivery issues by speaking into their smartwatch. The AI assistant parses the input and generates structured, categorized reports, providing summaries and actionable insights for route optimization. It tags the data with relevant keywords and suggests improvements, helping managers make quick and efficient decisions to ensure timely deliveries.',
+              src: Logistics,
+            },
           ]} />
       </section>
 
@@ -58,7 +65,13 @@ export default function Home() {
               description: 'Manage and track logistics operations from the office.',
               userStory: 'A logistics manager uses the FieldReport web app to monitor the status of various truck routes. The AI compiles real-time reports from drivers, categorizes issues, and generates a daily summary of all logistics activities. The system provides live updates on delivery statuses, enabling the manager to make informed decisions, reroute drivers if necessary, and ensure timely deliveries.',
               src: AtTheBase,
-            }
+            },
+            {
+              name: 'In the Warehouse',
+              description: 'Streamline inventory management and operations within the warehouse.',
+              userStory: 'A warehouse manager uses the FieldReport app on their tablet to scan and update inventory levels. The AI assistant processes the data, categorizes inventory, and provides real-time updates on stock levels. The system generates daily reports highlighting low-stock items and suggesting reorder points. This helps the manager make informed decisions quickly, ensuring that inventory levels are optimized and operations run smoothly.',
+              src: Warehouse, // Adjust the path as needed
+            },
           ]} />
       </section>
       {/* This user story block focuses on that FieldReport is with you on the go, in the field, har from home - as well as at base, in the office. Both sides of the reporting structure  */}
