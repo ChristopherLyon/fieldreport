@@ -11,6 +11,7 @@ const navigation = [
     { name: 'Features', href: '/#features' },
     { name: 'Industries', href: '/#industries' },
     { name: 'Use Cases', href: '/#use-cases' },
+    { name: 'Ecosystem', href: '/#ecosystem' },
 ]
 
 export default function Header() {

@@ -9,13 +9,13 @@ interface UserStory {
     userStory: string;
 }
 
-export default function UserStories({ sectionTitle, userStories } : { sectionTitle: string, userStories: UserStory[] }) {
+export default function UserStories({ sectionTitle, userStories }: { sectionTitle: string, userStories: UserStory[] }) {
     return (
-        <section className="p-4" id="industries" aria-label="Industries">
+        <div className='p-4'>
             <span className="text-4xl">
                 {sectionTitle}
             </span>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 my-24">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 my-24">
                 {userStories.map(story => (
                     <div key={story.name} className="flex flex-col">
                         <div className="relative">
@@ -36,6 +36,6 @@ export default function UserStories({ sectionTitle, userStories } : { sectionTit
                     </div>
                 ))}
             </div>
-        </section>
+        </div>
     );
 }
