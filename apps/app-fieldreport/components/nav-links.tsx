@@ -39,7 +39,7 @@ export function NavLinksMobile() {
 
     return (
         <nav className="grid gap-2 text-lg font-raleway">
-            <Link className='flex items-center font-raleway pb-5' href='/app'>
+            <Link className='flex items-center font-raleway pb-5' href='/'>
                 <AudioLines className="h-5 w-auto" />
                 <span className="pl-1">FieldReport</span>
             </Link>

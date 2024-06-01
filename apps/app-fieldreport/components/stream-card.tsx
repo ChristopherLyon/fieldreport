@@ -150,7 +150,7 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
                                         <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger>
-                                                    <Link href={`/app/tasks/`} data-no-expand>
+                                                    <Link href={`/tasks/`} data-no-expand>
                                                         <ListTodo className="w-4 h-4 " />
                                                     </Link>
                                                 </TooltipTrigger>
