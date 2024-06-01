@@ -6,7 +6,7 @@ import { CONFIG } from "@/app/api/auth/[...nextauth]/config";
 import { Menu, AudioLines } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
-import RealtimeClock from "@/components/app/realtime-clock";
+import RealtimeClock from "@/components/realtime-clock";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { NavLinks, NavLinksMobile } from "@/components/nav-links";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -32,10 +32,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await unstable_getServerSession(CONFIG);
-  if (!session) {
-    redirect("/auth/signin");
-  }
 
   return (
     <SessionProviderWrapper>

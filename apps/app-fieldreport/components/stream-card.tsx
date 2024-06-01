@@ -53,7 +53,7 @@ import {
     ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import { toast } from "sonner";
-import { Badge } from "../ui/badge";
+import { Badge } from "./ui/badge";
 import ExpandedCardDialog from "./expanded-card-dialog";
 import Link from "next/link";
 

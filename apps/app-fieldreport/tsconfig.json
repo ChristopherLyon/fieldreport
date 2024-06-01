@@ -33,7 +33,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "public/sw.js",
-    "../fieldreport/components/login-floater.tsx"
   ],
   "exclude": [
     "node_modules"

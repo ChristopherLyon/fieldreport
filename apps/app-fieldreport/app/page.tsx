@@ -3,9 +3,9 @@ import { IStream } from "@/types/types";
 import { useState, useEffect } from "react";
 import NoDataContextCard from "@/components/no-data-context-card";
 import React from "react";
-import StreamCard from "@/components/app/stream-card";
+import StreamCard from "@/components/stream-card";
 import { Card } from "@/components/ui/card";
-import AddStreamColumn from "@/components/app/add-stream-column";
+import AddStreamColumn from "@/components//add-stream-column";
 
 export default function App() {
   const [streams, setStreams] = useState<IStream[]>([]);

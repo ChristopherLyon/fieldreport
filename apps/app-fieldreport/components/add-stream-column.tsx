@@ -12,7 +12,7 @@ import { TooltipProvider, Tooltip, TooltipContent, TooltipTrigger } from "@/comp
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
-import LockedMapWidget from "@/components/app/locked-map-widget";
+import LockedMapWidget from "@/components/locked-map-widget";
 import { Progress } from "@/components/ui/progress";
 
 interface AddStreamColumnProps {
