@@ -57,10 +57,7 @@ export default function UserAvatar() {
                             <Maximize className="w-4 h-4 mr-2" />
                             Toggle Immersive
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => signIn()}>
-                            <Replace className="w-4 h-4 mr-2" />
-                            Switch Account
-                        </DropdownMenuItem>
+        
                         <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/auth/signin" })}>
                             <LogOut className="w-4 h-4 mr-2" />
                             Logout
