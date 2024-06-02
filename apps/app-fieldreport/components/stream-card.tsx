@@ -6,17 +6,10 @@ import { format } from "date-fns";
 
 // UI Components
 import {
-    ChevronLeft,
-    ChevronRight,
-    Copy,
-    CreditCard,
-    MoreVertical,
-    Truck,
     Trash,
     Calendar,
     Medal,
     ThumbsDown,
-    ClipboardList,
     ListTodo,
     AudioLines,
 } from "lucide-react";
@@ -30,8 +23,6 @@ import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
@@ -57,7 +48,13 @@ import { Badge } from "./ui/badge";
 import ExpandedCardDialog from "./expanded-card-dialog";
 import Link from "next/link";
 
-export default function StreamCard({ stream, setStreams }: { stream: IStream; setStreams: React.Dispatch<React.SetStateAction<IStream[]>> }) {
+interface StreamCardProps {
+    stream: IStream;
+    setLocalStreams: React.Dispatch<React.SetStateAction<IStream[]>>;
+    mutate: () => void;
+}
+
+export default function StreamCard({ stream, setLocalStreams, mutate }: StreamCardProps) {
     const [expandedDialogOpen, setExpandedDialogOpen] = useState(false);
     const [deleteDialogAlertOpen, setDeleteDialogAlertOpen] = useState(false);
     const [task, setTask] = useState<ITask | null>(null);
@@ -81,19 +78,29 @@ export default function StreamCard({ stream, setStreams }: { stream: IStream; se
         fetchTask();
     }, [stream]);
 
-    const handleDeleteStream = () => {
-        fetch("/api/streams", {
-            method: "DELETE",
-            body: JSON.stringify({ _id: stream._id }),
-        });
-        setStreams((prevStreams) => prevStreams.filter((n) => n._id !== stream._id));
-        toast.success("Stream deleted successfully");
+    const handleDeleteStream = async () => {
+        try {
+            const response = await fetch("/api/streams", {
+                method: "DELETE",
+                body: JSON.stringify({ _id: stream._id }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            if (!response.ok) {
+                throw new Error("Failed to delete stream");
+            }
+            setLocalStreams((prevStreams) => prevStreams.filter((n) => n._id !== stream._id));
+            toast.success("Stream deleted successfully");
+            mutate(); // Revalidate the cache
+        } catch (error) {
+            toast.error("Failed to delete stream");
+        }
     };
 
     const handleCardClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const target = event.target as HTMLElement;
 
-        // Check if the clicked element is not a button, a link, or any element with data-no-expand attribute
         if (!(target.closest('button') || target.closest('a') || target.closest('[data-no-expand]'))) {
             setExpandedDialogOpen(true);
         }

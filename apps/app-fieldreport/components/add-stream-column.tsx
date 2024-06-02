@@ -7,7 +7,7 @@ import React, { useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { AudioLines, CornerDownLeft, Mic, Paperclip, PlusCircle } from "lucide-react";
+import { AudioLines, CornerDownLeft, Mic, Paperclip } from "lucide-react";
 import { TooltipProvider, Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
@@ -16,17 +16,17 @@ import LockedMapWidget from "@/components/locked-map-widget";
 import { Progress } from "@/components/ui/progress";
 
 interface AddStreamColumnProps {
-    setStreams: React.Dispatch<React.SetStateAction<IStream[]>>;
+    setLocalStreams: React.Dispatch<React.SetStateAction<IStream[]>>;
     setStreamAiProcessing: React.Dispatch<React.SetStateAction<boolean>>;
+    mutate: () => void;
 }
 
-const AddStreamColumn: React.FC<AddStreamColumnProps> = ({ setStreams, setStreamAiProcessing }) => {
+const AddStreamColumn: React.FC<AddStreamColumnProps> = ({ setLocalStreams, setStreamAiProcessing, mutate }) => {
     const [rawInput, setRawInput] = useState("");
     const minimumStreamLength = 20;
     const [location, setLocation] = useState<GeolocationCoordinates | null>(null);
 
     useEffect(() => {
-        // Request high accuracy location
         navigator.geolocation.getCurrentPosition((position) => {
             setLocation(position.coords);
         }, (error) => {
@@ -52,7 +52,6 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({ setStreams, setStream
             toast.info("Stream added to AI queue 🚀");
             setRawInput("");
 
-            // Sanitize location object 
             const sanitizedLocation: ILocation | null = location
                 ? {
                     type: "Point",
@@ -74,20 +73,22 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({ setStreams, setStream
             }
 
             const newStream = await response.json();
-            setStreams((prevStreams) => [newStream.stream, ...prevStreams]); // Prepend the new stream
+            setLocalStreams((prevStreams) => [newStream.stream, ...prevStreams]);
 
-            // If the stream score is a 10, show a confetti animation and a toast, else just show a toast
             if (newStream.stream.ai_generated.user_input_quality_ranking.score === 10) {
                 toast.success("Perfect Stream added successfully 🎉");
             } else {
                 toast.success("Stream added successfully");
             }
+
+            mutate(); // Revalidate the cache
+
         } catch (error) {
             toast.error("Failed to add stream");
         } finally {
             setStreamAiProcessing(false);
         }
-    }, [rawInput, location, minimumStreamLength, setStreamAiProcessing, setStreams]);
+    }, [rawInput, location, minimumStreamLength, setStreamAiProcessing, setLocalStreams, mutate]);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -100,7 +101,6 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({ setStreams, setStream
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, [handleSubmit]);
 
-    // Progress is from 0-100, calculate the percentage of the minimum stream length
     const progress = (rawInput.length / minimumStreamLength) * 100;
 
     return (
@@ -176,7 +176,6 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({ setStreams, setStream
                             />
                         </div>
                         <DialogFooter>
-                            {/* Based on the length of input and the max, tell the users to write more if ots less, or tell them how to submit */}
                             {rawInput.length < minimumStreamLength ? (
                                 null
                             ) : (

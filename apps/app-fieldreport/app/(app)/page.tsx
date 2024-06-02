@@ -1,28 +1,34 @@
-"use client"
+"use client";
 import useSWR from 'swr';
 import { IStream } from "@/types/types";
 import NoDataContextCard from "@/components/no-data-context-card";
 import StreamCard from "@/components/stream-card";
 import { Card } from "@/components/ui/card";
 import AddStreamColumn from "@/components/add-stream-column";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function App() {
-  const { data: streams, error, isLoading } = useSWR<IStream[]>('/api/streams', fetcher, {
+  const { data: streams, error, isLoading, mutate } = useSWR<IStream[]>('/api/streams', fetcher, {
     refreshInterval: 5000
   });
+  const [localStreams, setLocalStreams] = useState<IStream[]>([]);
   const [streamAiProcessing, setStreamAiProcessing] = useState<boolean>(false);
-  const [localStreams, setStreams] = useState<IStream[]>([]);
+
+  useEffect(() => {
+    if (streams) {
+      setLocalStreams(streams);
+    }
+  }, [streams]);
 
   if (error) return <NoDataContextCard title="Error" description="Failed to load streams." />;
-  if (isLoading) return <NoDataContextCard title="Loading Streams" description="Please wait while we fetch your streams." />;
+  if (isLoading && localStreams.length === 0) return <NoDataContextCard title="Loading Streams" description="Please wait while we fetch your streams." />;
 
   return (
     <div className="flex flex-1 h-full gap-4">
       <div className="flex-1 h-full overflow-hidden flex flex-col relative">
-        {streams?.length === 0 && !streamAiProcessing ? (
+        {localStreams.length === 0 && !streamAiProcessing ? (
           <NoDataContextCard title="No Streams" description="Create a new stream to get started." />
         ) : (
           <div className="flex-1 overflow-y-auto max-h-full relative">
@@ -35,15 +41,14 @@ export default function App() {
                   </div>
                 </Card>
               )}
-              {streams?.map((stream) => (
-                <StreamCard key={stream._id.toString()} stream={stream} setStreams={setStreams} />
+              {localStreams.map((stream) => (
+                <StreamCard key={stream._id.toString()} stream={stream} setLocalStreams={setLocalStreams} mutate={mutate} />
               ))}
             </div>
           </div>
         )}
       </div>
-      <AddStreamColumn setStreams={setStreams} setStreamAiProcessing={setStreamAiProcessing} />
+      <AddStreamColumn setLocalStreams={setLocalStreams} setStreamAiProcessing={setStreamAiProcessing} mutate={mutate} />
     </div>
   );
 }
-
