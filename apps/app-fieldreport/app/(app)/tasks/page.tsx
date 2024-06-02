@@ -88,7 +88,7 @@ export default function TaskTable() {
     };
 
     return (
-        <div className="w-full mx-auto max-w-6xl">
+        <div className="w-full mx-auto">
             <div className="border rounded-lg overflow-hidden">
                 <Table className="bg-muted/10">
                     <TableHeader>
@@ -100,54 +100,54 @@ export default function TaskTable() {
                         {localTasks.map((task) => (
                             <React.Fragment key={task._id.toString()}>
                                 <TableRow className="w-full">
-                                    <TableCell className="flex items-center pl-5 gap-5 w-full text-xs md:text-base">
-                                        {priorityIcon(task.priority)}
-                                        <div>
-                                            <div className="text-base font-medium truncate">{task.title}</div>
-                                            <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                                                {task.description}
+                                    <TableCell className="flex items-center justify-between pl-5 gap-5 w-full text-xs md:text-base">
+                                        <div className='flex flex-row items-center gap-5'>
+                                            {priorityIcon(task.priority)}
+                                            <div>
+                                                <div className="text-base font-medium truncate">
+                                                    {task.title}
+                                                </div>
+                                                <div className="text-xs text-wrap text-foreground/50">
+                                                    {task.description}
+                                                </div>
                                             </div>
                                         </div>
-                                        <TableCell className="md:table-cell ml-auto">
-                                            <div className="text-gray-500 dark:text-gray-400 text-xs items-center flex font-mono">
-                                                <Calendar className="w-4 h-4 mr-2 inline-block" />
-                                                {getFurthestSubtaskDueDate(task.sub_tasks) ? (
-                                                    format(getFurthestSubtaskDueDate(task.sub_tasks)!, "MMM dd")
-                                                ) : (
-                                                    'No due date'
-                                                )}
-                                            </div>
-                                        </TableCell>
+                                        <div className="text-xs items-center flex font-mono text-nowrap text-foreground/50">
+                                            <Calendar className="w-4 h-4 mr-2 inline-block" />
+                                            {getFurthestSubtaskDueDate(task.sub_tasks) ? (
+                                                format(getFurthestSubtaskDueDate(task.sub_tasks)!, "MMM dd")
+                                            ) : (
+                                                'No due date'
+                                            )}
+                                        </div>
                                     </TableCell>
                                 </TableRow>
                                 {task.sub_tasks && (
                                     <Table>
                                         <TableBody className='w-full'>
                                             {task.sub_tasks.map((subTask) => (
-                                                <ContextMenu key={subTask.title} >
-                                                    <ContextMenuTrigger className='w-full'>
-                                                        <TableRow className="w-full">
-                                                            <TableCell className="flex items-center gap-3 w-full text-xs md:text-base pl-14">
-                                                                <Minus className="w-4 h-4 text-foreground/40" />
-                                                                <div>
-                                                                    <div
-                                                                        className={`text-sm truncate ${subTask.completed ? 'line-through' : ''}`}
-                                                                    >
-                                                                        {subTask.title}
-                                                                    </div>
-                                                                    <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                                                                        {subTask.description}
+                                                <ContextMenu key={subTask.title}>
+                                                    <TableRow>
+                                                        <ContextMenuTrigger>
+                                                            <div className={`flex items-center justify-between gap-3 w-full text-xs md:text-base pl-14 p-4 ${subTask.completed ? 'py-2' : ''}`}>
+                                                                <div className='flex flex-row items-center gap-3'>
+                                                                    <Minus className="w-4 h-4 text-foreground/40" />
+                                                                    <div>
+                                                                        <div className={`text-sm truncate ${subTask.completed ? 'line-through' : ''}`}>
+                                                                            {subTask.title}
+                                                                        </div>
+                                                                        <div className={`text-xs text-wrap text-foreground/50 ${subTask.completed ? 'hidden' : ''}`}>
+                                                                            {subTask.description}
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </TableCell>
-                                                            <TableCell className="md:table-cell ml-auto">
-                                                                <div className="text-gray-500 dark:text-gray-400 text-xs items-center flex font-mono">
+                                                                <div className="text-xs items-center flex font-mono text-nowrap text-foreground/50">
                                                                     <Calendar className="w-4 h-4 mr-2 inline-block" />
                                                                     {format(new Date(subTask.due_date), "MMM dd")}
                                                                 </div>
-                                                            </TableCell>
-                                                        </TableRow>
-                                                    </ContextMenuTrigger>
+                                                            </div>
+                                                        </ContextMenuTrigger>
+                                                    </TableRow>
                                                     <ContextMenuContent>
                                                         <ContextMenuItem onClick={() => handleSubtaskUpdate(task, { ...subTask, completed: !subTask.completed })}>
                                                             {subTask.completed ? 'Undo Complete' : 'Complete'}
@@ -171,13 +171,13 @@ export default function TaskTable() {
 function priorityIcon(priority: Priority) {
     switch (priority) {
         case "low":
-            return <CircleDashed className="w-4 h-4 text-green-500" />;
+            return <CircleDashed className="w-5 h-5 text-green-500" />;
         case "medium":
-            return <CircleDotDashed className="w-4 h-4 text-yellow-500" />;
+            return <CircleDotDashed className="w-5 h-5 text-yellow-500" />;
         case "high":
-            return <CircleDot className="w-4 h-4 text-red-500" />;
+            return <CircleDot className="w-5 h-5 text-red-500" />;
         case "urgent":
-            return <ShieldAlert className="w-4 h-4 text-red-500" />;
+            return <ShieldAlert className="w-5 h-5 text-red-500" />;
         default:
             return null;
     }

@@ -134,7 +134,9 @@ export default function StreamCard({ stream, setLocalStreams, mutate }: StreamCa
                     >
                         <CardContent className="h-full grid grid-rows-[auto_1fr_auto] p-6 gap-4">
                             <div className="flex items-center justify-between">
-                                <CardTitle className="text-lg">{ai_generated?.title}</CardTitle>
+                                <CardTitle className="text-md">
+                                    {ai_generated?.title}
+                                </CardTitle>
                                 <div className="flex items-start gap-2 flex-wrap justify-end">
                                     {ai_generated?.tags?.map((tag) => (
                                         <Badge variant={"outline"} key={tag} className="capitalize first-letter:text-lg">
