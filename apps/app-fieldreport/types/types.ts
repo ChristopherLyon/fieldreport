@@ -18,8 +18,8 @@ export interface ILocation {
 export interface ISubTask {
   title: string;
   description: string; // REQUIRED: Description of the subtask
-  due_date: Date; // OPTIONAL: Due date for the subtask
-  completed: boolean; // OPTIONAL: Completion status of the subtask
+  due_date: Date; // REQUIRED: Due date of the subtask
+  completed: boolean; // REQUIRED: Completion status of the subtask
 }
 
 export type Priority = "low" | "medium" | "high" | "urgent";
@@ -30,7 +30,7 @@ export interface ITask {
   stream_id: ObjectId; // REQUIRED: Reference to the associated stream
   title: string; // REQUIRED: Title of the task
   description: string; // REQUIRED: Description of the task
-  priority: Priority; // OPTIONAL: Priority level of the task
+  priority: Priority; // REQUIRED: Priority level of the task
   sub_tasks: ISubTask[]; // REQUIRED: List of subtasks (at least one subtask required)
   created_at: Date; // REQUIRED: Date the task was created
   updated_at: Date; // REQUIRED: Date the task was last updated

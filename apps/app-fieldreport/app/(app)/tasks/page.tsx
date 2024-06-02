@@ -12,8 +12,16 @@ import {
     TableBody,
     Table,
 } from "@/components/ui/table";
+import {
+    ContextMenu,
+    ContextMenuContent,
+    ContextMenuItem,
+    ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+
 import { Minus, Calendar, CircleDashed, CircleDot, CircleDotDashed, ShieldAlert } from "lucide-react";
 import React from "react";
+import NoDataContextCard from '@/components/no-data-context-card';
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -29,8 +37,8 @@ export default function TaskTable() {
         }
     }, [tasks]);
 
-    if (error) return <div>Error loading tasks.</div>;
-    if (isLoading && localTasks.length === 0) return <div>Loading tasks...</div>;
+    if (error) return <NoDataContextCard title="Failed to load tasks" description='An error occurred while loading tasks. Please try again later.' />
+    if (isLoading && localTasks.length === 0) return <NoDataContextCard title="Loading tasks" description='Please wait while we load your tasks.' />
 
     const handleTaskUpdate = async (updatedTask: ITask) => {
         try {
@@ -53,34 +61,28 @@ export default function TaskTable() {
         }
     };
 
-    const handleTaskDelete = async (taskId: ObjectId) => {
-        try {
-            const response = await fetch(`/api/tasks`, {
-                method: 'DELETE',
-                body: JSON.stringify({ _id: taskId }),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            if (!response.ok) {
-                throw new Error('Failed to delete task');
-            }
-            setLocalTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
-            mutate(); // Revalidate the cache
-        } catch (error) {
-            console.error(error);
-        }
+    const handleSubtaskUpdate = async (task: ITask, updatedSubtask: ISubTask) => {
+        const updatedTask = {
+            ...task,
+            sub_tasks: task.sub_tasks.map((subTask) =>
+                subTask.title === updatedSubtask.title ? updatedSubtask : subTask
+            ),
+        };
+        await handleTaskUpdate(updatedTask);
     };
 
-    const handlePriorityChange = (task: ITask, priority: Priority) => {
-        handleTaskUpdate({ ...task, priority });
+    const handleSubtaskDelete = async (task: ITask, subtaskTitle: string) => {
+        const updatedTask = {
+            ...task,
+            sub_tasks: task.sub_tasks.filter((subTask) => subTask.title !== subtaskTitle),
+        };
+        await handleTaskUpdate(updatedTask);
     };
 
     const getFurthestSubtaskDueDate = (subTasks: ISubTask[]): Date | null => {
         if (!subTasks || subTasks.length === 0) return null;
         const furthestDueDate = Math.max(
-            ...subTasks
-                .map((subTask) => new Date(subTask.due_date).getTime())
+            ...subTasks.map((subTask) => new Date(subTask.due_date).getTime())
         );
         return isNaN(furthestDueDate) ? null : new Date(furthestDueDate);
     };
@@ -97,7 +99,7 @@ export default function TaskTable() {
                     <TableBody>
                         {localTasks.map((task) => (
                             <React.Fragment key={task._id.toString()}>
-                                <TableRow className='w-full'>
+                                <TableRow className="w-full">
                                     <TableCell className="flex items-center pl-5 gap-5 w-full text-xs md:text-base">
                                         {priorityIcon(task.priority)}
                                         <div>
@@ -120,25 +122,39 @@ export default function TaskTable() {
                                 </TableRow>
                                 {task.sub_tasks && (
                                     <Table>
-                                        <TableBody>
+                                        <TableBody className='w-full'>
                                             {task.sub_tasks.map((subTask) => (
-                                                <TableRow key={subTask.title} className='w-full'>
-                                                    <TableCell className="flex items-center gap-3 w-full text-xs md:text-base pl-14">
-                                                        <Minus className="w-4 h-4 text-foreground/40" />
-                                                        <div>
-                                                            <div className="text-sm truncate">{subTask.title}</div>
-                                                            <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                                                                {subTask.description}
-                                                            </div>
-                                                        </div>
-                                                    </TableCell>
-                                                    <TableCell className="md:table-cell ml-auto">
-                                                        <div className="text-gray-500 dark:text-gray-400 text-xs items-center flex font-mono">
-                                                            <Calendar className="w-4 h-4 mr-2 inline-block" />
-                                                            {format(new Date(subTask.due_date), "MMM dd")}
-                                                        </div>
-                                                    </TableCell>
-                                                </TableRow>
+                                                <ContextMenu key={subTask.title} >
+                                                    <ContextMenuTrigger className='w-full'>
+                                                        <TableRow className="w-full">
+                                                            <TableCell className="flex items-center gap-3 w-full text-xs md:text-base pl-14">
+                                                                <Minus className="w-4 h-4 text-foreground/40" />
+                                                                <div>
+                                                                    <div
+                                                                        className={`text-sm truncate ${subTask.completed ? 'line-through' : ''}`}
+                                                                    >
+                                                                        {subTask.title}
+                                                                    </div>
+                                                                    <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                                                                        {subTask.description}
+                                                                    </div>
+                                                                </div>
+                                                            </TableCell>
+                                                            <TableCell className="md:table-cell ml-auto">
+                                                                <div className="text-gray-500 dark:text-gray-400 text-xs items-center flex font-mono">
+                                                                    <Calendar className="w-4 h-4 mr-2 inline-block" />
+                                                                    {format(new Date(subTask.due_date), "MMM dd")}
+                                                                </div>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    </ContextMenuTrigger>
+                                                    <ContextMenuContent>
+                                                        <ContextMenuItem onClick={() => handleSubtaskUpdate(task, { ...subTask, completed: !subTask.completed })}>
+                                                            {subTask.completed ? 'Undo Complete' : 'Complete'}
+                                                        </ContextMenuItem>
+                                                        <ContextMenuItem onClick={() => handleSubtaskDelete(task, subTask.title)}>Delete</ContextMenuItem>
+                                                    </ContextMenuContent>
+                                                </ContextMenu>
                                             ))}
                                         </TableBody>
                                     </Table>
