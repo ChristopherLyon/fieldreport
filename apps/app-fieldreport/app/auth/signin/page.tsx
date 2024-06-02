@@ -58,7 +58,7 @@ export default function SignIn() {
                             </Button>
                         </div>
                         <div className="text-xs text-gray-900 dark:text-gray-300">
-                            By signing in, you agree to our <Link href="/tos" className="underline">Terms</Link> and <Link href="/privacy" className="underline">Privacy Policy</Link>
+                            By signing in, you agree to our <Link href="https://fieldreport.ai/tos" className="underline">Terms</Link> and <Link href="https://fieldreport.ai/privacy" className="underline">Privacy Policy</Link>
                         </div>
                     </div>
                 </div>
