@@ -62,7 +62,7 @@ export async function POST(request: Request) {
         },
         "task": {
             "is_task": "boolean", // Whether the stream should be flagged as a task
-            "due_date": "Date" | null, // The due date of the task, if applicable
+            "due_date": "Date" | null, // The due date of the task, if applicable - format: 2024-06-02T08:59:40.544Z
             "completed": "boolean" | null, // Whether the task has been completed
             "priority": "low" | "medium" | "high" | "urgent" | null, // The priority level of the task, if applicable
             "title": "string", // The title of the task
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
                 {
                     "title": "string", // The title of the sub-task
                     "description": "string", // The description of the sub-task
-                    "due_date": "Date" | null, // The due date of the sub-task
+                    "due_date": "Date" | null, // The due date of the sub-task  - format: 2024-06-02T08:59:40.544Z
                     "completed": "boolean" // Whether the sub-task has been completed
                 }
             ]
