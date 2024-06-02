@@ -25,6 +25,7 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({ setLocalStreams, setS
     const [rawInput, setRawInput] = useState("");
     const minimumStreamLength = 20;
     const [location, setLocation] = useState<GeolocationCoordinates | null>(null);
+    const [mobileStreamInputOpen, setMobileStreamInputOpen] = useState<boolean>(false);
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -49,6 +50,7 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({ setLocalStreams, setS
 
         try {
             setStreamAiProcessing(true);
+            setMobileStreamInputOpen(false);
             toast.info("Stream added to AI queue 🚀");
             setRawInput("");
 
@@ -150,7 +152,7 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({ setLocalStreams, setS
 
             {/* Mobile Input */}
             <div className="lg:hidden fixed bottom-4 right-4 z-20">
-                <Dialog>
+                <Dialog open={mobileStreamInputOpen} onOpenChange={setMobileStreamInputOpen}>
                     <DialogTrigger asChild>
                         <Button className="p-3 h-36 opacity-90 bg-muted/90" variant={"outline"}>
                             <AudioLines className="" />
