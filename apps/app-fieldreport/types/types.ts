@@ -22,6 +22,8 @@ export interface ISubTask {
   completed?: boolean; // OPTIONAL: Completion status of the subtask
 }
 
+export type Priority = "low" | "medium" | "high" | "urgent";
+
 export interface ITask {
   _id: ObjectId; // GENERATED: Task ID
   user_id: string | null | undefined; // REQUIRED: User ID
@@ -30,7 +32,7 @@ export interface ITask {
   description?: string; // OPTIONAL: Description of the task
   due_date?: Date; // OPTIONAL: Due date for the task
   completed?: boolean; // OPTIONAL: Completion status of the task
-  priority?: "low" | "medium" | "high" | "urgent"; // OPTIONAL: Priority of the task
+  priority?: Priority; // OPTIONAL: Priority level of the task
   sub_tasks?: ISubTask[]; // OPTIONAL: List of subtasks
   created_at: Date; // REQUIRED: Date the task was created
   updated_at: Date; // REQUIRED: Date the task was last updated

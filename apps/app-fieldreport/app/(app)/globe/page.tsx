@@ -1,9 +1,6 @@
-"use client"
-
-// Types
+"use client";
+import useSWR from 'swr';
 import { IStream } from "@/types/types";
-
-// Libraries
 import * as React from 'react';
 import Map, { MapRef, Marker } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -11,17 +8,25 @@ import { useRef, useState, useEffect } from 'react';
 import { useTheme } from "next-themes";
 import { PersonStanding } from "lucide-react";
 
-export default function Page() {
+const fetcher = (url: string) => fetch(url).then(res => res.json());
 
-    // State
+export default function Page() {
+    const { data: streams, error, isLoading, mutate } = useSWR<IStream[]>('/api/streams', fetcher, {
+        refreshInterval: 5000
+    });
     const [location, setLocation] = useState<GeolocationCoordinates | null>(null);
-    const [streams, setStreams] = useState<IStream[]>([]);
+    const [localStreams, setLocalStreams] = useState<IStream[]>([]);
 
     const mapRef = useRef<MapRef | null>(null);
     const theme = useTheme();
 
     useEffect(() => {
-        // Request high accuracy location
+        if (streams) {
+            setLocalStreams(streams);
+        }
+    }, [streams]);
+
+    useEffect(() => {
         navigator.geolocation.getCurrentPosition((position) => {
             setLocation(position.coords);
         }, (error) => {
@@ -31,22 +36,8 @@ export default function Page() {
         });
     }, []);
 
-    useEffect(() => {
-        const fetchStreams = () => {
-            fetch("/api/streams")
-                .then((res) => res.json())
-                .then((data) => {
-                    setStreams(data);
-                });
-        };
-
-        fetchStreams();
-        const interval = setInterval(() => {
-            fetchStreams();
-        }, 5000);
-
-        return () => clearInterval(interval);
-    }, []);
+    if (error) return <div>Error loading streams.</div>;
+    if (isLoading && localStreams.length === 0) return <div>Loading streams...</div>;
 
     return (
         <main className="h-full border border-dashed rounded-lg overflow-hidden">
@@ -66,7 +57,7 @@ export default function Page() {
                     </Marker>
                 }
 
-                {streams.map((stream) => (
+                {localStreams.map((stream) => (
                     stream.location?.coordinates && (
                         <Marker key={stream._id.toString()} longitude={stream.location.coordinates[0]} latitude={stream.location.coordinates[1]}>
                             <div className='relative flex items-center justify-center w-5 h-5 border border-foreground rounded-full bg-background'>
@@ -77,5 +68,5 @@ export default function Page() {
                 ))}
             </Map>
         </main>
-    )
+    );
 }

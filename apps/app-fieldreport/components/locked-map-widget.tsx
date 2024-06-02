@@ -32,7 +32,7 @@ export default function LockedMapWidget() {
         , []);
 
     return (
-        <main className="h-full border rounded-lg overflow-hidden">
+        <main className="h-full border rounded-lg overflow-hidden bg-muted">
 
             {location ?
                 <Map
