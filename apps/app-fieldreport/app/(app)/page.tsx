@@ -1,41 +1,28 @@
-"use client";
+"use client"
+import useSWR from 'swr';
 import { IStream } from "@/types/types";
-import { useState, useEffect } from "react";
 import NoDataContextCard from "@/components/no-data-context-card";
-import React from "react";
 import StreamCard from "@/components/stream-card";
 import { Card } from "@/components/ui/card";
-import AddStreamColumn from "@/components//add-stream-column";
+import AddStreamColumn from "@/components/add-stream-column";
+import { useState } from "react";
+
+const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function App() {
-  const [streams, setStreams] = useState<IStream[]>([]);
+  const { data: streams, error, isLoading } = useSWR<IStream[]>('/api/streams', fetcher, {
+    refreshInterval: 5000
+  });
   const [streamAiProcessing, setStreamAiProcessing] = useState<boolean>(false);
-  const [fetchingStreams, setFetchingStreams] = useState<boolean>(true);
+  const [localStreams, setStreams] = useState<IStream[]>([]);
 
-  useEffect(() => {
-    const fetchStreams = () => {
-      fetch("/api/streams")
-        .then((res) => res.json())
-        .then((data) => {
-          setStreams(data);
-          setFetchingStreams(false);
-        });
-    };
-
-    fetchStreams();
-    const interval = setInterval(() => {
-      fetchStreams();
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
+  if (error) return <NoDataContextCard title="Error" description="Failed to load streams." />;
+  if (isLoading) return <NoDataContextCard title="Loading Streams" description="Please wait while we fetch your streams." />;
 
   return (
     <div className="flex flex-1 h-full gap-4">
       <div className="flex-1 h-full overflow-hidden flex flex-col relative">
-        {fetchingStreams ? (
-          <NoDataContextCard title="Loading Streams" description="Please wait while we fetch your streams." />
-        ) : streams.length === 0 && !streamAiProcessing ? (
+        {streams?.length === 0 && !streamAiProcessing ? (
           <NoDataContextCard title="No Streams" description="Create a new stream to get started." />
         ) : (
           <div className="flex-1 overflow-y-auto max-h-full relative">
@@ -48,7 +35,7 @@ export default function App() {
                   </div>
                 </Card>
               )}
-              {streams.map((stream) => (
+              {streams?.map((stream) => (
                 <StreamCard key={stream._id.toString()} stream={stream} setStreams={setStreams} />
               ))}
             </div>
@@ -59,3 +46,4 @@ export default function App() {
     </div>
   );
 }
+
