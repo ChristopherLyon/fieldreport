@@ -164,7 +164,7 @@ export default function StreamCard({ stream, setLocalStreams, mutate }: StreamCa
                                                 <TooltipContent>
                                                     <p className="font-mono text-xs flex flex-row items-center gap-1">
                                                         <AudioLines className="w-4 h-4 inline-block" />
-                                                        {task.completed ? "Task Completed" : "Task Incomplete"}
+                                                        <span>Task</span>
                                                     </p>
                                                 </TooltipContent>
                                             </Tooltip>

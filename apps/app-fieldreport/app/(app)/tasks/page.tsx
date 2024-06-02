@@ -2,7 +2,7 @@
 import useSWR from 'swr';
 import { useState, useEffect } from "react";
 import { ObjectId } from "mongodb";
-import { ITask, Priority } from "@/types/types";
+import { ITask, ISubTask, Priority } from "@/types/types";
 import { format } from "date-fns";
 import {
     TableHead,
@@ -12,17 +12,7 @@ import {
     TableBody,
     Table,
 } from "@/components/ui/table";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-    SelectValue,
-    SelectTrigger,
-    SelectItem,
-    SelectContent,
-    Select,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Calendar, ChevronDown } from "lucide-react";
-import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/components/ui/context-menu";
+import { Minus, Calendar, CircleDashed, CircleDot, CircleDotDashed, ShieldAlert } from "lucide-react";
 import React from "react";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
@@ -86,11 +76,14 @@ export default function TaskTable() {
         handleTaskUpdate({ ...task, priority });
     };
 
-    const handleStatusChange = (task: ITask, status: "not-started" | "in-progress" | "completed") => {
-        handleTaskUpdate({ ...task, completed: status === "completed" });
+    const getFurthestSubtaskDueDate = (subTasks: ISubTask[]): Date | null => {
+        if (!subTasks || subTasks.length === 0) return null;
+        const furthestDueDate = Math.max(
+            ...subTasks
+                .map((subTask) => new Date(subTask.due_date).getTime())
+        );
+        return isNaN(furthestDueDate) ? null : new Date(furthestDueDate);
     };
-
-    const statusOptions = ["not-started", "in-progress", "completed"] as const;
 
     return (
         <div className="w-full mx-auto max-w-6xl">
@@ -106,44 +99,44 @@ export default function TaskTable() {
                             <React.Fragment key={task._id.toString()}>
                                 <TableRow className='w-full'>
                                     <TableCell className="flex items-center pl-5 gap-5 w-full text-xs md:text-base">
-                                        <div className={`w-2 h-2 rounded-full ${getPriorityColor(task.priority ?? "medium")}`} />
+                                        {priorityIcon(task.priority)}
                                         <div>
-                                            <div className="font-medium truncate">{task.title}</div>
-                                            <div className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                                            <div className="text-base font-medium truncate">{task.title}</div>
+                                            <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
                                                 {task.description}
                                             </div>
                                         </div>
-
-                                        {task.due_date && (
+                                        <TableCell className="md:table-cell ml-auto">
                                             <div className="text-gray-500 dark:text-gray-400 text-xs items-center flex font-mono">
                                                 <Calendar className="w-4 h-4 mr-2 inline-block" />
-                                                {format(new Date(task.due_date), "MMM dd")}
+                                                {getFurthestSubtaskDueDate(task.sub_tasks) ? (
+                                                    format(getFurthestSubtaskDueDate(task.sub_tasks)!, "MMM dd")
+                                                ) : (
+                                                    'No due date'
+                                                )}
                                             </div>
-                                        )}
-
-                                        
+                                        </TableCell>
                                     </TableCell>
                                 </TableRow>
-                                {task.sub_tasks && task.sub_tasks.length > 0 && (
+                                {task.sub_tasks && (
                                     <Table>
                                         <TableBody>
                                             {task.sub_tasks.map((subTask) => (
-                                                <TableRow key={subTask.title.toString()} className='w-full'>
-                                                    <TableCell className="flex items-center gap-3 w-full text-xs md:text-base pl-16">
+                                                <TableRow key={subTask.title} className='w-full'>
+                                                    <TableCell className="flex items-center gap-3 w-full text-xs md:text-base pl-14">
+                                                        <Minus className="w-4 h-4 text-foreground/40" />
                                                         <div>
-                                                            <div className="font-medium truncate">{subTask.title}</div>
-                                                            <div className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                                                            <div className="text-sm truncate">{subTask.title}</div>
+                                                            <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
                                                                 {subTask.description}
                                                             </div>
                                                         </div>
                                                     </TableCell>
-                                                    <TableCell className="hidden md:table-cell">
-                                                        {subTask.due_date && (
-                                                            <div className="text-gray-500 dark:text-gray-400 text-xs items-center flex font-mono">
-                                                                <Calendar className="w-4 h-4 mr-2 inline-block" />
-                                                                {format(new Date(subTask.due_date), "MMM dd")}
-                                                            </div>
-                                                        )}
+                                                    <TableCell className="md:table-cell ml-auto">
+                                                        <div className="text-gray-500 dark:text-gray-400 text-xs items-center flex font-mono">
+                                                            <Calendar className="w-4 h-4 mr-2 inline-block" />
+                                                            {format(new Date(subTask.due_date), "MMM dd")}
+                                                        </div>
                                                     </TableCell>
                                                 </TableRow>
                                             ))}
@@ -159,17 +152,17 @@ export default function TaskTable() {
     );
 }
 
-function getPriorityColor(priority?: Priority) {
+function priorityIcon(priority: Priority) {
     switch (priority) {
         case "low":
-            return "bg-green-500";
+            return <CircleDashed className="w-4 h-4 text-green-500" />;
         case "medium":
-            return "bg-yellow-500";
+            return <CircleDotDashed className="w-4 h-4 text-yellow-500" />;
         case "high":
-            return "bg-red-500";
+            return <CircleDot className="w-4 h-4 text-red-500" />;
         case "urgent":
-            return "bg-red-700";
+            return <ShieldAlert className="w-4 h-4 text-red-500" />;
         default:
-            return "bg-yellow-500";
+            return null;
     }
 }

@@ -33,7 +33,7 @@ export function NavLinks() {
     )
 }
 
-export function NavLinksMobile() {
+export function NavLinksMobile( { setIsSheetOpen }: { setIsSheetOpen: (isOpen: boolean) => void }) {
 
     const pathname = usePathname()
 
@@ -45,7 +45,9 @@ export function NavLinksMobile() {
             </Link>
 
             {links.map(({ href, label, icon: Icon }) => (
-                <Link key={href} href={href} className={`flex items-center gap-3 rounded-lg px-2 py-2 text-muted-foreground transition-all hover:text-primary ${pathname === href ? 'text-primary bg-muted' : ''}`}>
+                <Link 
+                onClick={() => setIsSheetOpen(false)}
+                key={href} href={href} className={`flex items-center gap-3 rounded-lg px-2 py-2 text-muted-foreground transition-all hover:text-primary ${pathname === href ? 'text-primary bg-muted' : ''}`}>
                     <Icon className='w-6 h-6' />
                     <span>{label}</span>
                 </Link>

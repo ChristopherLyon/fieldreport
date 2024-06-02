@@ -60,8 +60,6 @@ export async function POST(request: Request) {
         stream_id: new ObjectId(data.stream_id),
         title: data.title,
         description: data.description,
-        due_date: data.due_date,
-        completed: data.completed,
         priority: data.priority,
         sub_tasks: data.sub_tasks || [],
         created_at: new Date(),
@@ -89,8 +87,6 @@ export async function PUT(request: Request) {
     const taskUpdate: Partial<ITask> = {
         title: data.title,
         description: data.description,
-        due_date: data.due_date,
-        completed: data.completed,
         priority: data.priority,
         sub_tasks: data.sub_tasks,
         updated_at: new Date(),
