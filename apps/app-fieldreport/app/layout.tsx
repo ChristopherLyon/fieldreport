@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "FieldReport",
-  description: "Field Reports for the Modern Age",
+  description: "Turbocharge your reports with AI",
 };
 
 export default function RootLayout({

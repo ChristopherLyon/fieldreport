@@ -180,7 +180,7 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({ setStreams, setStream
                             {rawInput.length < minimumStreamLength ? (
                                 null
                             ) : (
-                                <Label className="text-xs text-muted-foreground">
+                                <Label className="text-xs text-muted-foreground" onClick={handleSubmit}>
                                     Press <kbd>Enter</kbd> to submit
                                 </Label>
                             )}

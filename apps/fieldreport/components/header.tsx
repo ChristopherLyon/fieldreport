@@ -82,7 +82,7 @@ export default function Header() {
                                 ))}
                             </div>
                             <div className="py-6">
-                                <Link href="/auth/signin">
+                                <Link href="https://app.fieldreport.ai/auth/signin">
                                     <Button className="flex items-center w-full">
                                         <span className="relative flex h-2 w-2 mr-2">
                                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500"></span>
