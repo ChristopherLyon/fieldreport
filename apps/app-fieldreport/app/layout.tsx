@@ -1,18 +1,18 @@
 // Libraries
-import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import SessionProviderWrapper from "@/components/session-provider-wrapper";
-import { Toaster } from "@/components/ui/sonner";
+import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { ThemeProvider } from '@/components/theme-provider';
+import SessionProviderWrapper from '@/components/session-provider-wrapper';
+import { Toaster } from '@/components/ui/sonner';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "FieldReport",
-  description: "Turbocharge your reports with AI",
+  title: 'FieldReport',
+  description: 'Turbocharge your reports with AI',
 };
 
 export default function RootLayout({
@@ -33,13 +33,23 @@ export default function RootLayout({
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="description" content="Field Reports for the Modern Age" />
           <meta property="og:title" content="FieldReport" />
-          <meta property="og:description" content="Field Reports for the Modern Age" />
+          <meta
+            property="og:description"
+            content="Field Reports for the Modern Age"
+          />
           <meta property="og:image" content="/icons/icon-512x512.png" />
           <meta property="og:url" content="https://fieldreport.ai" />
           <meta name="twitter:card" content="summary_large_image" />
         </head>
-        <body className={`bg-background text-gray-900 dark:text-gray-100 ${inter.className}`}>
-          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+        <body
+          className={`bg-background text-gray-900 dark:text-gray-100 ${inter.className}`}
+        >
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
             <Analytics />
             <SpeedInsights />
             {children}

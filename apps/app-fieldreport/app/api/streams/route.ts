@@ -1,29 +1,29 @@
 // api/backend/streams/route.ts
-import { connectToDatabase } from "@/lib/mongodb";
-import { getServerSession } from "next-auth/next";
-import { ObjectId } from "mongodb";
-import { NextResponse } from "next/server";
-import { IStream, ITask } from "@/types/types"; // Import the IStream and ITask interfaces
-import OpenAI from "openai";
+import { connectToDatabase } from '@/lib/mongodb';
+import { getServerSession } from 'next-auth/next';
+import { ObjectId } from 'mongodb';
+import { NextResponse } from 'next/server';
+import { IStream, ITask } from '@/types/types'; // Import the IStream and ITask interfaces
+import OpenAI from 'openai';
 
 // Constants
 export const maxDuration = 40; // Maximum duration for function due to API limits
 
 // Utility function to get the current date in ISO format
-const getCurrentDate = () => new Date().toISOString().split("T")[0];
+const getCurrentDate = () => new Date().toISOString().split('T')[0];
 
 // Fetch all streams for the authenticated user
 export async function GET() {
   const session = await getServerSession();
   if (!session) {
-    return new NextResponse(JSON.stringify({ error: "Unauthorized" }), {
+    return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
     });
   }
 
   const { db } = await connectToDatabase();
   const streams: IStream[] = await db
-    .collection<IStream>("streams")
+    .collection<IStream>('streams')
     .find({ user_id: session.user?.email })
     .sort({ created_at: -1 })
     .toArray();
@@ -35,7 +35,7 @@ export async function GET() {
 export async function POST(request: Request) {
   const session = await getServerSession();
   if (!session) {
-    return new NextResponse(JSON.stringify({ error: "Unauthorized" }), {
+    return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
     });
   }
@@ -95,26 +95,25 @@ export async function POST(request: Request) {
     - Adopt the users language and style, but enhance it with clarity and focus.
   `;
 
-
   const chatCompletion = await openai.chat.completions.create({
     response_format: {
-      type: "json_object",
+      type: 'json_object',
     },
     messages: [
-      { role: "system", content: aiPrompt },
+      { role: 'system', content: aiPrompt },
       {
-        role: "user",
+        role: 'user',
         content: `Parse the following raw stream: ${data.raw_stream}`,
       },
     ],
-    model: "gpt-4o",
+    model: 'gpt-4o',
   });
 
   const aiContent = chatCompletion.choices?.[0]?.message?.content;
   if (!aiContent) {
     return new NextResponse(
-      JSON.stringify({ error: "Failed to generate AI content" }),
-      { status: 500 }
+      JSON.stringify({ error: 'Failed to generate AI content' }),
+      { status: 500 },
     );
   }
 
@@ -123,8 +122,8 @@ export async function POST(request: Request) {
     parsedAiContent = JSON.parse(aiContent);
   } catch (error) {
     return new NextResponse(
-      JSON.stringify({ error: "Failed to parse AI content" }),
-      { status: 500 }
+      JSON.stringify({ error: 'Failed to parse AI content' }),
+      { status: 500 },
     );
   }
 
@@ -142,14 +141,16 @@ export async function POST(request: Request) {
       title: parsedAiContent.stream.title,
       topic_category: parsedAiContent.stream.topic_category,
       summary: parsedAiContent.stream.summary,
-      reformatted_markdown_content: parsedAiContent.stream.reformatted_markdown_content,
-      user_input_quality_ranking: parsedAiContent.stream.user_input_quality_ranking,
+      reformatted_markdown_content:
+        parsedAiContent.stream.reformatted_markdown_content,
+      user_input_quality_ranking:
+        parsedAiContent.stream.user_input_quality_ranking,
       tags: parsedAiContent.stream.tags,
     },
   };
 
   // Insert the stream
-  const result = await db.collection<IStream>("streams").insertOne(stream);
+  const result = await db.collection<IStream>('streams').insertOne(stream);
 
   if (parsedAiContent.task?.is_task) {
     const task: ITask = {
@@ -165,13 +166,15 @@ export async function POST(request: Request) {
     };
 
     // Insert the task
-    const taskResult = await db.collection<ITask>("tasks").insertOne(task);
+    const taskResult = await db.collection<ITask>('tasks').insertOne(task);
 
     // Update the stream with the spawned task ID
-    await db.collection<IStream>("streams").updateOne(
-      { _id: result.insertedId },
-      { $set: { "ai_generated.spawned_task_id": task._id } }
-    );
+    await db
+      .collection<IStream>('streams')
+      .updateOne(
+        { _id: result.insertedId },
+        { $set: { 'ai_generated.spawned_task_id': task._id } },
+      );
 
     if (stream.ai_generated) {
       stream.ai_generated.spawned_task_id = task._id;
@@ -187,7 +190,7 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   const session = await getServerSession();
   if (!session) {
-    return new NextResponse(JSON.stringify({ error: "Unauthorized" }), {
+    return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
     });
   }
@@ -201,14 +204,14 @@ export async function PUT(request: Request) {
   const { db } = await connectToDatabase();
   const streamId = new ObjectId(data._id);
   const result = await db
-    .collection<IStream>("streams")
+    .collection<IStream>('streams')
     .updateOne(
       { _id: streamId, user_id: session.user?.email },
-      { $set: streamUpdate }
+      { $set: streamUpdate },
     );
 
   if (result.modifiedCount === 0) {
-    return new NextResponse(JSON.stringify({ error: "Stream not found" }), {
+    return new NextResponse(JSON.stringify({ error: 'Stream not found' }), {
       status: 404,
     });
   }
@@ -220,7 +223,7 @@ export async function PUT(request: Request) {
 export async function DELETE(request: Request) {
   const session = await getServerSession();
   if (!session) {
-    return new NextResponse(JSON.stringify({ error: "Unauthorized" }), {
+    return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
     });
   }
@@ -230,32 +233,32 @@ export async function DELETE(request: Request) {
   const { db } = await connectToDatabase();
 
   // Find the stream to get the task ID
-  const stream = await db.collection<IStream>("streams").findOne({
+  const stream = await db.collection<IStream>('streams').findOne({
     _id: streamId,
     user_id: session.user?.email,
   });
 
   if (!stream) {
-    return new NextResponse(JSON.stringify({ error: "Stream not found" }), {
+    return new NextResponse(JSON.stringify({ error: 'Stream not found' }), {
       status: 404,
     });
   }
 
   // Delete the stream
-  const result = await db.collection<IStream>("streams").deleteOne({
+  const result = await db.collection<IStream>('streams').deleteOne({
     _id: streamId,
     user_id: session.user?.email,
   });
 
   if (result.deletedCount === 0) {
-    return new NextResponse(JSON.stringify({ error: "Stream not found" }), {
+    return new NextResponse(JSON.stringify({ error: 'Stream not found' }), {
       status: 404,
     });
   }
 
   // Delete the associated task if it exists
   if (stream.ai_generated?.spawned_task_id) {
-    await db.collection<ITask>("tasks").deleteOne({
+    await db.collection<ITask>('tasks').deleteOne({
       _id: stream.ai_generated.spawned_task_id,
       user_id: session.user?.email,
     });
