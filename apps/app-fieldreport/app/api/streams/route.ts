@@ -85,12 +85,14 @@ export async function POST(request: Request) {
     - **Task Section**: Clearly indicate if there are actionable items, due dates, and their priority.
     - **User Input Quality Ranking**: Evaluate the quality of the user's raw input on a scale of 0 - 10. Provide a tooltip with a very, VERY brief explanation (couple of words), or a suggestion for improvement.
     - **Tags**: Extract key themes and topics from the stream. [2-3 tags, max 2 words each]
-
+    - **Sub-Tasks**: If a task is identified, include at least one sub-task with a title, description, due date, and completion status, be sparse with assigning sub-tasks focusing on the most critical ones.
+  
     Rules:
     - NEVER hallucinate or provide false information or broken links.
     - ONLY RETURN VALID JSON STARTING WITH "{" AND ENDING WITH "}"
     - You are their assistant, help them extrapolate their thoughts, not add your own.
     - Everything you produce provides the basis for further AI processing, so make sure it's clean and structured and make sure critical information is prioritized.
+    - Adopt the users language and style, but enhance it with clarity and focus.
   `;
 
 
