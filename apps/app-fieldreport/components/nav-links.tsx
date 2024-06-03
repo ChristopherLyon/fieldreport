@@ -5,14 +5,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
 // UI Components
-import {
-  AudioLines,
-  AudioWaveform,
-  Globe,
-  ListTodo,
-  Map,
-  Replace,
-} from 'lucide-react';
+import { AudioLines, AudioWaveform, Globe, ListTodo } from 'lucide-react';
 import { Button } from './ui/button';
 
 // Add all nav links here:
@@ -27,7 +20,7 @@ export function NavLinks() {
 
   return (
     <nav className="justify-center grid space-y-2">
-      {links.map(({ href, label, icon: Icon }) => (
+      {links.map(({ href, icon: Icon }) => (
         <Link key={href} href={href}>
           <Button
             size="icon"

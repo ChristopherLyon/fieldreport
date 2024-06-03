@@ -28,7 +28,7 @@ export default function SignIn() {
             </div>
             <div className="flex flex-col gap-4 w-full">
               <Button
-                onClick={() => signIn('google', { callbackUrl: '/' })}
+                onClick={() => void signIn('google', { callbackUrl: '/' })}
                 variant="outline"
                 className="w-full"
                 autoFocus
@@ -45,7 +45,7 @@ export default function SignIn() {
                 />
               </Button>
               <Button
-                onClick={() => signIn('github', { callbackUrl: '/' })}
+                onClick={() => void signIn('github', { callbackUrl: '/' })}
                 variant="outline"
                 className="w-full"
               >

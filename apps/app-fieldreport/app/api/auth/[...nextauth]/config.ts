@@ -21,8 +21,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export const CONFIG: AuthOptions = {
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || '',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+      clientId: process.env.GOOGLE_CLIENT_ID ?? '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
     }),
   ],
   pages: {
@@ -62,12 +62,13 @@ export const CONFIG: AuthOptions = {
           .findOne({ email: user.email });
 
         if (dbUser && dbUser.stripeCustomerId) {
-          (token as ExtendedJWT).stripeCustomerId = dbUser.stripeCustomerId;
+          (token as ExtendedJWT).stripeCustomerId =
+            dbUser.stripeCustomerId as string;
         }
       }
       return token;
     },
-    session: async ({ session, token }) => {
+    session: ({ session, token }) => {
       // Add the Stripe Customer ID to the session from the JWT token
       (session.user as ExtendedUser).stripeCustomerId = (
         token as ExtendedJWT

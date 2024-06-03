@@ -1,7 +1,6 @@
 'use client';
 import useSWR from 'swr';
 import { useState, useEffect } from 'react';
-import { ObjectId } from 'mongodb';
 import { ITask, ISubTask, Priority } from '@/types/types';
 import {
   format,
@@ -36,13 +35,17 @@ import NoDataContextCard from '@/components/no-data-context-card';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
+interface SWRError {
+  message: string;
+}
+
 export default function TaskTable() {
   const {
     data: tasks,
     error,
     isLoading,
     mutate,
-  } = useSWR<ITask[]>('/api/tasks', fetcher, {
+  } = useSWR<ITask[], SWRError>('/api/tasks', fetcher, {
     refreshInterval: 5000,
   });
   const [localTasks, setLocalTasks] = useState<ITask[]>([]);
@@ -104,7 +107,7 @@ export default function TaskTable() {
           task._id === updatedTask._id ? updatedTask : task,
         ),
       );
-      mutate(); // Revalidate the cache
+      void mutate(); // Revalidate the cache
     } catch (error) {
       console.error(error);
     }
@@ -250,7 +253,7 @@ export default function TaskTable() {
                             <ContextMenuContent>
                               <ContextMenuItem
                                 onClick={() =>
-                                  handleSubtaskUpdate(task, {
+                                  void handleSubtaskUpdate(task, {
                                     ...subTask,
                                     completed: !subTask.completed,
                                   })
@@ -262,7 +265,7 @@ export default function TaskTable() {
                               </ContextMenuItem>
                               <ContextMenuItem
                                 onClick={() =>
-                                  handleSubtaskDelete(task, subTask.title)
+                                  void handleSubtaskDelete(task, subTask.title)
                                 }
                               >
                                 Delete

@@ -10,13 +10,16 @@ import { PersonStanding } from 'lucide-react';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
+interface SWRError {
+  message: string;
+}
+
 export default function Page() {
   const {
     data: streams,
     error,
     isLoading,
-    mutate,
-  } = useSWR<IStream[]>('/api/streams', fetcher, {
+  } = useSWR<IStream[], SWRError>('/api/streams', fetcher, {
     refreshInterval: 5000,
   });
   const [location, setLocation] = useState<GeolocationCoordinates | null>(null);
@@ -56,7 +59,6 @@ export default function Page() {
         mapLib={import('mapbox-gl')}
         attributionControl={false}
         logoPosition="bottom-right"
-        projection={'globe' as any}
         initialViewState={{ longitude: 5.74, latitude: 58.84, zoom: 2 }}
         mapStyle={
           theme.theme === 'light'

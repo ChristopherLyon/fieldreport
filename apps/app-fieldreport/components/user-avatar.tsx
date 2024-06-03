@@ -19,9 +19,9 @@ import { LogOut, Maximize } from 'lucide-react';
 // Handle function to make the app fullscreen
 function toggleFullscreen() {
   if (document.fullscreenElement) {
-    document.exitFullscreen();
+    void document.exitFullscreen();
   } else {
-    document.documentElement.requestFullscreen();
+    void document.documentElement.requestFullscreen();
   }
 }
 
@@ -37,7 +37,7 @@ export default function UserAvatar() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="w-8 h-8 cursor-pointer">
-              <AvatarImage src={session.user?.image || ''} />
+              <AvatarImage src={session.user?.image ?? ''} />
               <AvatarFallback>
                 {(session.user?.name ?? '')
                   .split(' ')
@@ -55,7 +55,7 @@ export default function UserAvatar() {
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              onClick={() => signOut({ callbackUrl: '/auth/signin' })}
+              onClick={() => void signOut({ callbackUrl: '/auth/signin' })}
             >
               <LogOut className="w-4 h-4 mr-2" />
               Logout

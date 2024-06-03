@@ -1,15 +1,11 @@
 'use client';
 
-// Types
-import { IStream } from '@/types/types';
-
 // Libraries
 import * as React from 'react';
 import Map, { MapRef, Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useRef, useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
-import { LocateFixed } from 'lucide-react';
 
 export default function LockedMapWidget() {
   // State

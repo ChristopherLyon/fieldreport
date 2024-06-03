@@ -9,13 +9,17 @@ import { useState, useEffect } from 'react';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
+interface SWRError {
+  message: string;
+}
+
 export default function App() {
   const {
     data: streams,
     error,
     isLoading,
     mutate,
-  } = useSWR<IStream[]>('/api/streams', fetcher, {
+  } = useSWR<IStream[], SWRError>('/api/streams', fetcher, {
     refreshInterval: 5000,
   });
   const [localStreams, setLocalStreams] = useState<IStream[]>([]);

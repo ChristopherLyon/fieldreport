@@ -61,10 +61,10 @@ export default function StreamCard({
       if (stream.ai_generated?.spawned_task_id) {
         try {
           const response = await fetch(
-            `/api/tasks?id=${stream.ai_generated.spawned_task_id}`,
+            `/api/tasks?id=${stream.ai_generated.spawned_task_id.toString()}`,
           );
           if (response.ok) {
-            const taskData: ITask = await response.json();
+            const taskData: ITask = (await response.json()) as ITask;
             setTask(taskData);
           } else {
             console.error('Failed to fetch task:', response.statusText);
@@ -74,7 +74,7 @@ export default function StreamCard({
         }
       }
     }
-    fetchTask();
+    void fetchTask();
   }, [stream]);
 
   const handleDeleteStream = async () => {
@@ -106,8 +106,8 @@ export default function StreamCard({
 
     if (
       !(
-        target.closest('button') ||
-        target.closest('a') ||
+        target.closest('button') ??
+        target.closest('a') ??
         target.closest('[data-no-expand]')
       )
     ) {
@@ -133,6 +133,7 @@ export default function StreamCard({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
+            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
             <AlertDialogAction onClick={handleDeleteStream}>
               Continue
             </AlertDialogAction>

@@ -102,11 +102,11 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
         throw new Error('Failed to add stream');
       }
 
-      const newStream = await response.json();
+      const newStream = (await response.json()) as { stream: IStream };
       setLocalStreams((prevStreams) => [newStream.stream, ...prevStreams]);
 
       if (
-        newStream.stream.ai_generated.user_input_quality_ranking.score === 10
+        newStream.stream.ai_generated?.user_input_quality_ranking?.score === 10
       ) {
         toast.success('Perfect Stream added successfully 🎉');
       } else {
@@ -132,7 +132,7 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
-        handleSubmit();
+        void handleSubmit();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -178,7 +178,7 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
               </Tooltip>
             </TooltipProvider>
             <Button
-              onClick={handleSubmit}
+              onClick={void handleSubmit}
               size="sm"
               className="ml-auto gap-1.5 font-sans"
             >
@@ -227,7 +227,7 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
               {rawInput.length < minimumStreamLength ? null : (
                 <Label
                   className="text-xs text-muted-foreground"
-                  onClick={handleSubmit}
+                  onClick={void handleSubmit}
                 >
                   Press <kbd>Enter</kbd> to submit
                 </Label>

@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 
 // UI Libraries
-import { Menu, Search, AppWindow, AudioLines } from 'lucide-react';
+import { Menu, AudioLines } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import RealtimeClock from '@/components/realtime-clock';
@@ -16,7 +16,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import UserAvatar from '@/components/user-avatar';
 import { NavLinksMobile } from '@/components/nav-links';
