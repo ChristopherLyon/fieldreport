@@ -1,7 +1,7 @@
 "use client";
 
 // Libraries
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
 // UI Components
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -14,7 +14,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
-import { LogOut, LogOutIcon, Maximize, Replace } from "lucide-react";
+import { LogOut, Maximize } from "lucide-react";
 
 // Handle function to make the app fullscreen
 function toggleFullscreen() {
@@ -27,7 +27,7 @@ function toggleFullscreen() {
 
 export default function UserAvatar() {
 
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
 
     return (
         <div className="font-raleway">
@@ -41,7 +41,7 @@ export default function UserAvatar() {
                         <Avatar className="w-8 h-8 cursor-pointer">
                             <AvatarImage src={session.user?.image || ""} />
                             <AvatarFallback>
-                                {(session.user?.name || "")
+                                {(session.user?.name ?? "")
                                     .split(" ")
                                     .map((n) => n[0])
                                     .join("")}

@@ -1,5 +1,3 @@
-import { ContextMenuShortcut } from "./ui/context-menu";
-
 export default function NoDataContextCard({ title, description }: { title: string; description: string }) {
     return (
         <div className="flex flex-1 items-center justify-center rounded-lg shadow-sm h-full border border-dashed" x-chunk="dashboard-02-chunk-1">

@@ -17,12 +17,12 @@ export default function RealtimeClock() {
     // Define the locale and options for formatting the date
     const locale = "en-GB"; // This matches the date format "28/05/2024, 17:52:52"
     const options = {
-        year: 'numeric' as 'numeric',
-        month: '2-digit' as '2-digit',
-        day: '2-digit' as '2-digit',
-        hour: '2-digit' as '2-digit',
-        minute: '2-digit' as '2-digit',
-        second: '2-digit' as '2-digit',
+        year: 'numeric' as const,
+        month: '2-digit' as const,
+        day: '2-digit' as const,
+        hour: '2-digit' as const,
+        minute: '2-digit' as const,
+        second: '2-digit' as const,
         hour12: false,
     };
 

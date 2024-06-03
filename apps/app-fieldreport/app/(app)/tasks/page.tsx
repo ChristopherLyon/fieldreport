@@ -33,7 +33,7 @@ export default function TaskTable() {
 
     useEffect(() => {
         if (tasks) {
-            setLocalTasks(tasks);
+            setLocalTasks(tasks)
         }
     }, [tasks]);
 
@@ -92,7 +92,7 @@ export default function TaskTable() {
     };
 
     const categorizeTasks = (tasks: ITask[]) => {
-        const categories: { [key: string]: ITask[] } = {};
+        const categories: Record<string, ITask[]> = {};
         tasks
             // Remove tasks with all subtasks completed
             .filter((task) => task.sub_tasks.some((subTask) => !subTask.completed))

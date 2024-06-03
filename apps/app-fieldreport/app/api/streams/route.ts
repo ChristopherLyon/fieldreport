@@ -151,7 +151,7 @@ export async function POST(request: Request) {
   // Insert the stream
   const result = await db.collection<IStream>("streams").insertOne(stream);
 
-  if (parsedAiContent.task && parsedAiContent.task.is_task) {
+  if (parsedAiContent.task?.is_task) {
     const task: ITask = {
       _id: new ObjectId(),
       user_id: session.user?.email,
