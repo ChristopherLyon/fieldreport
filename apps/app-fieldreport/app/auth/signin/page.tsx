@@ -44,22 +44,6 @@ export default function SignIn() {
                   quality={15}
                 />
               </Button>
-              <Button
-                onClick={() => void signIn('github', { callbackUrl: '/' })}
-                variant="outline"
-                className="w-full"
-              >
-                <span>Login with Github</span>
-                <Image
-                  src={githubLogo}
-                  alt="Github Icon"
-                  width={16}
-                  height={16}
-                  className="ml-2 dark:invert"
-                  priority={true}
-                  quality={15}
-                />
-              </Button>
             </div>
             <div className="text-xs text-gray-900 dark:text-gray-300">
               By signing in, you agree to our{' '}

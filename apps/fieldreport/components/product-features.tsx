@@ -15,7 +15,7 @@ const features = [
         icon: FileStack,
     },
     {
-        name: 'Hierarchical Reporting',
+        name: 'Hierarchical Reporting [Soon]',
         description:
             'Generates reports that respect organizational structure, ensuring information reaches relevant managerial levels efficiently and accurately.',
         icon: Network,
