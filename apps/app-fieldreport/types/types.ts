@@ -2,11 +2,9 @@ import { ObjectId } from 'mongodb';
 
 export interface IUser {
   _id: ObjectId;
-  username: string;
   email: string;
-  password: string;
-  role: 'operator' | 'manager' | 'admin';
   team_id: ObjectId;
+  stripeCustomerId: string;
 }
 
 export interface ILocation {

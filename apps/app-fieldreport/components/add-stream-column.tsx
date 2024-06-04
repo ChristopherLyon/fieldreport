@@ -27,6 +27,7 @@ import { toast } from 'sonner';
 import { useEffect, useState } from 'react';
 import LockedMapWidget from '@/components/locked-map-widget';
 import { Progress } from '@/components/ui/progress';
+import { sub } from 'date-fns';
 
 interface AddStreamColumnProps {
   setLocalStreams: React.Dispatch<React.SetStateAction<IStream[]>>;
@@ -73,6 +74,7 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
     }
 
     try {
+
       setStreamAiProcessing(true);
       setMobileStreamInputOpen(false);
       toast.info('Stream added to AI queue 🚀');
@@ -80,10 +82,10 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
 
       const sanitizedLocation: ILocation | null = location
         ? {
-            type: 'Point',
-            coordinates: [location.longitude, location.latitude],
-            accuracy: location.accuracy,
-          }
+          type: 'Point',
+          coordinates: [location.longitude, location.latitude],
+          accuracy: location.accuracy,
+        }
         : null;
 
       const response = await fetch('/api/streams', {
@@ -118,6 +120,16 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
       toast.error('Failed to add stream');
     } finally {
       setStreamAiProcessing(false);
+      
+      // Check /api/checkSubscription
+      const subscription = await fetch('/api/checkSubscription');
+      const subscriptionData = await subscription.json();
+
+      // If the user does not have an active subscription, redirect to the provided URL
+      if (!subscriptionData.activeSubscription) {
+        window.location.href = subscriptionData.url;
+        return;
+      }
     }
   }, [
     rawInput,
