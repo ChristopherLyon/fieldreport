@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic';
 import { getServerSession } from 'next-auth/next';
 import { NextResponse } from 'next/server';
 import { IStream, IUser } from '@/types/types';
-import { redirect } from 'next/navigation'
+import { redirect } from 'next/navigation';
 
 export async function GET() {
   const session = await getServerSession();
@@ -32,7 +32,7 @@ export async function GET() {
   if (subscriptions.data.length === 0) {
     console.log(user.email + ' does not have an active subscription');
 
-    const freeStreamLimit = 2;
+    const freeStreamLimit = 5;
     const { db } = await connectToDatabase();
     const streams: IStream[] = await db
       .collection<IStream>('streams')
