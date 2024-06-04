@@ -190,7 +190,7 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
               </Tooltip>
             </TooltipProvider>
             <Button
-              onClick={void handleSubmit}
+              onClick={handleSubmit}
               size="sm"
               className="ml-auto gap-1.5 font-sans"
             >
@@ -239,7 +239,7 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
               {rawInput.length < minimumStreamLength ? null : (
                 <Label
                   className="text-xs text-muted-foreground"
-                  onClick={void handleSubmit}
+                  onClick={handleSubmit}
                 >
                   Press <kbd>Enter</kbd> to submit
                 </Label>
