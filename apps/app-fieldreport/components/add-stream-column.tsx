@@ -211,7 +211,7 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
           onOpenChange={setMobileStreamInputOpen}
         >
           <DialogTrigger asChild>
-            <Button className="p-3 h-36 bg-muted/90" variant={'outline'}>
+            <Button className="p-3 h-36 bg-muted" variant={'outline'}>
               <AudioLines className="" />
             </Button>
           </DialogTrigger>
