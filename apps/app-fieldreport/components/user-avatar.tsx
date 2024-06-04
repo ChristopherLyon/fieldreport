@@ -14,7 +14,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
-import { LogOut, Maximize } from 'lucide-react';
+import { LogOut, Maximize, Receipt } from 'lucide-react';
+import { Separator } from '@radix-ui/react-dropdown-menu';
 
 // Handle function to make the app fullscreen
 function toggleFullscreen() {
@@ -53,6 +54,17 @@ export default function UserAvatar() {
               <Maximize className="w-4 h-4 mr-2" />
               Toggle Immersive
             </DropdownMenuItem>
+
+            <DropdownMenuItem
+              onClick={() => {
+                window.location.href = 'https://billing.stripe.com/p/login/aEU28RgqbaxWcDu3cc';
+              }}
+            >
+              <Receipt className="w-4 h-4 mr-2" />
+              Billing
+            </DropdownMenuItem>
+
+            <DropdownMenuSeparator />
 
             <DropdownMenuItem
               onClick={() => void signOut({ callbackUrl: '/auth/signin' })}
