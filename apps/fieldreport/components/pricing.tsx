@@ -75,7 +75,7 @@ export default function Pricing() {
       <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-transparent to-bg-background z-20"></div>
       <div className="relative mx-auto max-w-7xl px-6 pb-96 pt-24 text-center sm:pt-32 lg:px-8 z-30">
         <div className="mx-auto max-w-4xl">
-          <h2 className="text-base leading-7">Pricing</h2>
+          <h2 className="text-base leading-7 text-white">Pricing</h2>
           <p className="mt-2 text-4xl tracking-tight text-white sm:text-5xl">
             The right price for you,{' '}
             <br className="hidden sm:inline lg:hidden" />
@@ -83,7 +83,7 @@ export default function Pricing() {
           </p>
         </div>
         <div className="relative mt-6">
-          <p className="mx-auto max-w-2xl text-lg leading-8 text-foreground">
+          <p className="mx-auto max-w-2xl text-lg leading-8 text-white">
             Enhance productivity and streamline operations with our AI-driven
             solutions. Choose the plan that fits your needs.
           </p>
@@ -106,7 +106,7 @@ export default function Pricing() {
                       {tier.name}
                     </h3>
                     <div className="mt-4 flex items-baseline gap-x-2">
-                      <span className="text-5xl tracking-tight text-foreground/90">
+                      <span className="text-5xl tracking-tight text-foreground">
                         {tier.priceMonthly}
                       </span>
                       <span className="text-base leading-7 text-foreground/90">
@@ -123,7 +123,7 @@ export default function Pricing() {
                       {tier.features.map((feature) => (
                         <li key={feature} className="flex gap-x-3">
                           <Check
-                            className="h-6 w-5 flex-none text-white"
+                            className="h-6 w-5 flex-none text-foreground"
                             aria-hidden="true"
                           />
                           {feature}
