@@ -17,13 +17,13 @@ export default function Home() {
   const [customerType, setCustomerType] = useState('personal');
 
   return (
-    <main className="h-screen font-raleway">
+    <main className="h-full font-raleway bg-background">
       <Header />
       <LoginFloater />
       <AIChatbot mode={customerType} setMode={setCustomerType} />
       <HeroSection />
       <div className="max-w-5xl mx-auto px-4">
-        <div className="border-x border-dashed border-muted flex flex-col gap-32 py-24">
+        <div className="border-x border-dashed border-muted flex flex-col gap-32 py-24 overflow-hidden">
           <div className="px-6">
             <OurMission />
           </div>
@@ -85,6 +85,16 @@ export default function Home() {
                   ? 'You can download or access FieldReport from any device, even your smartwatch... When the ability to log your thoughts is always at your fingertips, you can focus on what matters most.'
                   : 'You can download or access FieldReport from any device, even your smartwatch... When the ability to log your thoughts is always at your fingertips, even when you are in the field or on the go, you can focus on what matters most, the job at hand.'}
               </h2>
+            </div>
+            <div className="px-6">
+              <Image
+                src={MacbookMockup}
+                width={3712}
+                height={5568}
+                alt="Macbook mockup"
+                placeholder="blur"
+                className="rounded-lg"
+              />
             </div>
           </div>
         </div>
