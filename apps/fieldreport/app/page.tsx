@@ -10,6 +10,8 @@ import AIChatbot from '@/components/ai-chatbot';
 import OurMission from '@/components/our-mission';
 import Image from 'next/image';
 import IpadMockup from '@/public/images/ipad-mockup.jpeg';
+import MacbookMockup from '@/public/images/macbook-mockup.jpeg';
+import Pricing from '@/components/pricing';
 
 export default function Home() {
   const [customerType, setCustomerType] = useState('personal');
@@ -58,7 +60,7 @@ export default function Home() {
                   : 'We remove any excuses for not gathering critical information about your operations. As long as you can think it, FieldReport can handle it. We make sure to boil up all the critical information effortlessly with AI.'}
               </h2>
             </div>
-            <div className="px-6 md:translate-y-48">
+            <div className="px-6 translate-y-52">
               <Image
                 src={IpadMockup}
                 width={3712}
@@ -80,12 +82,16 @@ export default function Home() {
               </h1>
               <h2 className="max-w-xl text-foreground/90 px-6">
                 {customerType === 'personal'
-                  ? 'We built FieldReport around a single governing principle: make it easy to collect data. All you see is a single input field. All we see is a world of possibilities.'
-                  : 'We built FieldReport around a single governing principle: make it easy to collect data. All you see is a single input field. All we see is a world of possibilities.'}
+                  ? 'You can download or access FieldReport from any device, even your smartwatch... When the ability to log your thoughts is always at your fingertips, you can focus on what matters most.'
+                  : 'You can download or access FieldReport from any device, even your smartwatch... When the ability to log your thoughts is always at your fingertips, even when you are in the field or on the go, you can focus on what matters most, the job at hand.'}
               </h2>
             </div>
           </div>
         </div>
+        <Pricing
+          customerType={customerType}
+          setCustomerType={setCustomerType}
+        />
         <Footer />
       </div>
     </main>

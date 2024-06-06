@@ -10,10 +10,10 @@ export default function OurMission() {
       <div className="flex flex-col items-end">
         <span className="text-7xl text-right">Drop dead simplicity.</span>
 
-        <div className="flex-col items-center pr-20 hidden md:flex">
+       {/*  <div className="flex-col items-center pr-20 hidden md:flex">
           <ArrowDown className="h-8 w-8 translate-y-20" />
           <Input className="translate-y-40 w-52" placeholder='Missing M16 bolt on Tower 2...' />
-        </div>
+        </div> */}
       </div>
     </div>
   );
