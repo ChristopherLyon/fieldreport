@@ -76,7 +76,7 @@ export default function Home() {
                 How we solve it
               </span>
               <h1 className="text-5xl max-w-xl border-l border-cyan-500 px-6">
-                We make it easy to collect data.
+                We make it ridiculously easy to collect data.
               </h1>
               <h2 className="max-w-xl text-foreground/90 px-6">
                 {customerType === 'personal'
