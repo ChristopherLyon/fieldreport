@@ -22,10 +22,8 @@ export default function Home() {
       <HeroSection />
       <div className="max-w-5xl mx-auto px-4">
         <div className="border-x border-dashed border-muted flex flex-col gap-32 py-24">
-          
-          <div className='px-6'>
-
-          <OurMission />
+          <div className="px-6">
+            <OurMission />
           </div>
 
           <div className="flex flex-col gap-3 pl-6 items-start">
@@ -60,11 +58,15 @@ export default function Home() {
                   : 'We remove any excuses for not gathering critical information about your operations. As long as you can think it, FieldReport can handle it. We make sure to boil up all the critical information effortlessly with AI.'}
               </h2>
             </div>
-            <div className='px-6 md:translate-y-48'>
-
-            <Image src={IpadMockup} width={3712} height={5568} alt='Ipad mockup' 
-            placeholder='blur'
-            className='rounded-lg' />
+            <div className="px-6 md:translate-y-48">
+              <Image
+                src={IpadMockup}
+                width={3712}
+                height={5568}
+                alt="Ipad mockup"
+                placeholder="blur"
+                className="rounded-lg"
+              />
             </div>
           </div>
 
