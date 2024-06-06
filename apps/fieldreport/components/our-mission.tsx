@@ -7,8 +7,10 @@ export default function OurMission() {
       <span className="text-5xl hidden md:block ">
         Our Mission <ArrowRight className="h-8 w-8 inline" />
       </span>
-      <div className="flex flex-col items-end">
-        <span className="text-7xl pl-6 md:pl-0 md:text-right">Drop dead simplicity.</span>
+      <div className="flex flex-col items-start md:items-end">
+        <span className="text-7xl pl-6 md:text-right">
+          Drop dead simplicity.
+        </span>
 
         {/*  <div className="flex-col items-center pr-20 hidden md:flex">
           <ArrowDown className="h-8 w-8 translate-y-20" />
