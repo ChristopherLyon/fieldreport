@@ -68,119 +68,127 @@ export default function AIChatbot({
     scrollToBottom();
   }, [chats, currentAIResponse]);
 
-  // If screen width is mobile, set minimizedChat to true
+  // Set minimizedChat state based on screen width
   useEffect(() => {
-    if (window.innerWidth < 768) {
-      setMinimizedChat(true);
-    }
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setMinimizedChat(true);
+      } else {
+        setMinimizedChat(false);
+      }
+    };
+
+    // Set the initial state based on the current window size
+    handleResize();
+
+    // Add event listener to handle resize
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
-  return (
-    // If chat is minimized, show the chat button, esle show the chat window
-    !minimizedChat ? (
-      <Card className="fixed bottom-5 right-5 max-w-[330px] z-50 md:block">
-        <ChevronDown
-          className={`absolute top-2 right-2 w-4 h-4 hover:cursor-pointer
+  return !minimizedChat ? (
+    <Card className="fixed bottom-5 right-5 max-w-[330px] z-50 md:block">
+      <ChevronDown
+        className={`absolute top-2 right-2 w-4 h-4 hover:cursor-pointer
             ${mode === 'personal' ? '' : ' text-black '}
             `}
-          onClick={() => setMinimizedChat(false)}
-        />
-        <div
-          className={`p-2 w-full flex justify-center items-center hover:bg-muted/20 hover:cursor-pointer
+        onClick={() => setMinimizedChat(true)} // Corrected the toggle logic
+      />
+      <div
+        className={`p-2 w-full flex justify-center items-center hover:bg-muted/20 hover:cursor-pointer
           ${
             mode === 'personal'
               ? ''
               : 'bg-yellow-500 text-black hover:bg-yellow-400'
           }
             `}
-          onClick={() =>
-            setMode(mode === 'personal' ? 'enterprise' : 'personal')
-          }
-        >
-          <span className="text-center font-mono text-xs">{mode}</span>
-        </div>
-        <CardHeader className="flex flex-row items-center border-t border-dashed">
-          <div className="flex items-center space-x-4">
-            <Avatar>
-              <AvatarFallback>
-                <AudioLines />
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="text-sm font-medium leading-none">FieldReport AI</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                {mode === 'personal'
-                  ? 'How can I assist you today?'
-                  : 'How can I help your business?'}
-              </p>
-            </div>
+        onClick={() => setMode(mode === 'personal' ? 'enterprise' : 'personal')}
+      >
+        <span className="text-center font-mono text-xs">{mode}</span>
+      </div>
+      <CardHeader className="flex flex-row items-center border-t border-dashed">
+        <div className="flex items-center space-x-4">
+          <Avatar>
+            <AvatarFallback>
+              <AudioLines />
+            </AvatarFallback>
+          </Avatar>
+          <div>
+            <p className="text-sm font-medium leading-none">FieldReport AI</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              {mode === 'personal'
+                ? 'How can I assist you today?'
+                : 'How can I help your business?'}
+            </p>
           </div>
-        </CardHeader>
+        </div>
+      </CardHeader>
 
-        {/* If chats is more than 0, show content */}
-
-        {chats.length > 0 && (
-          <CardContent className="flex flex-col-reverse pb-0 border-t border-dashed">
-            <div className="max-h-[500px] overflow-y-auto py-4">
-              <div className="space-y-4">
-                {chats.map((chat, index) => (
+      {chats.length > 0 && (
+        <CardContent className="flex flex-col-reverse pb-0 border-t border-dashed">
+          <div className="max-h-[500px] overflow-y-auto py-4">
+            <div className="space-y-4">
+              {chats.map((chat, index) => (
+                <div
+                  key={index}
+                  className={`flex ${
+                    chat.type === 'user' ? 'justify-end' : 'justify-start'
+                  }`}
+                >
                   <div
-                    key={index}
-                    className={`flex ${
-                      chat.type === 'user' ? 'justify-end' : 'justify-start'
+                    className={`flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ${
+                      chat.type === 'user'
+                        ? 'ml-auto bg-gray-200 text-gray-900 dark:bg-gray-700 dark:text-gray-50'
+                        : 'mr-auto bg-gray-900 text-gray-50 dark:bg-gray-50 dark:text-gray-900'
                     }`}
                   >
-                    <div
-                      className={`flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ${
-                        chat.type === 'user'
-                          ? 'ml-auto bg-gray-200 text-gray-900 dark:bg-gray-700 dark:text-gray-50'
-                          : 'mr-auto bg-gray-900 text-gray-50 dark:bg-gray-50 dark:text-gray-900'
-                      }`}
-                    >
-                      <p>{chat.message}</p>
-                    </div>
+                    <p>{chat.message}</p>
                   </div>
-                ))}
-                {currentAIResponse && (
-                  <div className="flex justify-start">
-                    <div className="flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm mr-auto bg-gray-900 text-gray-50 dark:bg-gray-50 dark:text-gray-900">
-                      <p>{currentAIResponse}</p>
-                    </div>
+                </div>
+              ))}
+              {currentAIResponse && (
+                <div className="flex justify-start">
+                  <div className="flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm mr-auto bg-gray-900 text-gray-50 dark:bg-gray-50 dark:text-gray-900">
+                    <p>{currentAIResponse}</p>
                   </div>
-                )}
-                <div ref={messagesEndRef} />
-              </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
             </div>
-          </CardContent>
-        )}
-        <CardFooter className="pt-5 border-t border-dashed">
-          <form
-            className="flex w-full items-center space-x-2"
-            onSubmit={handleFormSubmit}
-          >
-            <Input
-              type="text"
-              value={inputValue}
-              onChange={handleInputChange}
-              placeholder="Type a message..."
-              className="flex-1 bg-transparent pr-12 focus:outline-none"
-            />
-            <Button variant="outline" size="icon" type="submit">
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </form>
-        </CardFooter>
-      </Card>
-    ) : (
-      <Button
-        className="fixed bottom-5 right-5 z-50 h-32 w-10"
-        variant={'outline'}
-        onClick={() => setMinimizedChat(true)}
-      >
-        <span className="-rotate-90 flex flex-row gap-2 items-center ">
-          <AudioLines /> FieldReport
-        </span>
-      </Button>
-    )
+          </div>
+        </CardContent>
+      )}
+      <CardFooter className="pt-5 border-t border-dashed">
+        <form
+          className="flex w-full items-center space-x-2"
+          onSubmit={handleFormSubmit}
+        >
+          <Input
+            type="text"
+            value={inputValue}
+            onChange={handleInputChange}
+            placeholder="Type a message..."
+            className="flex-1 bg-transparent pr-12 focus:outline-none"
+          />
+          <Button variant="outline" size="icon" type="submit">
+            <ArrowRight className="h-4 w-4" />
+          </Button>
+        </form>
+      </CardFooter>
+    </Card>
+  ) : (
+    <Button
+      className="fixed bottom-5 right-5 z-50 h-32 w-10"
+      variant={'outline'}
+      onClick={() => setMinimizedChat(false)} // Corrected the toggle logic
+    >
+      <span className="-rotate-90 flex flex-row gap-2 items-center ">
+        <AudioLines /> FieldReport
+      </span>
+    </Button>
   );
 }
