@@ -60,7 +60,7 @@ export default function Home() {
                   : 'We remove any excuses for not gathering critical information about your operations. As long as you can think it, FieldReport can handle it. We make sure to boil up all the critical information effortlessly with AI.'}
               </h2>
             </div>
-            <div className="px-6 translate-y-52">
+            <div className="px-6 md:translate-y-52">
               <Image
                 src={IpadMockup}
                 width={3712}
