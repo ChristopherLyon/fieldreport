@@ -68,30 +68,8 @@ export default function AIChatbot({
     scrollToBottom();
   }, [chats, currentAIResponse]);
 
-  // Set minimizedChat state based on screen width
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setMinimizedChat(true);
-      } else {
-        setMinimizedChat(false);
-      }
-    };
-
-    // Set the initial state based on the current window size
-    handleResize();
-
-    // Add event listener to handle resize
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup the event listener on component unmount
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
   return !minimizedChat ? (
-    <Card className="fixed bottom-5 right-5 max-w-[330px] z-50 md:block">
+    <Card className="fixed bottom-5 right-5 max-w-[330px] z-50 hidden md:block">
       <ChevronDown
         className={`absolute top-2 right-2 w-4 h-4 hover:cursor-pointer
             ${mode === 'personal' ? '' : ' text-black '}
