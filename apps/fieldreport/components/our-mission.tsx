@@ -8,7 +8,7 @@ export default function OurMission() {
         Our Mission <ArrowRight className="h-8 w-8 inline" />
       </span>
       <div className="flex flex-col items-start md:items-end">
-        <span className="text-7xl pl-6 md:text-right">
+        <span className="text-6xl md:text-7xl md:text-right">
           Drop dead simplicity.
         </span>
 
