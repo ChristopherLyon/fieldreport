@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { AudioLines, X } from 'lucide-react';
+import { ArrowRight, AudioLines, X } from 'lucide-react';
 
 export default function AIChatbot({
   mode,
@@ -23,7 +23,7 @@ export default function AIChatbot({
   const [chats, setChats] = useState<{ type: string; message: string }[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [showChatWindow, setShowChatWindow] = useState(true);
-
+  const [currentAIResponse, setCurrentAIResponse] = useState('');
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToBottom = () => {
@@ -37,31 +37,53 @@ export default function AIChatbot({
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (inputValue.trim() !== '') {
-      setChats([...chats, { type: 'user', message: inputValue }]);
+      const newChats = [...chats, { type: 'user', message: inputValue }];
+      setChats(newChats);
       setInputValue('');
+
+      const eventSource = new EventSource(
+        `/api/ai-stream?message=${encodeURIComponent(inputValue)}`,
+      );
+
+      let aiResponse = '';
+
+      eventSource.onmessage = (event) => {
+        aiResponse += event.data;
+        setCurrentAIResponse(aiResponse);
+      };
+
+      eventSource.onerror = (err) => {
+        console.error('EventSource failed:', err);
+        eventSource.close();
+        setChats((prevChats) => [
+          ...prevChats,
+          { type: 'ai', message: aiResponse },
+        ]);
+        setCurrentAIResponse('');
+      };
     }
   };
 
   useEffect(() => {
     scrollToBottom();
-  }, [chats]);
+  }, [chats, currentAIResponse]);
 
   return (
     showChatWindow && (
-      <Card className="fixed bottom-5 right-5 max-w-[90vw] z-50 overflow-hidden">
+      <Card className="fixed bottom-5 right-5 max-w-[330px] z-50 overflow-hidden hidden md:block">
         <X
           className="absolute top-2 right-2 w-4 h-4 hover:cursor-pointer"
           onClick={() => setShowChatWindow(false)}
         />
         <div
-          className="p-2 w-full flex justify-center items-center border-b border-dashed hover:bg-muted/20 hover:cursor-pointer"
+          className="p-2 w-full flex justify-center items-center hover:bg-muted/20 hover:cursor-pointer"
           onClick={() =>
             setMode(mode === 'personal' ? 'enterprise' : 'personal')
           }
         >
           <span className="text-center font-mono text-xs">{mode}</span>
         </div>
-        <CardHeader className="flex flex-row items-center">
+        <CardHeader className="flex flex-row items-center border-t border-dashed">
           <div className="flex items-center space-x-4">
             <Avatar>
               <AvatarFallback>
@@ -78,32 +100,44 @@ export default function AIChatbot({
             </div>
           </div>
         </CardHeader>
-        <CardContent className="flex flex-col-reverse pb-0">
-          <div className="max-h-[400px] overflow-y-auto pb-4">
-            <div className="space-y-4">
-              {chats.map((chat, index) => (
-                <div
-                  key={index}
-                  className={`flex ${
-                    chat.type === 'user' ? 'justify-end' : 'justify-start'
-                  }`}
-                >
+
+        {/* If chats is more than 0, show content */}
+
+        {chats.length > 0 && (
+          <CardContent className="flex flex-col-reverse pb-0 border-t border-dashed">
+            <div className="max-h-[500px] overflow-y-auto py-4">
+              <div className="space-y-4">
+                {chats.map((chat, index) => (
                   <div
-                    className={`flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ${
-                      chat.type === 'user'
-                        ? 'ml-auto bg-gray-200 text-gray-900 dark:bg-gray-700 dark:text-gray-50'
-                        : 'mr-auto bg-gray-900 text-gray-50 dark:bg-gray-50 dark:text-gray-900'
+                    key={index}
+                    className={`flex ${
+                      chat.type === 'user' ? 'justify-end' : 'justify-start'
                     }`}
                   >
-                    <p>{chat.message}</p>
+                    <div
+                      className={`flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ${
+                        chat.type === 'user'
+                          ? 'ml-auto bg-gray-200 text-gray-900 dark:bg-gray-700 dark:text-gray-50'
+                          : 'mr-auto bg-gray-900 text-gray-50 dark:bg-gray-50 dark:text-gray-900'
+                      }`}
+                    >
+                      <p>{chat.message}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
-              <div ref={messagesEndRef} />
+                ))}
+                {currentAIResponse && (
+                  <div className="flex justify-start">
+                    <div className="flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm mr-auto bg-gray-900 text-gray-50 dark:bg-gray-50 dark:text-gray-900">
+                      <p>{currentAIResponse}</p>
+                    </div>
+                  </div>
+                )}
+                <div ref={messagesEndRef} />
+              </div>
             </div>
-          </div>
-        </CardContent>
-        <CardFooter>
+          </CardContent>
+        )}
+        <CardFooter className="pt-5 border-t border-dashed">
           <form
             className="flex w-full items-center space-x-2"
             onSubmit={handleFormSubmit}
@@ -115,12 +149,8 @@ export default function AIChatbot({
               placeholder="Type a message..."
               className="flex-1 bg-transparent pr-12 focus:outline-none"
             />
-            <Button
-              type="submit"
-              variant="ghost"
-              className="ml-auto rounded-full h-8 w-8"
-            >
-             
+            <Button variant="outline" size="icon" type="submit">
+              <ArrowRight className="h-4 w-4" />
             </Button>
           </form>
         </CardFooter>
