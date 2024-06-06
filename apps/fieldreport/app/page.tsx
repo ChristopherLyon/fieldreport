@@ -8,6 +8,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CornerRightDown } from 'lucide-react';
 import AIChatbot from '@/components/ai-chatbot';
 import OurMission from '@/components/our-mission';
+import Image from 'next/image';
+import IpadMockup from '@/public/images/ipad-mockup.jpeg';
 
 export default function Home() {
   const [customerType, setCustomerType] = useState('personal');
@@ -16,13 +18,17 @@ export default function Home() {
     <main className="h-screen font-raleway">
       <Header />
       <LoginFloater />
-      {/* <AIChatbot mode={customerType} setMode={setCustomerType} /> */}
+      <AIChatbot mode={customerType} setMode={setCustomerType} />
       <HeroSection />
       <div className="max-w-5xl mx-auto px-4">
         <div className="border-x border-dashed border-muted flex flex-col gap-32 py-24">
-          <OurMission />
+          
+          <div className='px-6'>
 
-          <div className="flex flex-col gap-3 pl-6 mx-auto">
+          <OurMission />
+          </div>
+
+          <div className="flex flex-col gap-3 pl-6 items-start">
             <span className="text-xs font-mono text-foreground/80">
               Tailor your experience{' '}
               <CornerRightDown className="h-3 w-3 inline text-cyan-500" />
@@ -53,6 +59,12 @@ export default function Home() {
                   ? 'We remove any excuses for not gathering critical information about your life. As long as you can think it, FieldReport can handle it. We make sure to boil up all the critical information effortlessly with AI.'
                   : 'We remove any excuses for not gathering critical information about your operations. As long as you can think it, FieldReport can handle it. We make sure to boil up all the critical information effortlessly with AI.'}
               </h2>
+            </div>
+            <div className='px-6 md:translate-y-48'>
+
+            <Image src={IpadMockup} width={3712} height={5568} alt='Ipad mockup' 
+            placeholder='blur'
+            className='rounded-lg' />
             </div>
           </div>
 

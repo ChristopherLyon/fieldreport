@@ -48,7 +48,7 @@ export default function AIChatbot({
 
   return (
     showChatWindow && (
-      <Card className="fixed bottom-4 right-4 max-w-[90vw] z-50 overflow-hidden">
+      <Card className="fixed bottom-5 right-5 max-w-[90vw] z-50 overflow-hidden">
         <X
           className="absolute top-2 right-2 w-4 h-4 hover:cursor-pointer"
           onClick={() => setShowChatWindow(false)}
