@@ -19,7 +19,7 @@ export default function Home() {
       {/* <AIChatbot mode={customerType} setMode={setCustomerType} /> */}
       <HeroSection />
       <div className="max-w-5xl mx-auto px-4">
-        <div className="border-x border-dashed border-muted flex flex-col gap-32 pt-24 h-screen">
+        <div className="border-x border-dashed border-muted flex flex-col gap-32 py-24">
           <OurMission />
 
           <div className="flex flex-col gap-3 pl-6 mx-auto">
@@ -72,8 +72,8 @@ export default function Home() {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
     </main>
   );
 }
