@@ -6,10 +6,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import * as React from "react"
 import { useEffect, useRef, useState } from "react"
-import { ArrowRight, AudioLines } from "lucide-react"
+import { ArrowRight, AudioLines, ChevronsRightLeft } from "lucide-react"
 
-export default function AIChatbot() {
-    const [userType, setUserType] = useState("personal")
+export default function AIChatbot({ mode, setMode }: { mode: string; setMode: React.Dispatch<React.SetStateAction<string>> }) {
 
     const [chats, setChats] = useState([]) as any
 
@@ -36,7 +35,12 @@ export default function AIChatbot() {
     }, [chats])
 
     return (
-        <Card className="fixed bottom-4 right-4 max-w-[90vw] z-50">
+        <Card className="fixed bottom-4 right-4 max-w-[90vw] z-50 overflow-hidden">
+            <div className="p-2 w-full flex justify-center items-center border-b border-dashed hover:bg-muted/20 hover:cursor-pointer" onClick={() => setMode(mode === "personal" ? "enterprise" : "personal")}>
+                <span className="text-center font-mono text-xs">
+                    {mode}
+                </span>
+            </div>
             <CardHeader className="flex flex-row items-center">
                 <div className="flex items-center space-x-4">
                     <Avatar>
@@ -45,7 +49,7 @@ export default function AIChatbot() {
                     <div>
                         <p className="text-sm font-medium leading-none">FieldReport AI</p>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                            {userType === "personal" ? "How can I assist you today?" : "How can I help your business?"}
+                            {mode === "personal" ? "How can I assist you today?" : "How can I help your business?"}
                         </p>
                     </div>
                 </div>

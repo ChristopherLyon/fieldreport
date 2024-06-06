@@ -16,7 +16,7 @@ export default function Home() {
     <main className="h-screen font-raleway">
       <Header />
       <LoginFloater />
-      <AIChatbot />
+      <AIChatbot mode={customerType} setMode={setCustomerType} />
       <HeroSection />
       <div className='px-4'>
         <div className='max-w-6xl mx-auto border-x border-dashed h-screen border-muted flex flex-col gap-24 pt-24'>
@@ -24,7 +24,7 @@ export default function Home() {
             <span className='text-xs font-mono text-foreground/80'>
               Tailor your experience <CornerRightDown className='h-3 w-3 inline text-cyan-500' />
             </span>
-            <Tabs defaultValue="personal" className="w-[400px]" onValueChange={setCustomerType}>
+            <Tabs defaultValue="personal" className="w-[400px]" onValueChange={setCustomerType} value={customerType}>
               <TabsList>
                 <TabsTrigger value="personal">Personal</TabsTrigger>
                 <TabsTrigger value="enterprise">Enterprise</TabsTrigger>
