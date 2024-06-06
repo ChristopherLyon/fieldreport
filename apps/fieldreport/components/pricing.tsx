@@ -66,7 +66,7 @@ export default function Pricing({
   setCustomerType: any;
 }) {
   return (
-    <div className="border-t border-r border-l border-dashed  py-24 sm:py-32">
+    <div className="border- border-r border-l border-dashed  py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl sm:text-center">
           <h2 className="text-3xl tracking-tight sm:text-4xl">

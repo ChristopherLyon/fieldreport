@@ -23,8 +23,8 @@ const GradientCanvas = () => {
 export default function HeroSection() {
   return (
     <div className="relative h-screen overflow-hidden font-raleway bg-cyan-900">
-      <AudioLines className="absolute bottom-10 right-10 w-10 h-10 z-20" />
-      <div className="absolute top-0 left-0 h-screen w-full z-10">
+{/*       <AudioLines className="absolute bottom-10 right-10 w-10 h-10 z-20" />
+ */}      <div className="absolute top-0 left-0 h-screen w-full z-10">
         <GradientCanvas />
       </div>
 

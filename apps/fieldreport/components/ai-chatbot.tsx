@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, AudioLines, X } from 'lucide-react';
+import { ArrowRight, AudioLines, ChevronDown, X } from 'lucide-react';
 
 export default function AIChatbot({
   mode,
@@ -22,7 +22,7 @@ export default function AIChatbot({
 }) {
   const [chats, setChats] = useState<{ type: string; message: string }[]>([]);
   const [inputValue, setInputValue] = useState('');
-  const [showChatWindow, setShowChatWindow] = useState(true);
+  const [minimizedChat, setMinimizedChat] = useState(false);
   const [currentAIResponse, setCurrentAIResponse] = useState('');
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -68,15 +68,31 @@ export default function AIChatbot({
     scrollToBottom();
   }, [chats, currentAIResponse]);
 
+  // If screen width is mobile, set minimizedChat to true
+  useEffect(() => {
+    if (window.innerWidth < 768) {
+      setMinimizedChat(true);
+    }
+  }, []);
+
   return (
-    showChatWindow && (
-      <Card className="fixed bottom-5 right-5 max-w-[330px] z-50 overflow-hidden hidden md:block">
-        <X
-          className="absolute top-2 right-2 w-4 h-4 hover:cursor-pointer"
-          onClick={() => setShowChatWindow(false)}
+    // If chat is minimized, show the chat button, esle show the chat window
+    !minimizedChat ? (
+      <Card className="fixed bottom-5 right-5 max-w-[330px] z-50 md:block">
+        <ChevronDown
+          className={`absolute top-2 right-2 w-4 h-4 hover:cursor-pointer
+            ${mode === 'personal' ? '' : ' text-black '}
+            `}
+          onClick={() => setMinimizedChat(false)}
         />
         <div
-          className="p-2 w-full flex justify-center items-center hover:bg-muted/20 hover:cursor-pointer"
+          className={`p-2 w-full flex justify-center items-center hover:bg-muted/20 hover:cursor-pointer
+          ${
+            mode === 'personal'
+              ? ''
+              : 'bg-yellow-500 text-black hover:bg-yellow-400'
+          }
+            `}
           onClick={() =>
             setMode(mode === 'personal' ? 'enterprise' : 'personal')
           }
@@ -155,6 +171,16 @@ export default function AIChatbot({
           </form>
         </CardFooter>
       </Card>
+    ) : (
+      <Button
+        className="fixed bottom-5 right-5 z-50 h-32 w-10"
+        variant={'outline'}
+        onClick={() => setMinimizedChat(true)}
+      >
+        <span className="-rotate-90 flex flex-row gap-2 items-center ">
+          <AudioLines /> FieldReport
+        </span>
+      </Button>
     )
   );
 }

@@ -4,7 +4,7 @@ import Header from '@/components/header';
 import HeroSection from '@/components/hero-section';
 import { useState } from 'react';
 import { LoginFloater } from '@/components/login-floater';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CornerRightDown } from 'lucide-react';
 import AIChatbot from '@/components/ai-chatbot';
 import OurMission from '@/components/our-mission';
@@ -12,12 +12,13 @@ import Image from 'next/image';
 import IpadMockup from '@/public/images/ipad-mockup.jpeg';
 import MacbookMockup from '@/public/images/macbook-mockup.jpeg';
 import Pricing from '@/components/pricing';
+import VideoAndTitleBlock from '@/components/video-and-title-block'; // Ensure this is the correct import path
 
 export default function Home() {
   const [customerType, setCustomerType] = useState('personal');
 
   return (
-    <main className="h-full font-raleway bg-background">
+    <main className="h-full font-raleway bg-background transition-all">
       <Header />
       <LoginFloater />
       <AIChatbot mode={customerType} setMode={setCustomerType} />
@@ -31,7 +32,13 @@ export default function Home() {
           <div className="flex flex-col gap-3 pl-6 items-start">
             <span className="text-xs font-mono text-foreground/80">
               Tailor your experience{' '}
-              <CornerRightDown className="h-3 w-3 inline text-cyan-500" />
+              <CornerRightDown
+                className={`inline ${
+                  customerType === 'personal'
+                    ? 'text-cyan-500'
+                    : 'text-yellow-500'
+                } h-3 w-3`}
+              />
             </span>
             <Tabs
               defaultValue="personal"
@@ -48,10 +55,24 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-24 mx-auto">
             <div className="flex flex-col gap-3">
-              <span className="text-cyan-500 px-6 font-semibold">
+              <span
+                className={`px-6 font-semibold
+                ${
+                  customerType === 'personal'
+                    ? 'text-cyan-500'
+                    : 'text-yellow-500'
+                }`}
+              >
                 What we solve
               </span>
-              <h1 className="text-5xl max-w-xl border-l border-cyan-500 px-6">
+              <h1
+                className={`text-5xl max-w-xl border-l  px-6
+              ${
+                customerType === 'personal'
+                  ? 'border-cyan-500'
+                  : 'border-yellow-500'
+              }`}
+              >
                 Nothing slips through the cracks.
               </h1>
               <h2 className="max-w-xl text-foreground/90 px-6">
@@ -60,24 +81,27 @@ export default function Home() {
                   : 'We remove any excuses for not gathering critical information about your operations. As long as you can think it, FieldReport can handle it. We make sure to boil up all the critical information effortlessly with AI.'}
               </h2>
             </div>
-            <div className="px-6 md:translate-y-52">
-              <Image
-                src={IpadMockup}
-                width={3712}
-                height={5568}
-                alt="Ipad mockup"
-                placeholder="blur"
-                className="rounded-lg"
-              />
-            </div>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-24 mx-auto">
             <div className="flex flex-col gap-3">
-              <span className="text-cyan-500 px-6 font-semibold">
+              <span
+                className={`px-6 font-semibold
+              ${
+                customerType === 'personal'
+                  ? 'text-cyan-500'
+                  : 'text-yellow-500'
+              }`}
+              >
                 How we solve it
               </span>
-              <h1 className="text-5xl max-w-xl border-l border-cyan-500 px-6">
+              <h1
+                className={`text-5xl max-w-xl border-l  px-6
+              ${
+                customerType === 'personal'
+                  ? 'border-cyan-500'
+                  : 'border-yellow-500'
+              }`}
+              >
                 We make it ridiculously easy to collect data.
               </h1>
               <h2 className="max-w-xl text-foreground/90 px-6">
@@ -86,18 +110,22 @@ export default function Home() {
                   : 'You can download or access FieldReport from any device, even your smartwatch... When the ability to log your thoughts is always at your fingertips, even when you are in the field or on the go, you can focus on what matters most, the job at hand.'}
               </h2>
             </div>
-            <div className="px-6">
-              <Image
-                src={MacbookMockup}
-                width={3712}
-                height={5568}
-                alt="Macbook mockup"
-                placeholder="blur"
-                className="rounded-lg"
-              />
-            </div>
           </div>
         </div>
+        <VideoAndTitleBlock
+          key={customerType} // Add key to force re-render on prop change
+          videoUrl={
+            customerType === 'personal'
+              ? '/videos/office.mp4'
+              : '/videos/solar-farm.mov'
+          }
+          title={
+            customerType === 'personal'
+              ? 'Your life, organized.'
+              : 'Your operations, simplified.'
+          }
+          focus={customerType === 'personal' ? 'left' : 'middle'}
+        />
         <Pricing
           customerType={customerType}
           setCustomerType={setCustomerType}
