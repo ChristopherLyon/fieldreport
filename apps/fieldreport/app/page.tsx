@@ -7,7 +7,7 @@ import { LoginFloater } from '@/components/login-floater';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CornerRightDown } from 'lucide-react';
 import AIChatbot from '@/components/ai-chatbot';
-import Image from 'next/image';
+import OurMission from '@/components/our-mission';
 
 export default function Home() {
   const [customerType, setCustomerType] = useState('personal');
@@ -16,11 +16,13 @@ export default function Home() {
     <main className="h-screen font-raleway">
       <Header />
       <LoginFloater />
-{/*       <AIChatbot mode={customerType} setMode={setCustomerType} />
- */}      <HeroSection />
-      <div className="px-4">
-        <div className="max-w-5xl mx-auto border-x border-dashed h-screen border-muted flex flex-col gap-32 pt-24">
-          <div className="flex flex-col gap-3 pl-6 ">
+      {/* <AIChatbot mode={customerType} setMode={setCustomerType} /> */}
+      <HeroSection />
+      <div className="max-w-5xl mx-auto px-4">
+        <div className="border-x border-dashed border-muted flex flex-col gap-32 pt-24 h-screen">
+          <OurMission />
+
+          <div className="flex flex-col gap-3 pl-6 mx-auto">
             <span className="text-xs font-mono text-foreground/80">
               Tailor your experience{' '}
               <CornerRightDown className="h-3 w-3 inline text-cyan-500" />
@@ -38,7 +40,7 @@ export default function Home() {
             </Tabs>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-24">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-24 mx-auto">
             <div className="flex flex-col gap-3">
               <span className="text-cyan-500 px-6 font-semibold">
                 What we solve
@@ -48,13 +50,13 @@ export default function Home() {
               </h1>
               <h2 className="max-w-xl text-foreground/90 px-6">
                 {customerType === 'personal'
-                  ? 'We remove any exuses for not gathering critical information about your life. As long as you can think it, FieldReport can handle it. We make sure to boil up all the critical infromation effortlessly with AI'
-                  : 'We remove any exuses for not gathering critical information about your operations. As long as you can think it, FieldReport can handle it. We make sure to boil up all the critical infromation effortlessly with AI'}
+                  ? 'We remove any excuses for not gathering critical information about your life. As long as you can think it, FieldReport can handle it. We make sure to boil up all the critical information effortlessly with AI.'
+                  : 'We remove any excuses for not gathering critical information about your operations. As long as you can think it, FieldReport can handle it. We make sure to boil up all the critical information effortlessly with AI.'}
               </h2>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-24">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-24 mx-auto">
             <div className="flex flex-col gap-3">
               <span className="text-cyan-500 px-6 font-semibold">
                 How we solve it
