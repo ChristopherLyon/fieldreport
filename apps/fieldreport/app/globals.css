@@ -1,8 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#gradient-canvas {
+  --gradient-color-1: #043d5d;
+  --gradient-color-2: #032e46;
+  --gradient-color-3: #23b684;
+  --gradient-color-4: #0f595e;
+}
 
 @layer base {
   :root {

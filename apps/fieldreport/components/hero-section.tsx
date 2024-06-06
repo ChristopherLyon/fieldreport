@@ -3,37 +3,41 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import placeholderImage from '@/public/images/hero-section-placeholder.png';
 import Link from 'next/link';
+import { useEffect } from 'react';
+
+import { Gradient } from '@/lib/Gradient';
+import { ArrowDown, AudioLines } from 'lucide-react';
+import { Input } from './ui/input';
+
+const GradientCanvas = () => {
+    useEffect(() => {
+        const gradient = new Gradient();
+        gradient.initGradient('#gradient-canvas');
+    }, []);
+
+    return <canvas id="gradient-canvas" className="w-full h-full" data-transition-in />;
+};
 
 export default function HeroSection() {
-  return (
-    <div className="relative h-screen overflow-hidden font-raleway">
-      {/* Video */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        disableRemotePlayback
-        className="absolute top-0 left-0 w-full h-full object-cover z-0"
-      >
-        <source src="videos/glass.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+    return (
+        <div className="relative h-screen overflow-hidden font-raleway bg-cyan-900">
+            <AudioLines className="absolute bottom-10 right-10 w-10 h-10 z-20" />
+            <div className="absolute top-0 left-0 h-screen z-10">
+                <GradientCanvas />
+            </div>
 
-      <div className="relative flex items-center justify-center h-full z-10 px-6 pt-14 lg:px-8">
-        <div className="ml-auto sm:mx-auto max-w-2xl py-32 sm:py-48 lg:py-56 text-left sm:text-center">
-          <h1 className="text-6xl tracking-tight text-gray-100 sm:text-6xl font-raleway">
-            Turbocharge Your Reporting with AI
-          </h1>
-          <p className="mt-6 text-lg leading-8 text-gray-200 font-raleway">
-            FieldReport is <strong>the</strong> platform to help you streamline
-            your on-the-go critical reporting - using AI to extract insights
-            from your operations and field technicians.
-          </p>
-         
+            <div className="relative flex items-center justify-center h-full px-6 pt-14 lg:px-8 z-10">
+                <div className="ml-auto sm:mx-auto max-w-2xl py-32 sm:py-48 lg:py-56 text-left sm:text-center flex flex-col gap-5 md:gap-10">
+                    <h1 className="text-6xl tracking-tight text-white sm:text-7xl font-raleway">
+                        Turbocharge Your Reporting with AI
+                    </h1>
+                    <p className="text-lg leading-8 text-gray-200 font-raleway">
+                        The easiest path to exceptional reporting, either alone or with your team. FieldReport is the only tool you need to get the job done.
+                    </p>
+                    <ArrowDown className="hidden mx-auto h-8 w-8 z-50 text-white" />
+                    <Input className="hidden mx-auto w-96" autoFocus placeholder='Had some issues with...'/>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
