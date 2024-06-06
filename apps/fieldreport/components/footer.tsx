@@ -92,10 +92,9 @@ export default function Footer() {
             <h2 id="footer-heading" className="sr-only">
                 Footer
             </h2>
-            <div className="mx-auto max-w-6xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32 border border-dashed">
-                <div className="xl:grid xl:grid-cols-3 xl:gap-8">
+            <div className="mx-auto max-w-5xl pb-8 pt-16 sm:pt-24 lg:pt-32 border-l border-t border-r border-dashed">
+                <div className="xl:grid xl:grid-cols-3 xl:gap-8 px-6">
                     <AudioLines className="h-20 w-auto text-gray-900 dark:text-gray-300" />
-
                     <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
                         <div className="md:grid md:grid-cols-2 md:gap-8">
                             <div>
@@ -151,10 +150,10 @@ export default function Footer() {
                         </div>
                     </div>
                 </div>
-                <div className="mt-16 border-t pt-8 sm:mt-20 lg:mt-24 lg:flex lg:items-center lg:justify-between">
+                <div className="mt-16 border-t border-dashed px-6 pt-8 sm:mt-20 lg:mt-24 lg:flex lg:items-center lg:justify-between">
                     <div>
-                        <h3 className="text-sm font-semibold leading-6 ">Subscribe to our newsletter</h3>
-                        <p className="mt-2 text-sm leading-6 ">
+                        <h3 className="leading-6 ">Subscribe to our newsletter</h3>
+                        <p className="mt-2 text-xs leading-6 ">
                             The latest news, articles, and resources, sent to your inbox weekly.
                         </p>
                     </div>
@@ -175,7 +174,7 @@ export default function Footer() {
                         </div>
                     </form>
                 </div>
-                <div className="mt-8 border-t pt-8 md:flex md:items-center md:justify-between">
+                <div className="mt-8 border-t border-dashed px-6 pt-8 md:flex md:items-center md:justify-between">
                     <div className="flex space-x-6 md:order-2">
                         {navigation.social.map((item) => (
                             <a key={item.name} href={item.href} className="">

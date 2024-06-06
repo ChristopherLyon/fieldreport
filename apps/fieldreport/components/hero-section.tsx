@@ -31,7 +31,7 @@ export default function HeroSection() {
                     <h1 className="text-6xl tracking-tight text-white sm:text-7xl font-raleway">
                         Turbocharge Your Reporting with AI
                     </h1>
-                    <p className="text-lg leading-8 text-gray-200 font-raleway">
+                    <p className="text-xl leading-8 text-white font-raleway">
                         The easiest path to exceptional reporting, either alone or with your team. FieldReport is the only tool you need to get the job done.
                     </p>
                     <ArrowDown className="hidden mx-auto h-8 w-8 z-50 text-white" />
