@@ -42,7 +42,10 @@ export default function AIChatbot({
       setInputValue('');
 
       const eventSource = new EventSource(
-        `/api/ai-stream?message=${encodeURIComponent(inputValue)}`,
+        // pass in the entire chat history to the AI endpoint
+        `/api/ai-stream?message=${encodeURIComponent(
+          newChats.map((chat) => chat.message).join(' ')
+        )}`
       );
 
       let aiResponse = '';
