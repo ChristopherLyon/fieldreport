@@ -5,12 +5,19 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
 // UI Components
-import { AudioLines, AudioWaveform, Globe, ListTodo } from 'lucide-react';
+import {
+  AudioLines,
+  AudioWaveform,
+  FileStack,
+  Globe,
+  ListTodo,
+} from 'lucide-react';
 import { Button } from './ui/button';
 
 // Add all nav links here:
 const links = [
-  { href: '/', label: 'Report Stream', icon: AudioWaveform },
+  { href: '/', label: 'Streams', icon: AudioWaveform },
+  { href: '/reports', label: 'Reports', icon: FileStack },
   { href: '/globe', label: 'Globe', icon: Globe },
   { href: '/tasks', label: 'Tasks', icon: ListTodo },
 ];
@@ -20,14 +27,14 @@ export function NavLinks() {
 
   return (
     <nav className="justify-center grid space-y-2">
-      {links.map(({ href, icon: Icon }) => (
+      {links.map(({ href, icon: Icon, label }) => (
         <Link key={href} href={href}>
           <Button
-            size="icon"
             variant={'ghost'}
-            className={`${pathname === href ? 'bg-muted' : ''}`}
+            className={`w-full flex flex-row justify-start items-start ${pathname === href ? 'bg-muted' : ''}`}
           >
             <Icon className="w-5 h-5" />
+            <span className="pl-2">{label}</span>
           </Button>
         </Link>
       ))}

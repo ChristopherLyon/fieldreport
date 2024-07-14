@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { AudioLines, CornerDownLeft, Mic, Paperclip } from 'lucide-react';
+import GenerateReportButton from '@/components/generate-report-button';
 import {
   TooltipProvider,
   Tooltip,
@@ -74,7 +75,6 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
     }
 
     try {
-
       setStreamAiProcessing(true);
       setMobileStreamInputOpen(false);
       toast.info('Stream added to AI queue 🚀');
@@ -82,10 +82,10 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
 
       const sanitizedLocation: ILocation | null = location
         ? {
-          type: 'Point',
-          coordinates: [location.longitude, location.latitude],
-          accuracy: location.accuracy,
-        }
+            type: 'Point',
+            coordinates: [location.longitude, location.latitude],
+            accuracy: location.accuracy,
+          }
         : null;
 
       const response = await fetch('/api/streams', {
@@ -120,7 +120,7 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
       toast.error('Failed to add stream');
     } finally {
       setStreamAiProcessing(false);
-      
+
       // Check /api/checkSubscription
       const subscription = await fetch('/api/checkSubscription');
       const subscriptionData = await subscription.json();
@@ -157,6 +157,7 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
     <>
       {/* Desktop Input */}
       <div className="hidden lg:flex flex-col h-full w-96 gap-4">
+        <GenerateReportButton />
         <div className="relative overflow-hidden rounded-lg border focus-within:ring-1 focus-within:ring-ring h-full flex flex-col justify-between">
           <Label htmlFor="message" className="sr-only">
             Message
@@ -169,7 +170,7 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
             className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0 h-full"
           />
           <div className="flex items-center p-3 pt-0">
-            <TooltipProvider>
+            {/*  <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button variant="ghost" size="icon">
@@ -188,7 +189,7 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
                 </TooltipTrigger>
                 <TooltipContent side="top">Use Microphone</TooltipContent>
               </Tooltip>
-            </TooltipProvider>
+            </TooltipProvider> */}
             <Button
               onClick={handleSubmit}
               size="sm"
@@ -199,9 +200,9 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
             </Button>
           </div>
         </div>
-        <div className="h-64">
+        {/* <div className="h-64">
           <LockedMapWidget />
-        </div>
+        </div> */}
       </div>
 
       {/* Mobile Input */}

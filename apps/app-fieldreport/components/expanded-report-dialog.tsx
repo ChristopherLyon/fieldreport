@@ -1,6 +1,6 @@
 // Typesåa
 import { useEffect } from 'react';
-import { IStream } from '@/types/types';
+import { IReport } from '@/types/types';
 
 // UI
 import MarkdownWrapper from './markdown-wrapper';
@@ -8,11 +8,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import { X } from 'lucide-react';
 
 export default function ExpandedCardDialog({
-  stream,
+  report,
   expandedDialogOpen,
   setExpandedDialogOpen,
 }: {
-  stream: IStream;
+  report: IReport;
   expandedDialogOpen: boolean;
   setExpandedDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
@@ -40,12 +40,7 @@ export default function ExpandedCardDialog({
           onClick={() => setExpandedDialogOpen(false)}
         />
         <CardContent className="pt-10 md:pt-5">
-          <MarkdownWrapper
-            markdown={
-              stream.ai_generated?.reformatted_markdown_content ??
-              stream.raw_stream
-            }
-          />
+          <MarkdownWrapper markdown={report.ai_generated?.markdown_content} />
         </CardContent>
       </Card>
     </div>

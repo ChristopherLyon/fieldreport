@@ -68,7 +68,8 @@ export const CONFIG: AuthOptions = {
           .collection('users')
           .findOne({ email: user.email });
         if (dbUser) {
-          (token as ExtendedJWT).stripeCustomerId = dbUser.stripeCustomerId as string;
+          (token as ExtendedJWT).stripeCustomerId =
+            dbUser.stripeCustomerId as string;
           (token as ExtendedJWT)._id = dbUser._id;
         }
 

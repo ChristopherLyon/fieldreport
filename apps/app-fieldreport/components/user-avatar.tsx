@@ -57,7 +57,8 @@ export default function UserAvatar() {
 
             <DropdownMenuItem
               onClick={() => {
-                window.location.href = 'https://billing.stripe.com/p/login/aEU28RgqbaxWcDu3cc';
+                window.location.href =
+                  'https://billing.stripe.com/p/login/aEU28RgqbaxWcDu3cc';
               }}
             >
               <Receipt className="w-4 h-4 mr-2" />

@@ -55,7 +55,7 @@ export async function POST(request: Request) {
       "title": "string",
       "topic_category": "string",
       "summary": "string",
-      "reformatted_markdown_content": "string",
+      "markdown_content": "string",
       "user_input_quality_ranking": {
         "score": 0,
         "score_tooltip": "string"
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
   Guidelines:
   1. **Stream Title:** Concisely capture the essence.
   2. **Stream Summary:** Provide a brief overview (16-20 words).
-  3. **Reformatted Markdown Content:** Use headings, bullet points, code blocks, tables, and emojis to enhance readability. Offer suggestions where applicable.
+  3. **Reformatted Markdown Content:** Use headings, bullet points, code blocks, and tables to enhance readability. Offer suggestions where applicable.
   4. **User Input Quality Ranking:** Score from 0-10 with a brief tooltip.
   5. **Tags:** Extract key themes (2-3 tags, max 2 words each).
   6. **Tasks and Sub-Tasks:** Only generate if explicitly mentioned by the user. ALWAYS include a due date, feel free to add tasks already completed.
@@ -150,8 +150,7 @@ export async function POST(request: Request) {
       title: parsedAiContent.stream.title,
       topic_category: parsedAiContent.stream.topic_category,
       summary: parsedAiContent.stream.summary,
-      reformatted_markdown_content:
-        parsedAiContent.stream.reformatted_markdown_content,
+      markdown_content: parsedAiContent.stream.markdown_content,
       user_input_quality_ranking:
         parsedAiContent.stream.user_input_quality_ranking,
       tags: parsedAiContent.stream.tags,

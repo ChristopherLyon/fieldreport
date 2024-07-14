@@ -1,24 +1,11 @@
-import { IStream, ITask } from '@/types/types';
+import { IReport } from '@/types/types';
 
 // Libraries
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { format } from 'date-fns';
 
 // UI Components
-import {
-  Trash,
-  Calendar,
-  Medal,
-  ThumbsDown,
-  ListTodo,
-  AudioLines,
-} from 'lucide-react';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Trash, Calendar } from 'lucide-react';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import {
   AlertDialog,
@@ -38,64 +25,41 @@ import {
 } from '@/components/ui/context-menu';
 import { toast } from 'sonner';
 import { Badge } from './ui/badge';
-import ExpandedCardDialog from '@/components/expanded-card-dialog copy';
-import Link from 'next/link';
+import ExpandedReportDialog from './expanded-report-dialog';
 
-interface StreamCardProps {
-  stream: IStream;
-  setLocalStreams: React.Dispatch<React.SetStateAction<IStream[]>>;
+interface ReportCardProps {
+  report: IReport;
+  setLocalReports: React.Dispatch<React.SetStateAction<IReport[]>>;
   mutate: () => void;
 }
 
-export default function StreamCard({
-  stream,
-  setLocalStreams,
+export default function ReportCard({
+  report,
+  setLocalReports,
   mutate,
-}: StreamCardProps) {
+}: ReportCardProps) {
   const [expandedDialogOpen, setExpandedDialogOpen] = useState(false);
   const [deleteDialogAlertOpen, setDeleteDialogAlertOpen] = useState(false);
-  const [task, setTask] = useState<ITask | null>(null);
 
-  useEffect(() => {
-    async function fetchTask() {
-      if (stream.ai_generated?.spawned_task_id) {
-        try {
-          const response = await fetch(
-            `/api/tasks?id=${stream.ai_generated.spawned_task_id.toString()}`,
-          );
-          if (response.ok) {
-            const taskData: ITask = (await response.json()) as ITask;
-            setTask(taskData);
-          } else {
-            console.error('Failed to fetch task:', response.statusText);
-          }
-        } catch (error) {
-          console.error('Error fetching task:', error);
-        }
-      }
-    }
-    void fetchTask();
-  }, [stream]);
-
-  const handleDeleteStream = async () => {
+  const handleDeleteReport = async () => {
     try {
-      const response = await fetch('/api/streams', {
+      const response = await fetch('/api/reports', {
         method: 'DELETE',
-        body: JSON.stringify({ _id: stream._id }),
+        body: JSON.stringify({ _id: report._id }),
         headers: {
           'Content-Type': 'application/json',
         },
       });
       if (!response.ok) {
-        throw new Error('Failed to delete stream');
+        throw new Error('Failed to delete report');
       }
-      setLocalStreams((prevStreams) =>
-        prevStreams.filter((n) => n._id !== stream._id),
+      setLocalReports((prevReports) =>
+        prevReports.filter((n) => n._id !== report._id),
       );
-      toast.success('Stream deleted successfully');
+      toast.success('Report deleted successfully');
       mutate(); // Revalidate the cache
     } catch (error) {
-      toast.error('Failed to delete stream');
+      toast.error('Failed to delete report');
     }
   };
 
@@ -115,7 +79,7 @@ export default function StreamCard({
     }
   };
 
-  const { ai_generated } = stream;
+  const { ai_generated } = report;
 
   return (
     <>
@@ -128,13 +92,13 @@ export default function StreamCard({
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone. This will permanently delete your
-              stream and all of its data.
+              report.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-            <AlertDialogAction onClick={handleDeleteStream}>
+            <AlertDialogAction onClick={handleDeleteReport}>
               Continue
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -173,60 +137,10 @@ export default function StreamCard({
                         ai_generated.topic_category.slice(1)}
                     </div>
                   )}
-                  {task && (
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <Link href={`/tasks/`} data-no-expand>
-                            <ListTodo className="w-4 h-4 " />
-                          </Link>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p className="font-mono text-xs flex flex-row items-center gap-1">
-                            <AudioLines className="w-4 h-4 inline-block" />
-                            <span>Task</span>
-                          </p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  )}
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        {ai_generated?.user_input_quality_ranking?.score !==
-                          undefined &&
-                          (ai_generated.user_input_quality_ranking.score < 5 ? (
-                            <ThumbsDown
-                              className="w-4 h-4 text-red-500"
-                              data-no-expand
-                            />
-                          ) : ai_generated.user_input_quality_ranking.score >=
-                            8 ? (
-                            <Medal
-                              className="w-4 h-4 text-blue-500"
-                              data-no-expand
-                            />
-                          ) : null)}
-                      </TooltipTrigger>
-                      {ai_generated?.user_input_quality_ranking
-                        ?.score_tooltip && (
-                        <TooltipContent>
-                          <p className="font-mono text-xs">
-                            {
-                              ai_generated.user_input_quality_ranking
-                                .score_tooltip
-                            }{' '}
-                            [score:{' '}
-                            {ai_generated.user_input_quality_ranking.score}]
-                          </p>
-                        </TooltipContent>
-                      )}
-                    </Tooltip>
-                  </TooltipProvider>
                 </div>
                 <div className="text-gray-500 dark:text-gray-400 text-xs items-center flex font-mono">
                   <Calendar className="w-4 h-4 mr-2 inline-block" />
-                  {format(new Date(stream.created_at), 'MMM dd')}
+                  {format(new Date(report.created_at), 'MMM dd')}
                 </div>
               </div>
             </CardContent>
@@ -238,12 +152,12 @@ export default function StreamCard({
             onClick={() => setDeleteDialogAlertOpen(true)}
           >
             <Trash className="h-3 w-3" />
-            Delete Stream & Tasks
+            Delete Report
           </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
-      <ExpandedCardDialog
-        stream={stream}
+      <ExpandedReportDialog
+        report={report}
         expandedDialogOpen={expandedDialogOpen}
         setExpandedDialogOpen={setExpandedDialogOpen}
       />

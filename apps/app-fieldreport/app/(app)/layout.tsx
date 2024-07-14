@@ -20,7 +20,7 @@ export default async function RootLayout({
 
   return (
     <main className="font-raleway h-screen overflow-hidden relative">
-      <div className="grid min-h-screen w-full md:grid-cols-[70px_1fr] relative">
+      <div className="grid min-h-screen w-full md:grid-cols-[140px_1fr] relative">
         <div className="hidden md:block">
           <div className="flex h-full max-h-screen flex-col gap-2">
             <div className="flex h-14 items-center border-b mx-auto"></div>

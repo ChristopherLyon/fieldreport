@@ -20,7 +20,7 @@ export async function GET() {
   const user = session.user as IUser;
 
   const stripeCustomerId = user.stripeCustomerId;
-  let customerId = stripeCustomerId as string;
+  const customerId = stripeCustomerId;
 
   // Check for active subscriptions
   const subscriptions = await stripe.subscriptions.list({

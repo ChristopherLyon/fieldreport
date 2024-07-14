@@ -53,7 +53,7 @@ export default function RootLayout({
             <Analytics />
             <SpeedInsights />
             {children}
-            <Toaster richColors />
+            <Toaster richColors position="bottom-left" />
           </ThemeProvider>
         </body>
       </html>
