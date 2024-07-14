@@ -19,7 +19,15 @@ export default function AIChatbot({
 }) {
   const [chatHistory, setChatHistory] = useState<
     { role: string; content: string }[]
-  >([]);
+  >([
+    {
+      role: "assistant",
+      content:
+        mode === "personal"
+          ? "How can I assist you today?"
+          : "How can I help your business?",
+    },
+  ]);
   const [inputValue, setInputValue] = useState("");
   const [minimizedChat, setMinimizedChat] = useState(false);
   const [currentAIResponse, setCurrentAIResponse] = useState("");
@@ -37,7 +45,8 @@ export default function AIChatbot({
     e.preventDefault();
     if (inputValue.trim() !== "") {
       const newUserMessage = { role: "user", content: inputValue };
-      setChatHistory((prev) => [...prev, newUserMessage]);
+      const updatedHistory = [...chatHistory, newUserMessage];
+      setChatHistory(updatedHistory);
       setInputValue("");
 
       try {
@@ -46,7 +55,7 @@ export default function AIChatbot({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ message: inputValue }),
+          body: JSON.stringify({ messages: updatedHistory }),
         });
 
         if (!response.body) throw new Error("No response body");
@@ -78,8 +87,20 @@ export default function AIChatbot({
     scrollToBottom();
   }, [chatHistory, currentAIResponse]);
 
+  useEffect(() => {
+    setChatHistory([
+      {
+        role: "assistant",
+        content:
+          mode === "personal"
+            ? "How can I assist you today?"
+            : "How can I help your business?",
+      },
+    ]);
+  }, [mode]);
+
   return (
-    <Card className="fixed bottom-5 right-5 max-w-[330px] z-50 hidden md:block">
+    <Card className="fixed bottom-5 right-5 max-w-[330px] z-50 hidden md:block overflow-hidden">
       {!minimizedChat ? (
         <>
           <ChevronDown
@@ -110,11 +131,6 @@ export default function AIChatbot({
               <div>
                 <p className="text-sm font-medium leading-none">
                   FieldReport AI
-                </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  {mode === "personal"
-                    ? "How can I assist you today?"
-                    : "How can I help your business?"}
                 </p>
               </div>
             </div>

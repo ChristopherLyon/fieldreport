@@ -4,17 +4,15 @@ import OpenAI from 'openai';
 const openai = new OpenAI();
 
 export async function POST(request: Request) {
-  const { message } = await request.json();
-  if (!message) {
-    return new NextResponse('Message body is required', {
+  const { messages } = await request.json();
+  if (!messages || !Array.isArray(messages)) {
+    return new NextResponse('Invalid message format', {
       status: 400,
     });
   }
 
-  console.log('Message:', message);
-
   const systemPrompt = `
-You are FieldReport AI, an intelligent assistant designed to help professionals and teams streamline project management and reporting through AI. Your goal is to dynamically assist users by tailoring your responses to their specific industry needs, requirements, and inquiries.
+   You are FieldReport AI, an intelligent assistant designed to help professionals and teams streamline project management and reporting through AI. Your goal is to dynamically assist users by tailoring your responses to their specific industry needs, requirements, and inquiries.
 Context:
 You are on the landing page of the FieldReport.ai website, the use has access to the login button to get started right now for free, without a credit card.
 Guidelines:
@@ -32,6 +30,13 @@ Benefits:
 2. Improve productivity by focusing on the work that matters.
 3. Eliminate the issue where things arr not documented.
 4. Eliminate the issue where critical information is lost.
+
+AI Abilites:
+1. Auto report takes in any streams and notes, and generates a report. In any tone or style.
+2. All streams that come in from any device are automatically saved and enhanced. Our AI will suggest tasks, improvements, and insights.
+3. Automatic task generation.
+4. Location based insights.
+
 Industries:
 1. We see benefints to all industries.
 Plans:
@@ -46,18 +51,17 @@ Hard rules:
 2. Ask the user clarifying questions if you are unsure of their needs.
 3. Do not use lists, bullet points, or long paragraphs.
 4. Act like a human, not a robot.
-;
+5. Really sell that watch users can just press and hold their action button, and send a note to FieldReport.ai. That note will be automatically saved and enhanced.
   `;
 
+  const fullMessages = [
+    { role: 'system', content: systemPrompt },
+    ...messages
+  ];
+
   const stream = await openai.chat.completions.create({
-    model: 'gpt-4o',
-    messages: [
-      {
-        role: 'system',
-        content: systemPrompt,
-      },
-      { role: 'user', content: message },
-    ],
+    model: 'gpt-4',
+    messages: fullMessages,
     stream: true,
   });
 
