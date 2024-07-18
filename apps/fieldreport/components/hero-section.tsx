@@ -1,7 +1,7 @@
 "use client";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import placeholderImage from "@/public/images/hero-section-placeholder.png";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
 

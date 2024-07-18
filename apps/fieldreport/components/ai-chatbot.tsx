@@ -1,14 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-	Card,
-	CardHeader,
-	CardContent,
-	CardFooter,
-} from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import {
+	Card,
+	CardContent,
+	CardFooter,
+	CardHeader,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ArrowRight, AudioLines, ChevronDown } from "lucide-react";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function AIChatbot({
 	mode,

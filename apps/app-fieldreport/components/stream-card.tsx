@@ -1,25 +1,10 @@
-import { IStream, ITask } from "@/types/types";
+import type { IStream, ITask } from "@/types/types";
 
-// Libraries
-import { useState, useEffect } from "react";
 import { format } from "date-fns";
+// Libraries
+import { useEffect, useState } from "react";
 
-// UI Components
-import {
-	Trash,
-	Calendar,
-	Medal,
-	ThumbsDown,
-	ListTodo,
-	AudioLines,
-} from "lucide-react";
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import ExpandedCardDialog from "@/components/expanded-card-dialog copy";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -30,16 +15,31 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import {
 	ContextMenu,
 	ContextMenuContent,
 	ContextMenuItem,
 	ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
+// UI Components
+import {
+	AudioLines,
+	Calendar,
+	ListTodo,
+	Medal,
+	ThumbsDown,
+	Trash,
+} from "lucide-react";
+import Link from "next/link";
 import { toast } from "sonner";
 import { Badge } from "./ui/badge";
-import ExpandedCardDialog from "@/components/expanded-card-dialog copy";
-import Link from "next/link";
 
 interface StreamCardProps {
 	stream: IStream;

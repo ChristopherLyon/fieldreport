@@ -1,8 +1,8 @@
 "use client";
 
+import Link from "next/link";
 // Libraries
 import { usePathname } from "next/navigation";
-import Link from "next/link";
 
 // UI Components
 import {

@@ -1,9 +1,9 @@
 // api/backend/streams/route.ts
 import { connectToDatabase } from "@/lib/mongodb";
-import { getServerSession } from "next-auth/next";
+import type { IStream, ITask } from "@/types/types"; // Import the IStream and ITask interfaces
 import { ObjectId } from "mongodb";
+import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server";
-import { IStream, ITask } from "@/types/types"; // Import the IStream and ITask interfaces
 import OpenAI from "openai";
 
 // Constants

@@ -1,11 +1,11 @@
+import type { IReport } from "@/types/types";
 // Typesåa
 import { useEffect } from "react";
-import { IReport } from "@/types/types";
 
-// UI
-import MarkdownWrapper from "./markdown-wrapper";
 import { Card, CardContent } from "@/components/ui/card";
 import { X } from "lucide-react";
+// UI
+import MarkdownWrapper from "./markdown-wrapper";
 
 export default function ExpandedCardDialog({
 	report,

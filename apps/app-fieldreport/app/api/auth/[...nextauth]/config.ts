@@ -1,9 +1,9 @@
-import GoogleProvider from "next-auth/providers/google";
-import Stripe from "stripe";
 import { connectToDatabase } from "@/lib/mongodb";
+import { ObjectId } from "mongodb";
 import type { AuthOptions, User as NextAuthUser } from "next-auth";
 import type { JWT as NextAuthJWT } from "next-auth/jwt";
-import { ObjectId } from "mongodb";
+import GoogleProvider from "next-auth/providers/google";
+import Stripe from "stripe";
 
 // Extend the User type to include the stripeCustomerId and _id properties
 interface ExtendedUser extends NextAuthUser {

@@ -1,5 +1,5 @@
-import { ArrowDown, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { ArrowDown, ArrowRight } from "lucide-react";
 
 export default function OurMission() {
 	return (

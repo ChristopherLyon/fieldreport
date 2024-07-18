@@ -1,12 +1,9 @@
-import { IReport } from "@/types/types";
+import type { IReport } from "@/types/types";
 
+import { format } from "date-fns";
 // Libraries
 import { useState } from "react";
-import { format } from "date-fns";
 
-// UI Components
-import { Trash, Calendar } from "lucide-react";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -17,15 +14,18 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import {
 	ContextMenu,
 	ContextMenuContent,
 	ContextMenuItem,
 	ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+// UI Components
+import { Calendar, Trash } from "lucide-react";
 import { toast } from "sonner";
-import { Badge } from "./ui/badge";
 import ExpandedReportDialog from "./expanded-report-dialog";
+import { Badge } from "./ui/badge";
 
 interface ReportCardProps {
 	report: IReport;

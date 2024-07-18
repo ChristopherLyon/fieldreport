@@ -1,37 +1,37 @@
 "use client";
-import useSWR from "swr";
-import { useState, useEffect } from "react";
-import { ITask, ISubTask, Priority } from "@/types/types";
-import {
-	format,
-	isToday as checkIfToday,
-	isTomorrow as checkIfTomorrow,
-} from "date-fns";
-import {
-	TableHead,
-	TableRow,
-	TableHeader,
-	TableCell,
-	TableBody,
-	Table,
-} from "@/components/ui/table";
 import {
 	ContextMenu,
 	ContextMenuContent,
 	ContextMenuItem,
 	ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-
 import {
-	Minus,
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
+import type { ISubTask, ITask, Priority } from "@/types/types";
+import {
+	isToday as checkIfToday,
+	isTomorrow as checkIfTomorrow,
+	format,
+} from "date-fns";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
+
+import NoDataContextCard from "@/components/no-data-context-card";
+import {
 	Calendar,
 	CircleDashed,
 	CircleDot,
 	CircleDotDashed,
+	Minus,
 	ShieldAlert,
 } from "lucide-react";
 import React from "react";
-import NoDataContextCard from "@/components/no-data-context-card";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 

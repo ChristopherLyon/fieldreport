@@ -9,9 +9,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { AudioLines } from "lucide-react";
 
+import githubLogo from "@/public/images/logos/github-logo.png";
 // Images
 import googleLogo from "@/public/images/logos/google-logo.webp";
-import githubLogo from "@/public/images/logos/github-logo.png";
 import signInBackground from "@/public/images/signin-page.png";
 
 export default function SignIn() {

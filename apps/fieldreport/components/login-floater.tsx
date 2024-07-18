@@ -1,9 +1,9 @@
 "use client";
 
-// Libraries
-import Link from "next/link";
 // UI Components
 import { Button } from "@/components/ui/button";
+// Libraries
+import Link from "next/link";
 
 export function LoginFloater() {
 	return (

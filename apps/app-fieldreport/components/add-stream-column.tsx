@@ -1,20 +1,10 @@
 "use client";
 // Types
-import { IStream, ILocation } from "@/types/types";
+import type { ILocation, IStream } from "@/types/types";
 
-// UI
-import React, { useCallback } from "react";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { AudioLines, CornerDownLeft, Mic, Paperclip } from "lucide-react";
 import GenerateReportButton from "@/components/generate-report-button";
-import {
-	TooltipProvider,
-	Tooltip,
-	TooltipContent,
-	TooltipTrigger,
-} from "@/components/ui/tooltip";
+import LockedMapWidget from "@/components/locked-map-widget";
+import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
@@ -24,11 +14,22 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { toast } from "sonner";
-import { useEffect, useState } from "react";
-import LockedMapWidget from "@/components/locked-map-widget";
+import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
+import { Textarea } from "@/components/ui/textarea";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { sub } from "date-fns";
+import { AudioLines, CornerDownLeft, Mic, Paperclip } from "lucide-react";
+// UI
+import type React from "react";
+import { useCallback } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface AddStreamColumnProps {
 	setLocalStreams: React.Dispatch<React.SetStateAction<IStream[]>>;

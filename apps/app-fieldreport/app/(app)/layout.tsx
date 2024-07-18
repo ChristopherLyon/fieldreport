@@ -1,12 +1,12 @@
+import { CONFIG } from "@/app/api/auth/[...nextauth]/config";
+import { unstable_getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 // Libraries
 import type * as React from "react";
-import { redirect } from "next/navigation";
-import { unstable_getServerSession } from "next-auth";
-import { CONFIG } from "@/app/api/auth/[...nextauth]/config";
 
+import Header from "@/components/header";
 // UI Components
 import { NavLinks } from "@/components/nav-links";
-import Header from "@/components/header";
 
 export default async function RootLayout({
 	children,

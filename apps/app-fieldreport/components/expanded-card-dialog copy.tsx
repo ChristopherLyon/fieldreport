@@ -1,11 +1,11 @@
+import type { IStream } from "@/types/types";
 // Typesåa
 import { useEffect } from "react";
-import { IStream } from "@/types/types";
 
-// UI
-import MarkdownWrapper from "./markdown-wrapper";
 import { Card, CardContent } from "@/components/ui/card";
 import { X } from "lucide-react";
+// UI
+import MarkdownWrapper from "./markdown-wrapper";
 
 export default function ExpandedCardDialog({
 	stream,

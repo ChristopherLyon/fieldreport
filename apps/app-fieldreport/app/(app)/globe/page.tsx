@@ -1,12 +1,12 @@
 "use client";
+import type { IStream } from "@/types/types";
+import type * as React from "react";
+import Map, { type MapRef, Marker } from "react-map-gl";
 import useSWR from "swr";
-import { IStream } from "@/types/types";
-import * as React from "react";
-import Map, { MapRef, Marker } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { useRef, useState, useEffect } from "react";
-import { useTheme } from "next-themes";
 import { PersonStanding } from "lucide-react";
+import { useTheme } from "next-themes";
+import { useEffect, useRef, useState } from "react";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 

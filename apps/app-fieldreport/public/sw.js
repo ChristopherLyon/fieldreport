@@ -10,7 +10,7 @@ if (!self.define) {
 					(e.src = t), (e.onload = s), document.head.appendChild(e);
 				} else (e = t), importScripts(t), s();
 			}).then(() => {
-				let e = s[t];
+				const e = s[t];
 				if (!e) throw new Error(`Module ${t} didn’t register its module`);
 				return e;
 			})
@@ -21,14 +21,13 @@ if (!self.define) {
 			("document" in self ? document.currentScript.src : "") ||
 			location.href;
 		if (s[i]) return;
-		let c = {};
+		const c = {};
 		const d = (e) => t(e, i),
 			r = { module: { uri: i }, exports: c, require: d };
 		s[i] = Promise.all(n.map((e) => r[e] || d(e))).then((e) => (a(...e), c));
 	};
 }
-define(["./workbox-01fd22c6"], function (e) {
-	"use strict";
+define(["./workbox-01fd22c6"], (e) => {
 	importScripts(),
 		self.skipWaiting(),
 		e.clientsClaim(),

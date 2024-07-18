@@ -1,13 +1,12 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
+import React from "react";
 
-// UI Libraries
-import { Menu, AudioLines } from "lucide-react";
+import { NavLinksMobile } from "@/components/nav-links";
+import RealtimeClock from "@/components/realtime-clock";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
-import RealtimeClock from "@/components/realtime-clock";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -18,7 +17,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import UserAvatar from "@/components/user-avatar";
-import { NavLinksMobile } from "@/components/nav-links";
+// UI Libraries
+import { AudioLines, Menu } from "lucide-react";
 
 export default function Header() {
 	// State for sheet

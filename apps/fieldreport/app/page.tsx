@@ -1,17 +1,17 @@
 "use client";
+import AIChatbot from "@/components/ai-chatbot";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import HeroSection from "@/components/hero-section";
-import { useState } from "react";
 import { LoginFloater } from "@/components/login-floater";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CornerRightDown } from "lucide-react";
-import AIChatbot from "@/components/ai-chatbot";
 import OurMission from "@/components/our-mission";
-import Image from "next/image";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import AppleWatchMockup from "@/public/images/apple-watch.png";
 import IpadMockup from "@/public/images/ipad-mockup.jpeg";
 import MacbookMockup from "@/public/images/macbook-mockup-cropped.png";
-import AppleWatchMockup from "@/public/images/apple-watch.png";
+import { CornerRightDown } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
 
 import Pricing from "@/components/pricing";
 import VideoAndTitleBlock from "@/components/video-and-title-block"; // Ensure this is the correct import path

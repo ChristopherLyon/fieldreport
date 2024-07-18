@@ -1,11 +1,11 @@
 "use client";
-import useSWR from "swr";
-import { IReport } from "@/types/types";
+import AddStreamColumn from "@/components/add-stream-column";
 import NoDataContextCard from "@/components/no-data-context-card";
 import ReportCard from "@/components/report-card";
 import { Card } from "@/components/ui/card";
-import AddStreamColumn from "@/components/add-stream-column";
-import { useState, useEffect } from "react";
+import type { IReport } from "@/types/types";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 

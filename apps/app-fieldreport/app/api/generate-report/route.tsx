@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { connectToDatabase } from "@/lib/mongodb";
-import { getServerSession } from "next-auth/next";
+import type { IReport } from "@/types/types";
 import { ObjectId } from "mongodb";
+import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server";
-import { IReport } from "@/types/types";
 import OpenAI from "openai";
 
 const openai = new OpenAI();

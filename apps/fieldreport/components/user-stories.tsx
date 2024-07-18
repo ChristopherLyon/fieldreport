@@ -1,6 +1,6 @@
 "use client";
 import { AudioLines } from "lucide-react";
-import Image, { StaticImageData } from "next/image";
+import Image, { type StaticImageData } from "next/image";
 
 interface UserStory {
 	name: string;

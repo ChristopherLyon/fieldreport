@@ -1,5 +1,5 @@
-import Header from "@/components/header";
 import Footer from "@/components/footer";
+import Header from "@/components/header";
 import MarkdownWrapper from "@/components/markdown-wrapper";
 
 const markdown = `

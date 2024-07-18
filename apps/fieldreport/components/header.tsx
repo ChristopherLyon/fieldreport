@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { Button } from "@/components/ui/button";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { AudioLines, Menu, OctagonAlertIcon, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { useState } from "react";
 
 const navigation = [
 	{ name: "Mission", href: "/#mission" },

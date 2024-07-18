@@ -1,7 +1,7 @@
 import { Check } from "lucide-react";
+import Link from "next/link";
 import { Button } from "./ui/button";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
-import Link from "next/link";
 
 type Tier = {
 	name: string;

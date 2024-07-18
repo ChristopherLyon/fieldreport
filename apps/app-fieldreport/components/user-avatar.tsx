@@ -1,7 +1,7 @@
 "use client";
 
 // Libraries
-import { useSession, signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 // UI Components
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -14,8 +14,8 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
-import { LogOut, Maximize, Receipt } from "lucide-react";
 import { Separator } from "@radix-ui/react-dropdown-menu";
+import { LogOut, Maximize, Receipt } from "lucide-react";
 
 // Handle function to make the app fullscreen
 function toggleFullscreen() {
