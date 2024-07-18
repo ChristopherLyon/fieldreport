@@ -1,7 +1,7 @@
-import { Check } from 'lucide-react';
-import { Button } from './ui/button';
-import { Tabs, TabsList, TabsTrigger } from './ui/tabs';
-import Link from 'next/link';
+import { Check } from "lucide-react";
+import { Button } from "./ui/button";
+import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
+import Link from "next/link";
 
 type Tier = {
   name: string;
@@ -18,43 +18,43 @@ type Tier = {
 
 const tiers: Tier[] = [
   {
-    name: 'Personal',
-    id: 'personal',
-    href: '#',
-    priceMonthly: '$19.99',
+    name: "Personal",
+    id: "personal",
+    href: "#",
+    priceMonthly: "$19.99",
     description:
-      'Ideal for individuals looking to enhance productivity with AI-driven tools.',
+      "Ideal for individuals looking to enhance productivity with AI-driven tools.",
     mostPopular: true,
     features: [
-      'AI Voice-to-Text',
-      'Automatic Tasks',
-      'Curated Learning',
-      'AI Summarization',
+      "Easy Reporting",
+      "AI Summarization",
+      "Curated AI Reporting",
+      "AI Task Generation",
     ],
     active: true,
-    buttonText: 'Get started',
-    buttonHref: 'https://app.fieldreport.ai/auth/signin' as string,
+    buttonText: "Get started",
+    buttonHref: "https://app.fieldreport.ai/auth/signin" as string,
   },
   {
-    name: 'Enterprise',
-    id: 'enterprise',
-    href: '#',
-    priceMonthly: '$49.99',
+    name: "Enterprise",
+    id: "enterprise",
+    href: "#",
+    priceMonthly: "$49.99",
     description:
-      'Comprehensive solution for teams with advanced features like geotagging and hierarchical reporting.',
+      "Comprehensive solution for teams with advanced features like geotagging and hierarchical reporting.",
     mostPopular: false,
     features: [
-      'AI Voice-to-Text',
-      'Automatic Tasks',
-      'Curated Learning',
-      'AI Summarization',
-      'Geolocation',
-      'Hierarchical Reporting',
-      'Team Members: Up to 20 users',
+      "AI Voice-to-Text",
+      "Automatic Tasks",
+      "Curated Learning",
+      "AI Summarization",
+      "Geolocation",
+      "Hierarchical Reporting",
+      "Team Members: Up to 20 users",
     ],
     active: false,
-    buttonText: 'Comming soon',
-    buttonHref: 'https://app.fieldreport.ai/auth/signin' as string,
+    buttonText: "Comming soon",
+    buttonHref: "https://app.fieldreport.ai/auth/signin" as string,
   },
 ];
 
@@ -66,7 +66,10 @@ export default function Pricing({
   setCustomerType: any;
 }) {
   return (
-    <div className="border- border-r border-l border-dashed  py-24 sm:py-32">
+    <div
+      className="border- border-r border-l border-dashed  py-24 sm:py-32"
+      id="pricing"
+    >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl sm:text-center">
           <h2 className="text-3xl tracking-tight sm:text-4xl">
@@ -93,9 +96,9 @@ export default function Pricing({
         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mx-0 lg:flex lg:max-w-none">
           <div className="p-8 sm:p-10 lg:flex-auto">
             <h3 className="text-2xl tracking-tight">
-              {customerType === 'personal'
-                ? 'Personal Plan'
-                : 'Enterprise Plan'}
+              {customerType === "personal"
+                ? "Personal Plan"
+                : "Enterprise Plan"}
             </h3>
             <p className="mt-6 text-base leading-7">
               {tiers.find((tier) => tier.id === customerType)?.description}

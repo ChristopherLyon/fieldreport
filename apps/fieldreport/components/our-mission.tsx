@@ -1,9 +1,9 @@
-import { ArrowDown, ArrowRight } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import { ArrowDown, ArrowRight } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 export default function OurMission() {
   return (
-    <div className="w-full grid grid-cols-1 md:grid-cols-2">
+    <div className="w-full grid grid-cols-1 md:grid-cols-2" id="mission">
       <span className="text-5xl hidden md:block ">
         Our Mission <ArrowRight className="h-8 w-8 inline" />
       </span>
