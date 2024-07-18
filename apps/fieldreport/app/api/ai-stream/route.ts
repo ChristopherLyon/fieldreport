@@ -1,17 +1,17 @@
-import { NextResponse } from 'next/server';
-import OpenAI from 'openai';
+import { NextResponse } from "next/server";
+import OpenAI from "openai";
 
 const openai = new OpenAI();
 
 export async function POST(request: Request) {
-  const { messages } = await request.json();
-  if (!messages || !Array.isArray(messages)) {
-    return new NextResponse('Invalid message format', {
-      status: 400,
-    });
-  }
+	const { messages } = await request.json();
+	if (!messages || !Array.isArray(messages)) {
+		return new NextResponse("Invalid message format", {
+			status: 400,
+		});
+	}
 
-  const systemPrompt = `
+	const systemPrompt = `
    You are FieldReport AI, an intelligent assistant designed to help professionals and teams streamline project management and reporting through AI. Your goal is to dynamically assist users by tailoring your responses to their specific industry needs, requirements, and inquiries.
 Context:
 You are on the landing page of the FieldReport.ai website, the use has access to the login button to get started right now for free, without a credit card.
@@ -54,35 +54,32 @@ Hard rules:
 5. Really sell that watch users can just press and hold their action button, and send a note to FieldReport.ai. That note will be automatically saved and enhanced.
   `;
 
-  const fullMessages = [
-    { role: 'system', content: systemPrompt },
-    ...messages
-  ];
+	const fullMessages = [{ role: "system", content: systemPrompt }, ...messages];
 
-  const stream = await openai.chat.completions.create({
-    model: 'gpt-4',
-    messages: fullMessages,
-    stream: true,
-  });
+	const stream = await openai.chat.completions.create({
+		model: "gpt-4",
+		messages: fullMessages,
+		stream: true,
+	});
 
-  return new NextResponse(
-    new ReadableStream({
-      async start(controller) {
-        for await (const chunk of stream) {
-          const content = chunk.choices[0]?.delta?.content || '';
-          if (content) {
-            controller.enqueue(new TextEncoder().encode(content));
-          }
-        }
-        controller.close();
-      },
-    }),
-    {
-      headers: {
-        'Content-Type': 'text/plain',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-      },
-    }
-  );
+	return new NextResponse(
+		new ReadableStream({
+			async start(controller) {
+				for await (const chunk of stream) {
+					const content = chunk.choices[0]?.delta?.content || "";
+					if (content) {
+						controller.enqueue(new TextEncoder().encode(content));
+					}
+				}
+				controller.close();
+			},
+		}),
+		{
+			headers: {
+				"Content-Type": "text/plain",
+				"Cache-Control": "no-cache",
+				Connection: "keep-alive",
+			},
+		},
+	);
 }

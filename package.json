@@ -1,16 +1,12 @@
 {
-    "name": "fieldreport-monorepo",
-    "private": true,
-    "scripts": {
-        "build": "pnpm -r build",
-        "dev": "pnpm -r dev",
-        "lint": "pnpm -r lint",
-        "test": "pnpm -r test"
-    },
-    "devDependencies": {
-        "typescript": "^4.5.4"
-    },
-    "dependencies": {
-        "swr": "^2.2.5"
-    }
+  "name": "fieldreport-monorepo",
+  "private": true,
+  "scripts": {},
+  "devDependencies": {
+    "turbo": "^2.0.7"
+  },
+  "workspaces": [
+    "apps/*"
+  ],
+  "packageManager": "pnpm@9.5.0"
 }

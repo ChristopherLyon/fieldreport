@@ -1,82 +1,82 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { connectToDatabase } from '@/lib/mongodb';
-import { getServerSession } from 'next-auth/next';
-import { ObjectId } from 'mongodb';
-import { NextResponse } from 'next/server';
-import { IReport } from '@/types/types';
-import OpenAI from 'openai';
+import { connectToDatabase } from "@/lib/mongodb";
+import { getServerSession } from "next-auth/next";
+import { ObjectId } from "mongodb";
+import { NextResponse } from "next/server";
+import { IReport } from "@/types/types";
+import OpenAI from "openai";
 
 const openai = new OpenAI();
 
 // Utility function to get the start of the day
 const getStartOfDay = (date: string) =>
-  new Date(new Date(date).setUTCHours(0, 0, 0, 0));
+	new Date(new Date(date).setUTCHours(0, 0, 0, 0));
 
 // Utility function to get the end of the day
 const getEndOfDay = (date: string) =>
-  new Date(new Date(date).setUTCHours(23, 59, 59, 999));
+	new Date(new Date(date).setUTCHours(23, 59, 59, 999));
 
 // Utility function to get the current date in ISO format
-const getCurrentDate = () => new Date().toISOString().split('T')[0];
+const getCurrentDate = () => new Date().toISOString().split("T")[0];
 
 // Create a new report for the authenticated user
 export async function POST(request: Request) {
-  const session = await getServerSession();
-  if (!session) {
-    console.log('Unauthorized access attempt');
-    return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), {
-      status: 401,
-    });
-  }
-  let from: string, to: string, prompt: string;
-  try {
-    const data = await request.json();
-    from = data.from;
-    to = data.to;
-    prompt = data.prompt;
-    console.log('Request body:', data);
-  } catch (error) {
-    console.log('Error parsing request body:', error);
-    return new NextResponse(JSON.stringify({ error: 'Invalid request body' }), {
-      status: 400,
-    });
-  }
+	const session = await getServerSession();
+	if (!session) {
+		console.log("Unauthorized access attempt");
+		return new NextResponse(JSON.stringify({ error: "Unauthorized" }), {
+			status: 401,
+		});
+	}
+	let from: string, to: string, prompt: string;
+	try {
+		const data = await request.json();
+		from = data.from;
+		to = data.to;
+		prompt = data.prompt;
+		console.log("Request body:", data);
+	} catch (error) {
+		console.log("Error parsing request body:", error);
+		return new NextResponse(JSON.stringify({ error: "Invalid request body" }), {
+			status: 400,
+		});
+	}
 
-  const { db } = await connectToDatabase();
+	const { db } = await connectToDatabase();
 
-  let streams;
-  try {
-    streams = await db
-      .collection('streams')
-      .find({
-        user_id: session.user?.email,
-        created_at: {
-          $gte: getStartOfDay(from),
-          $lte: getEndOfDay(to),
-        },
-      })
-      .toArray();
-    console.log('Streams fetched:', streams.length);
-  } catch (error) {
-    console.log('Error fetching streams:', error);
-    return new NextResponse(
-      JSON.stringify({ error: 'Failed to fetch streams' }),
-      { status: 500 },
-    );
-  }
-  if (streams.length === 0) {
-    console.log('No streams found for the specified date range');
-    return new NextResponse(
-      JSON.stringify({
-        error: 'No streams found for the specified date range',
-      }),
-      { status: 404 },
-    );
-  }
+	let streams;
+	try {
+		streams = await db
+			.collection("streams")
+			.find({
+				user_id: session.user?.email,
+				created_at: {
+					$gte: getStartOfDay(from),
+					$lte: getEndOfDay(to),
+				},
+			})
+			.toArray();
+		console.log("Streams fetched:", streams.length);
+	} catch (error) {
+		console.log("Error fetching streams:", error);
+		return new NextResponse(
+			JSON.stringify({ error: "Failed to fetch streams" }),
+			{ status: 500 },
+		);
+	}
+	if (streams.length === 0) {
+		console.log("No streams found for the specified date range");
+		return new NextResponse(
+			JSON.stringify({
+				error: "No streams found for the specified date range",
+			}),
+			{ status: 404 },
+		);
+	}
 
-  const streamText = streams.map((stream) => stream.raw_stream).join('\n');
+	const streamText = streams.map((stream) => stream.raw_stream).join("\n");
 
-  const aiPrompt = `
+	const aiPrompt = `
     Today's date is ${getCurrentDate()}.
     You are an advanced report-generating AI assistant for the user ${session.user?.name}. Your task is to process the user's streams collected from ${from} to ${to}, enhancing clarity and structure while maintaining their style. Summarize, add context, and suggest tasks only when explicitly indicated by the user. Use rich markdown to improve readability.
   
@@ -111,71 +111,71 @@ export async function POST(request: Request) {
     - Provide detailed, thought-through next steps when mentioned. Avoid vagueness and irrelevant information.
   `;
 
-  const chatCompletion = await openai.chat.completions.create({
-    response_format: {
-      type: 'json_object',
-    },
-    messages: [
-      { role: 'system', content: aiPrompt },
-      {
-        role: 'user',
-        content: `Generate a report for these streams: ${streamText}`,
-      },
-      { role: 'system', content: 'users optional custom instruction below: ' },
+	const chatCompletion = await openai.chat.completions.create({
+		response_format: {
+			type: "json_object",
+		},
+		messages: [
+			{ role: "system", content: aiPrompt },
+			{
+				role: "user",
+				content: `Generate a report for these streams: ${streamText}`,
+			},
+			{ role: "system", content: "users optional custom instruction below: " },
 
-      { role: 'user', content: prompt },
-    ],
+			{ role: "user", content: prompt },
+		],
 
-    model: 'gpt-4o',
-  });
+		model: "gpt-4o",
+	});
 
-  const aiContent = chatCompletion.choices?.[0]?.message?.content;
-  if (!aiContent) {
-    return new NextResponse(
-      JSON.stringify({ error: 'Failed to generate AI content' }),
-      { status: 500 },
-    );
-  }
+	const aiContent = chatCompletion.choices?.[0]?.message?.content;
+	if (!aiContent) {
+		return new NextResponse(
+			JSON.stringify({ error: "Failed to generate AI content" }),
+			{ status: 500 },
+		);
+	}
 
-  let parsedAiContent;
-  try {
-    parsedAiContent = JSON.parse(aiContent);
-    console.log('Parsed AI Content:', parsedAiContent);
-  } catch (error) {
-    console.log('Error parsing AI content:', error);
-    return new NextResponse(
-      JSON.stringify({ error: 'Failed to parse AI content' }),
-      { status: 500 },
-    );
-  }
+	let parsedAiContent;
+	try {
+		parsedAiContent = JSON.parse(aiContent);
+		console.log("Parsed AI Content:", parsedAiContent);
+	} catch (error) {
+		console.log("Error parsing AI content:", error);
+		return new NextResponse(
+			JSON.stringify({ error: "Failed to parse AI content" }),
+			{ status: 500 },
+		);
+	}
 
-  const report: IReport = {
-    _id: new ObjectId(),
-    user_id: session.user?.email ?? null,
-    created_at: new Date(),
-    updated_at: new Date(),
-    source: 'web',
-    ai_generated: {
-      title: parsedAiContent.title,
-      topic_category: parsedAiContent.topic_category,
-      summary: parsedAiContent.summary,
-      markdown_content: parsedAiContent.markdown_content,
-      tags: parsedAiContent.tags,
-    },
-  };
+	const report: IReport = {
+		_id: new ObjectId(),
+		user_id: session.user?.email ?? null,
+		created_at: new Date(),
+		updated_at: new Date(),
+		source: "web",
+		ai_generated: {
+			title: parsedAiContent.title,
+			topic_category: parsedAiContent.topic_category,
+			summary: parsedAiContent.summary,
+			markdown_content: parsedAiContent.markdown_content,
+			tags: parsedAiContent.tags,
+		},
+	};
 
-  try {
-    await db.collection<IReport>('reports').insertOne(report);
-    console.log('Report inserted successfully');
-  } catch (error) {
-    console.log('Error inserting report into database:', error);
-    return new NextResponse(
-      JSON.stringify({ error: 'Failed to insert report' }),
-      { status: 500 },
-    );
-  }
+	try {
+		await db.collection<IReport>("reports").insertOne(report);
+		console.log("Report inserted successfully");
+	} catch (error) {
+		console.log("Error inserting report into database:", error);
+		return new NextResponse(
+			JSON.stringify({ error: "Failed to insert report" }),
+			{ status: 500 },
+		);
+	}
 
-  return new NextResponse(JSON.stringify({ success: true, report }), {
-    status: 200,
-  });
+	return new NextResponse(JSON.stringify({ success: true, report }), {
+		status: 200,
+	});
 }

@@ -1,6 +1,6 @@
-import Header from '@/components/header';
-import Footer from '@/components/footer';
-import MarkdownWrapper from '@/components/markdown-wrapper';
+import Header from "@/components/header";
+import Footer from "@/components/footer";
+import MarkdownWrapper from "@/components/markdown-wrapper";
 
 const markdown = `
 # Terms of Service
@@ -39,13 +39,13 @@ If you have any questions about these Terms, please contact us at support@fieldr
 `;
 
 export default function TosPage() {
-    return (
-        <main className="h-screen font-raleway">
-            <Header />
-            <div className='pt-12 lg:pt-24'>
-                <MarkdownWrapper markdown={markdown} />
-            </div>
-            <Footer />
-        </main>
-    );
+	return (
+		<main className="h-screen font-raleway">
+			<Header />
+			<div className="pt-12 lg:pt-24">
+				<MarkdownWrapper markdown={markdown} />
+			</div>
+			<Footer />
+		</main>
+	);
 }

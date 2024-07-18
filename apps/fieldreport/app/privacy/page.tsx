@@ -1,6 +1,6 @@
-import Header from '@/components/header';
-import Footer from '@/components/footer';
-import MarkdownWrapper from '@/components/markdown-wrapper';
+import Header from "@/components/header";
+import Footer from "@/components/footer";
+import MarkdownWrapper from "@/components/markdown-wrapper";
 
 const markdown = `
 # Privacy Policy
@@ -44,13 +44,13 @@ If you have any questions about this Privacy Policy, please contact us at suppor
 `;
 
 export default function TosPage() {
-  return (
-    <main className="h-screen font-raleway">
-      <Header />
-      <div className='pt-12 lg:pt-24'>
-        <MarkdownWrapper markdown={markdown} />
-      </div>
-      <Footer />
-    </main>
-  );
+	return (
+		<main className="h-screen font-raleway">
+			<Header />
+			<div className="pt-12 lg:pt-24">
+				<MarkdownWrapper markdown={markdown} />
+			</div>
+			<Footer />
+		</main>
+	);
 }
