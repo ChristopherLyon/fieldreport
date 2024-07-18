@@ -70,8 +70,8 @@ export default function Pricing({
       className="border- border-r border-l border-dashed  py-24 sm:py-32"
       id="pricing"
     >
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl sm:text-center">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 ">
+        <div className="mx-auto max-w-2xl sm:text-center pb-24">
           <h2 className="text-3xl tracking-tight sm:text-4xl">
             Simple no-tricks pricing
           </h2>
@@ -79,19 +79,19 @@ export default function Pricing({
             Enhance productivity and streamline operations with our AI-driven
             solutions. Choose the plan that fits your needs.
           </p>
-        </div>
-        <div className="md:flex  mt-6">
-          <Tabs
-            defaultValue="personal"
-            className="mx-auto"
-            onValueChange={setCustomerType}
-            value={customerType}
-          >
-            <TabsList>
-              <TabsTrigger value="personal">Personal</TabsTrigger>
-              <TabsTrigger value="enterprise">Enterprise</TabsTrigger>
-            </TabsList>
-          </Tabs>
+          <div className="md:flex mt-6">
+            <Tabs
+              defaultValue="personal"
+              className="mx-auto"
+              onValueChange={setCustomerType}
+              value={customerType}
+            >
+              <TabsList>
+                <TabsTrigger value="personal">Personal</TabsTrigger>
+                <TabsTrigger value="enterprise">Enterprise</TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
         </div>
         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mx-0 lg:flex lg:max-w-none">
           <div className="p-8 sm:p-10 lg:flex-auto">

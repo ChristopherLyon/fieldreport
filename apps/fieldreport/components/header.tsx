@@ -21,7 +21,7 @@ export default function Header() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <Link className="flex items-center" href="/">
+          <Link className="flex items-center fixed top-5" href="/">
             <AudioLines className="h-5 w-auto" />
             <span className="pl-1">FieldReport</span>
           </Link>

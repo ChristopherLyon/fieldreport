@@ -10,7 +10,9 @@ import AIChatbot from "@/components/ai-chatbot";
 import OurMission from "@/components/our-mission";
 import Image from "next/image";
 import IpadMockup from "@/public/images/ipad-mockup.jpeg";
-import MacbookMockup from "@/public/images/macbook-mockup.jpeg";
+import MacbookMockup from "@/public/images/macbook-mockup-cropped.png";
+import AppleWatchMockup from "@/public/images/apple-watch.png";
+
 import Pricing from "@/components/pricing";
 import VideoAndTitleBlock from "@/components/video-and-title-block"; // Ensure this is the correct import path
 
@@ -24,11 +26,10 @@ export default function Home() {
       <AIChatbot mode={customerType} setMode={setCustomerType} />
       <HeroSection />
       <div className="max-w-5xl mx-auto px-4">
-        <div className="border-x border-dashed border-muted flex flex-col gap-32 py-24 overflow-hidden">
+        <div className="border-x border-dashed border-muted flex flex-col gap-24 py-24 overflow-hidden">
           <div className="px-6">
             <OurMission />
           </div>
-
           <div className="flex flex-col gap-3 pl-6 items-start">
             <span className="text-xs font-mono text-foreground/80">
               Tailor your experience{" "}
@@ -82,6 +83,21 @@ export default function Home() {
               </h2>
             </div>
           </div>
+
+          {/* Right alinged Macbook mockup photo */}
+          <div className="ml-auto px-6 flex flex-col">
+            <Image
+              src={MacbookMockup}
+              alt="Macbook Mockup"
+              width={600}
+              height={400}
+              className="rounded-lg"
+            />
+            <h3 className="ml-auto font-mono text-xs p-3 opacity-80">
+              FieldReport Application on MacOS
+            </h3>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-24 mx-auto">
             <div className="flex flex-col gap-3">
               <span
@@ -111,8 +127,71 @@ export default function Home() {
               </h2>
             </div>
           </div>
+          {/* Right alinged Macbook mockup photo */}
+          <div className="ml-auto px-6 flex flex-col">
+            <Image
+              src={AppleWatchMockup}
+              alt="Apple Watch Mockup"
+              width={600}
+              height={400}
+              className="rounded-lg"
+            />
+            <h3 className="ml-auto font-mono text-xs p-3 opacity-80">
+              FieldReport Smart Watch Application (Coming Soon)
+            </h3>
+          </div>
         </div>
-        <VideoAndTitleBlock
+        <div className="py-12 border-x border-dashed">
+          <div className="w-full grid grid-cols-1 md:grid-cols-3">
+            <div className="border-y md:border-r border-dashed flex flex-col items-center justify-center h-64">
+              <h1 className="font-bold text-4xl">5 seconds</h1>
+              <h2 className="">
+                to log any
+                <span
+                  className={`${
+                    customerType === "personal"
+                      ? "text-cyan-500"
+                      : "text-yellow-500"
+                  }`}
+                >
+                  {" "}
+                  thought.
+                </span>
+              </h2>
+            </div>
+            <div className="border-y md:border-r border-t-0 md:border-t border-dashed flex flex-col items-center justify-center h-64">
+              <h1 className="font-bold text-4xl">10 seconds</h1>
+              <h2 className="">
+                to generate any{" "}
+                <span
+                  className={`${
+                    customerType === "personal"
+                      ? "text-cyan-500"
+                      : "text-yellow-500"
+                  }`}
+                >
+                  report.
+                </span>
+              </h2>
+            </div>
+            <div className="border-y border-t-0 md:border-t border-dashed flex flex-col items-center justify-center h-64">
+              <h1 className="font-bold text-4xl">10 seconds</h1>
+              <h2 className="">
+                to share with your{" "}
+                <span
+                  className={`${
+                    customerType === "personal"
+                      ? "text-cyan-500"
+                      : "text-yellow-500"
+                  }`}
+                >
+                  team.
+                </span>
+              </h2>
+            </div>
+          </div>
+        </div>
+        {/* <VideoAndTitleBlock
           key={customerType} // Add key to force re-render on prop change
           videoUrl={
             customerType === "personal"
@@ -125,7 +204,7 @@ export default function Home() {
               : "Your operations, simplified."
           }
           focus={customerType === "personal" ? "left" : "middle"}
-        />
+        /> */}
         <Pricing
           customerType={customerType}
           setCustomerType={setCustomerType}
