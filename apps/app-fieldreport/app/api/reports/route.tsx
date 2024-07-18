@@ -1,7 +1,6 @@
 import { connectToDatabase } from "@/lib/mongodb";
 import type { IReport } from "@/types/types"; // Import the IReport interface
 import { ObjectId } from "mongodb";
-import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server";
 
 // Fetch all reports for the authenticated user

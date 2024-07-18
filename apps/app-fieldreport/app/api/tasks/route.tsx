@@ -1,7 +1,6 @@
 import { connectToDatabase } from "@/lib/mongodb";
 import type { ITask } from "@/types/types"; // Import the ITask interface
 import { ObjectId } from "mongodb";
-import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server";
 
 // Fetch all tasks for the authenticated user

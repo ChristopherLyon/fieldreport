@@ -2,7 +2,6 @@
 import { connectToDatabase } from "@/lib/mongodb";
 import type { IStream, ITask } from "@/types/types"; // Import the IStream and ITask interfaces
 import { ObjectId } from "mongodb";
-import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
@@ -11,25 +10,6 @@ export const maxDuration = 40; // Maximum duration for function due to API limit
 
 // Utility function to get the current date in ISO format
 const getCurrentDate = () => new Date().toISOString().split("T")[0];
-
-// Fetch all streams for the authenticated user
-export async function GET() {
-	const session = await getServerSession();
-	if (!session) {
-		return new NextResponse(JSON.stringify({ error: "Unauthorized" }), {
-			status: 401,
-		});
-	}
-
-	const { db } = await connectToDatabase();
-	const streams: IStream[] = await db
-		.collection<IStream>("streams")
-		.find({ user_id: session.user?.email })
-		.sort({ created_at: -1 })
-		.toArray();
-
-	return NextResponse.json(streams);
-}
 
 // Create a new stream for the authenticated user
 export async function POST(request: Request) {

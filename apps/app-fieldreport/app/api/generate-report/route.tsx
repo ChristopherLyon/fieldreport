@@ -2,7 +2,6 @@
 import { connectToDatabase } from "@/lib/mongodb";
 import type { IReport } from "@/types/types";
 import { ObjectId } from "mongodb";
-import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 

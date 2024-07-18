@@ -1,6 +1,5 @@
 // export const dynamic = "force-dynamic";
 import { connectToDatabase } from "@/lib/mongodb";
-import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server";
 
 // Gets the authenticated user

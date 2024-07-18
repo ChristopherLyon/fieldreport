@@ -1,3 +1,5 @@
+"use client";
+
 import type { IStream, ITask } from "@/types/types";
 
 import { format } from "date-fns";

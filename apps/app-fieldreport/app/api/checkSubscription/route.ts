@@ -2,7 +2,6 @@ import { connectToDatabase } from "@/lib/mongodb";
 import Stripe from "stripe";
 export const dynamic = "force-dynamic";
 import type { IStream, IUser } from "@/types/types";
-import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 

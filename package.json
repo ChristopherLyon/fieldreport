@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {},
   "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
     "turbo": "^2.0.7"
   },
   "workspaces": [

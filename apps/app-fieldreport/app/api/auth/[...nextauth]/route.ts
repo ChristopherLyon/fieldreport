@@ -1,4 +1,3 @@
-import NextAuth from "next-auth/next";
 import { CONFIG } from "./config";
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
