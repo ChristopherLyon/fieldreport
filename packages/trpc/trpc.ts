@@ -7,7 +7,7 @@
  * need to use are documented accordingly near the end.
  */
 
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase } from "./mongodb";
 import type { getAuth } from "@clerk/nextjs/server";
 
 import { TRPCError, initTRPC } from "@trpc/server";
