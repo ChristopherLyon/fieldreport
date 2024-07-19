@@ -2,6 +2,7 @@ import type * as React from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { GlobePage } from "@/components/globe-page";
 import { api } from "@fr/trpc/clients/server";
+import { OrgRefresh } from "@/components/org-refresh";
 
 export default async function Page() {
 	const streams = await api.streams.getStreams({});
@@ -15,5 +16,10 @@ export default async function Page() {
 		return null;
 	}
 
-	return <GlobePage streams={streams.streams} />;
+	return (
+		<>
+			<OrgRefresh />
+			<GlobePage streams={streams.streams} />
+		</>
+	);
 }

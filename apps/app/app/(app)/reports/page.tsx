@@ -1,4 +1,5 @@
 import NoDataContextCard from "@/components/no-data-context-card";
+import { OrgRefresh } from "@/components/org-refresh";
 import ReportCard from "@/components/report-card";
 import { TRPCReactProvider } from "@fr/trpc/clients/react";
 import { api } from "@fr/trpc/clients/server";
@@ -17,6 +18,7 @@ export default async function App() {
 
 	return (
 		<TRPCReactProvider>
+			<OrgRefresh />
 			<div className="flex flex-1 h-full gap-4">
 				<div className="flex-1 h-full overflow-hidden flex flex-col relative">
 					{reports.reports.length === 0 ? (

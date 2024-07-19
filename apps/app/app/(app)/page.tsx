@@ -1,4 +1,5 @@
 import { LocalStreams } from "@/components/local-streams";
+import { OrgRefresh } from "@/components/org-refresh";
 import { auth } from "@clerk/nextjs/server";
 import { TRPCReactProvider } from "@fr/trpc/clients/react";
 import { api } from "@fr/trpc/clients/server";
@@ -16,6 +17,7 @@ export default async function App() {
 
 	return (
 		<TRPCReactProvider>
+			<OrgRefresh />
 			<LocalStreams
 				initialData={data.streams}
 				userId={signedInSession.userId}

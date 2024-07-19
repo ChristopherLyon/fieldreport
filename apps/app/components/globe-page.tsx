@@ -11,6 +11,12 @@ export const GlobePage = ({ streams }: { streams: IStream[] }) => {
 	const [location, setLocation] = useState<GeolocationCoordinates | null>(null);
 	const [localStreams, setLocalStreams] = useState<IStream[]>(streams);
 
+	useEffect(() => {
+		if (streams) {
+			setLocalStreams(streams);
+		}
+	}, [streams]);
+
 	const mapRef = useRef<MapRef | null>(null);
 	const theme = useTheme();
 

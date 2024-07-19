@@ -17,13 +17,6 @@ export const LocalStreams = ({
 }: { initialData: IStream[]; userId: string; orgId?: string }) => {
 	const [localStreams, setLocalStreams] = useState<IStream[]>(initialData);
 	const [streamAiProcessing, setStreamAiProcessing] = useState<boolean>(false);
-	const organization = useOrganization();
-	const router = useRouter();
-
-	// when the org changes, refresh the page to get new data
-	useEffect(() => {
-		router.refresh();
-	}, [organization.organization, router]);
 
 	// when the initial data changes, set the local streams to the initial data
 	useEffect(() => {

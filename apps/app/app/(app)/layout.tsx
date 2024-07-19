@@ -1,12 +1,7 @@
 import { ClerkProvider } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
-// Libraries
 import type * as React from "react";
-
 import Header from "@/components/header";
-// UI Components
 import { NavLinks } from "@/components/nav-links";
-import { auth } from "@clerk/nextjs/server";
 
 export default async function RootLayout({
 	children,
@@ -30,7 +25,6 @@ export default async function RootLayout({
 					</div>
 					<div className="flex flex-col h-full overflow-hidden relative">
 						<Header />
-
 						<div className="flex-1 max-h-[calc(98vh-4rem)] mr-4 ml-4 md:ml-0 relative">
 							{children}
 						</div>
