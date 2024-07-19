@@ -131,7 +131,7 @@ export default function StreamCard({
 				<ContextMenuTrigger>
 					<Link href={`/streams/${stream._id.toString()}`}>
 						<Card className="h-64 w-full rounded-lg overflow-hidden hover:shadow-md transition-shadow bg-muted/10">
-							<CardContent className="h-full grid grid-rows-[auto_1fr_auto] p-6 gap-4">
+							<CardContent className="h-full grid grid-rows-[auto_1fr_auto] p-6 gap-2">
 								<div className="flex flex-col">
 									{ai_generated?.topic_category && (
 										<div className="text-orange-500 font-medium text-xs">
