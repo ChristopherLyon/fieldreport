@@ -40,7 +40,7 @@ If you have any questions about these Terms, please contact us at support@fieldr
 
 export default function TosPage() {
 	return (
-		<main className="h-screen font-raleway">
+		<main className="h-screen">
 			<Header />
 			<div className="pt-12 lg:pt-24">
 				<MarkdownWrapper markdown={markdown} />

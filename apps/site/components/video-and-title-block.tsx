@@ -17,7 +17,7 @@ export default function VideoAndTitleBlock({
 	};
 
 	return (
-		<div className="relative h-screen overflow-hidden font-raleway">
+		<div className="relative h-screen overflow-hidden ">
 			<div className="absolute inset-0 w-full h-full flex items-center justify-center bg-black">
 				<div className="relative h-full aspect-square">
 					<video
@@ -37,7 +37,7 @@ export default function VideoAndTitleBlock({
 
 			<div className="relative flex items-center justify-center h-full z-10 px-6 pt-14 lg:px-8">
 				<div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56 text-center">
-					<h1 className="text-6xl tracking-tight text-gray-100 sm:text-6xl font-raleway">
+					<h1 className="text-6xl tracking-tight text-gray-100 sm:text-6xl ">
 						{title}
 					</h1>
 				</div>

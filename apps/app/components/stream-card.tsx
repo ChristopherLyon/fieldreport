@@ -17,6 +17,7 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import {
 	ContextMenu,
@@ -44,6 +45,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useLocalStorage } from "usehooks-ts";
 import { z } from "zod";
 import { Badge } from "./ui/badge";
 
@@ -150,31 +152,20 @@ export default function StreamCard({
 						className="h-64 w-full rounded-lg overflow-hidden hover:shadow-md transition-shadow bg-muted/10"
 					>
 						<CardContent className="h-full grid grid-rows-[auto_1fr_auto] p-6 gap-4">
-							<div className="flex items-center justify-between">
+							<div className="flex flex-col">
+								{ai_generated?.topic_category && (
+									<div className="text-orange-500 font-medium text-xs">
+										{ai_generated.topic_category.charAt(0).toUpperCase() +
+											ai_generated.topic_category.slice(1)}
+									</div>
+								)}
 								<CardTitle className="text-md">{ai_generated?.title}</CardTitle>
-								<div className="flex items-start gap-2 flex-wrap justify-end">
-									{ai_generated?.tags?.map((tag) => (
-										<Badge
-											variant={"outline"}
-											key={tag}
-											className="capitalize first-letter:text-lg"
-										>
-											{tag}
-										</Badge>
-									))}
-								</div>
 							</div>
 							<div className="text-gray-500 dark:text-gray-400 line-clamp-3 text-sm">
 								{ai_generated?.summary}
 							</div>
 							<div className="flex items-center justify-between">
 								<div className="flex flex-row items-center gap-2">
-									{ai_generated?.topic_category && (
-										<div className="bg-primary/10 px-3 py-1 rounded-full text-primary font-medium text-xs">
-											{ai_generated.topic_category.charAt(0).toUpperCase() +
-												ai_generated.topic_category.slice(1)}
-										</div>
-									)}
 									{task && (
 										<TooltipProvider>
 											<Tooltip>
@@ -225,10 +216,24 @@ export default function StreamCard({
 											)}
 										</Tooltip>
 									</TooltipProvider>
+									{/* user avatar */}
+									<Avatar className="size-4">
+										<AvatarImage src="https://github.com/shadcn.png" />
+										<AvatarFallback>CN</AvatarFallback>
+									</Avatar>
 								</div>
 								<div className="text-gray-500 dark:text-gray-400 text-xs items-center flex font-mono">
 									<Calendar className="w-4 h-4 mr-2 inline-block" />
 									{format(new Date(stream.created_at), "MMM dd")}
+								</div>
+							</div>
+							<div className="w-full overflow-x-scroll">
+								<div className="flex gap-2 items-center w-max">
+									{ai_generated?.tags?.map((tag) => (
+										<Badge variant={"outline"} key={tag} className="w-max">
+											{tag}
+										</Badge>
+									))}
 								</div>
 							</div>
 						</CardContent>

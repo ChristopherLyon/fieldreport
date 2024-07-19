@@ -32,18 +32,29 @@ import type React from "react";
 import { useCallback } from "react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useLocalStorage } from "usehooks-ts";
 
 interface AddStreamColumnProps {
 	setLocalStreams: React.Dispatch<React.SetStateAction<IStream[]>>;
 	setStreamAiProcessing: React.Dispatch<React.SetStateAction<boolean>>;
+	userId: string;
+	orgId: string;
 }
+
+const MINIMUM_STREAM_LENGTH = 20;
 
 const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
 	setLocalStreams,
 	setStreamAiProcessing,
+	userId,
+	orgId,
 }) => {
 	const [rawInput, setRawInput] = useState("");
-	const minimumStreamLength = 20;
+	const [rawContext, setRawContext] = useLocalStorage<string>(
+		`savedContext-${userId}-${orgId ?? "personal"}`,
+		"",
+	);
+
 	const [location, setLocation] = useState<GeolocationCoordinates | null>(null);
 	const [mobileStreamInputOpen, setMobileStreamInputOpen] =
 		useState<boolean>(false);
@@ -67,12 +78,14 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
 
 	const handleSubmit = useCallback(async () => {
 		const trimmedInput = rawInput.trim();
-		if (trimmedInput.length < minimumStreamLength) {
+		if (trimmedInput.length < MINIMUM_STREAM_LENGTH) {
 			toast.error(
-				`Stream must be at least ${minimumStreamLength} characters long`,
+				`Stream must be at least ${MINIMUM_STREAM_LENGTH} characters long`,
 			);
 			return;
 		}
+
+		const trimmedContext = rawContext.trim();
 
 		try {
 			setStreamAiProcessing(true);
@@ -80,27 +93,18 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
 			toast.info("Stream added to AI queue 🚀");
 			setRawInput("");
 
-			const sanitizedLocation: ILocation | null = location
-				? {
-						type: "Point",
-						coordinates: [location.longitude, location.latitude],
-						accuracy: location.accuracy,
-					}
-				: null;
-
-			if (location === null) {
-				toast.error("Stream does not have a location");
-				return;
-			}
-
 			const response = await createStreamMutation.mutateAsync({
 				raw_stream: trimmedInput,
+				raw_context: rawContext.length === 0 ? undefined : trimmedContext,
 				source: "web",
-				location: {
-					type: "Point",
-					coordinates: [location.longitude, location.latitude],
-					accuracy: location.accuracy,
-				},
+				location:
+					location !== null
+						? {
+								type: "Point",
+								coordinates: [location.longitude, location.latitude],
+								accuracy: location.accuracy,
+							}
+						: undefined,
 			});
 
 			if ("error" in response) {
@@ -128,7 +132,7 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
 	}, [
 		rawInput,
 		location,
-		minimumStreamLength,
+		MINIMUM_STREAM_LENGTH,
 		setStreamAiProcessing,
 		setLocalStreams,
 	]);
@@ -144,23 +148,30 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
 		return () => window.removeEventListener("keydown", handleKeyDown);
 	}, [handleSubmit]);
 
-	const progress = (rawInput.length / minimumStreamLength) * 100;
+	const progress = (rawInput.length / MINIMUM_STREAM_LENGTH) * 100;
 
 	return (
 		<>
 			{/* Desktop Input */}
 			<div className="hidden lg:flex flex-col h-full w-96 gap-4">
 				<GenerateReportButton />
-				<div className="relative overflow-hidden rounded-lg border focus-within:ring-1 focus-within:ring-ring h-full flex flex-col justify-between">
+				<div className="relative overflow-hidden h-full flex flex-col gap-4 justify-between">
 					<Label htmlFor="message" className="sr-only">
 						Message
 					</Label>
+					<Textarea
+						id="context"
+						placeholder="What is the context you are working in today?"
+						value={rawContext}
+						onChange={(e) => setRawContext(e.target.value)}
+						className="min-h-12 resize-none h-72 p-3 shadow-none focus-visible:ring-0 rounded-lg border focus-within:ring-1 focus-within:ring-ring"
+					/>
 					<Textarea
 						id="message"
 						placeholder="Add a new AI Stream..."
 						value={rawInput}
 						onChange={(e) => setRawInput(e.target.value)}
-						className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0 h-full"
+						className="min-h-12 resize-none p-3 shadow-none focus-visible:ring-0 h-full rounded-lg border focus-within:ring-1 focus-within:ring-ring"
 					/>
 					<div className="flex items-center p-3 pt-0">
 						{/*  <TooltipProvider>
@@ -230,7 +241,7 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
 							/>
 						</div>
 						<DialogFooter>
-							{rawInput.length < minimumStreamLength ? null : (
+							{rawInput.length < MINIMUM_STREAM_LENGTH ? null : (
 								<Label
 									className="text-xs text-muted-foreground"
 									onClick={handleSubmit}

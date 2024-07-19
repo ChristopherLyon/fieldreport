@@ -10,7 +10,7 @@ import NoDataContextCard from "./no-data-context-card";
 import StreamCard from "./stream-card";
 import { Card } from "./ui/card";
 
-export const LocalStreams = ({ initialData }) => {
+export const LocalStreams = ({ initialData, userId, orgId }) => {
 	const [localStreams, setLocalStreams] = useState<IStream[]>(initialData);
 	const [streamAiProcessing, setStreamAiProcessing] = useState<boolean>(false);
 	const organization = useOrganization();
@@ -61,6 +61,8 @@ export const LocalStreams = ({ initialData }) => {
 			<AddStreamColumn
 				setLocalStreams={setLocalStreams}
 				setStreamAiProcessing={setStreamAiProcessing}
+				userId={userId}
+				orgId={orgId}
 			/>
 		</div>
 	);

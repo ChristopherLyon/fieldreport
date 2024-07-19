@@ -45,7 +45,7 @@ If you have any questions about this Privacy Policy, please contact us at suppor
 
 export default function TosPage() {
 	return (
-		<main className="h-screen font-raleway">
+		<main className="h-screen">
 			<Header />
 			<div className="pt-12 lg:pt-24">
 				<MarkdownWrapper markdown={markdown} />

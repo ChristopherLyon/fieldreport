@@ -73,7 +73,7 @@ const config = {
 				"accordion-up": "accordion-up 0.2s ease-out",
 			},
 			fontFamily: {
-				raleway: ["Raleway", "sans-serif"],
+				raleway: ["DM Sans", "sans-serif"],
 			},
 		},
 	},

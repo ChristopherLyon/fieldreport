@@ -5,12 +5,15 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import type { IStream, ITask } from "../types";
 
 export const streamInput = z.object({
-	raw_stream: z.string(),
-	location: z.object({
-		type: z.enum(["Point"]),
-		coordinates: z.tuple([z.number(), z.number()]),
-		accuracy: z.number().optional(),
-	}),
+	raw_stream: z.string().min(20),
+	raw_context: z.string().optional(),
+	location: z
+		.object({
+			type: z.enum(["Point"]),
+			coordinates: z.tuple([z.number(), z.number()]),
+			accuracy: z.number().optional(),
+		})
+		.optional(),
 	source: z.enum(["watch", "web", "mobile"]),
 });
 
@@ -22,13 +25,13 @@ export const streamsRouter = createTRPCRouter({
 		return { hello: "world" };
 	}),
 	getStreams: protectedProcedure.query(async ({ ctx: { db, session } }) => {
-		console.log("HELLO");
+		console.log("HELLO", session.userId, session.orgId);
 
 		const streams: IStream[] = await db.db
 			.collection<IStream>("streams")
 			.find({
 				user_id: session.userId,
-				org_idg_id: session.orgId,
+				org_id: session.orgId,
 			})
 			.sort({ created_at: -1 })
 			.toArray();
@@ -111,7 +114,7 @@ export const streamsRouter = createTRPCRouter({
 					{ role: "system", content: aiPrompt },
 					{
 						role: "user",
-						content: `Parse the following raw stream: ${input.raw_stream}`,
+						content: `Using the following context: ${input.raw_context}, parse the following raw stream: ${input.raw_stream}`,
 					},
 				],
 				model: "gpt-4o",
@@ -148,6 +151,8 @@ export const streamsRouter = createTRPCRouter({
 					tags: parsedAiContent.stream.tags,
 				},
 			};
+
+			console.log("ADDING STREAM", stream);
 
 			// Insert the stream
 			const result = await db.db

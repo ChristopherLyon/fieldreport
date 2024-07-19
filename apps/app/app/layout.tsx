@@ -2,13 +2,17 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 // Libraries
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import SessionProviderWrapper from "@/components/session-provider-wrapper";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { DM_Sans } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+// load DM sans from vercel fonts
+const dmSans = DM_Sans({
+	subsets: ["latin"],
+	variable: "--font-dm-sans",
+});
 
 export const metadata: Metadata = {
 	title: "FieldReport",
@@ -42,7 +46,7 @@ export default function RootLayout({
 					<meta name="twitter:card" content="summary_large_image" />
 				</head>
 				<body
-					className={`bg-background text-gray-900 dark:text-gray-100 ${inter.className}`}
+					className={`bg-background text-gray-900 dark:text-gray-100 ${dmSans.className}`}
 				>
 					<ThemeProvider
 						attribute="class"

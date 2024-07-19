@@ -50,8 +50,8 @@ export function NavLinksMobile({
 	const pathname = usePathname();
 
 	return (
-		<nav className="grid gap-2 text-lg font-raleway">
-			<Link className="flex items-center font-raleway pb-5" href="/">
+		<nav className="grid gap-2 text-lg">
+			<Link className="flex items-center pb-5" href="/">
 				<AudioLines className="h-5 w-auto" />
 				<span className="pl-1">FieldReport</span>
 			</Link>

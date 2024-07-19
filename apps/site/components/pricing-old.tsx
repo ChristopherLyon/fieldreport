@@ -59,7 +59,7 @@ const tiers: Tier[] = [
 
 export default function Pricing() {
 	return (
-		<div className="isolate overflow-hidden font-raleway relative">
+		<div className="isolate overflow-hidden  relative">
 			<video
 				autoPlay
 				muted

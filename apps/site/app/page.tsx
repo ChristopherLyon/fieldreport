@@ -20,7 +20,7 @@ export default function Home() {
 	const [customerType, setCustomerType] = useState("personal");
 
 	return (
-		<main className="h-full font-raleway bg-background transition-all">
+		<main className="h-full bg-background transition-all">
 			<Header />
 			<LoginFloater />
 			<AIChatbot mode={customerType} setMode={setCustomerType} />

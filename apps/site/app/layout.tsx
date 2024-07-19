@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
 
-const inter = Inter({ subsets: ["latin"] });
+import { DM_Sans } from "next/font/google";
+
+// load DM sans from vercel fonts
+const dmSans = DM_Sans({
+	subsets: ["latin"],
+	variable: "--font-dm-sans",
+});
 
 export const metadata: Metadata = {
 	title: "FieldReport",
@@ -19,7 +24,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<Analytics />
-			<body className={inter.className}>
+			<body className={dmSans.className}>
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="system"

@@ -15,7 +15,7 @@ import signInBackground from "@/public/images/signin-page.png";
 
 export default function SignIn() {
 	return (
-		<main className="flex flex-col min-h-screen overflow-hidden font-raleway">
+		<main className="flex flex-col min-h-screen overflow-hidden">
 			<div className="flex flex-1 w-full lg:grid lg:grid-cols-2 dark:bg-[#0f0f0f]">
 				<div className="flex items-center justify-center py-12 w-full">
 					<div className="mx-auto w-[350px] gap-10 flex flex-col items-center text-center">

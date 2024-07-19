@@ -16,7 +16,7 @@ export default async function RootLayout({
 	// auth().protect();
 	return (
 		<ClerkProvider>
-			<main className="font-raleway h-screen overflow-hidden relative">
+			<main className="h-screen overflow-hidden relative">
 				<div className="grid min-h-screen w-full md:grid-cols-[140px_1fr] relative">
 					<div className="hidden md:block">
 						<div className="flex h-full max-h-screen flex-col gap-2">
