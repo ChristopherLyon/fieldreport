@@ -5,14 +5,21 @@ import { api } from "@fr/trpc/clients/server";
 
 export default async function App() {
 	const session = auth();
-	session.protect();
+	const signedInSession = session.protect();
+
 	const data = await api.streams.getStreams({});
+
+	// this won't happen
+	if (!data.streams) {
+		return null;
+	}
+
 	return (
 		<TRPCReactProvider>
 			<LocalStreams
 				initialData={data.streams}
-				userId={session.userId}
-				orgId={session.orgId}
+				userId={signedInSession.userId}
+				orgId={signedInSession.orgId}
 			/>
 		</TRPCReactProvider>
 	);

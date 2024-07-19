@@ -7,7 +7,7 @@ import type * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import Map, { type MapRef, Marker } from "react-map-gl";
 
-export const GlobePage = ({ streams }) => {
+export const GlobePage = ({ streams }: { streams: IStream[] }) => {
 	const [location, setLocation] = useState<GeolocationCoordinates | null>(null);
 	const [localStreams, setLocalStreams] = useState<IStream[]>(streams);
 
@@ -32,6 +32,7 @@ export const GlobePage = ({ streams }) => {
 		<main className="h-full border border-dashed rounded-lg overflow-hidden">
 			<Map
 				ref={mapRef as React.RefObject<MapRef>}
+				// @ts-ignore
 				mapLib={import("mapbox-gl")}
 				attributionControl={false}
 				logoPosition="bottom-right"

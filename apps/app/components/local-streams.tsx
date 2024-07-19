@@ -1,8 +1,8 @@
 "use client";
 
-import type { IStream } from "@/types/types";
 import { useOrganization, useUser } from "@clerk/nextjs";
 import { api } from "@fr/trpc/clients/react";
+import type { IStream } from "@fr/trpc/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import AddStreamColumn from "./add-stream-column";
@@ -10,7 +10,11 @@ import NoDataContextCard from "./no-data-context-card";
 import StreamCard from "./stream-card";
 import { Card } from "./ui/card";
 
-export const LocalStreams = ({ initialData, userId, orgId }) => {
+export const LocalStreams = ({
+	initialData,
+	userId,
+	orgId,
+}: { initialData: IStream[]; userId: string; orgId?: string }) => {
 	const [localStreams, setLocalStreams] = useState<IStream[]>(initialData);
 	const [streamAiProcessing, setStreamAiProcessing] = useState<boolean>(false);
 	const organization = useOrganization();

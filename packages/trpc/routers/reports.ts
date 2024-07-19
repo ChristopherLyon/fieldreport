@@ -1,8 +1,8 @@
+import { ObjectId } from "mongodb";
+import OpenAI from "openai";
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import type { IReport } from "../types";
-import OpenAI from "openai";
-import { ObjectId } from "mongodb";
 
 const openai = new OpenAI();
 

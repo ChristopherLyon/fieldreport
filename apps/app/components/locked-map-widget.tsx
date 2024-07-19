@@ -34,6 +34,7 @@ export default function LockedMapWidget() {
 			{location ? (
 				<Map
 					ref={mapRef as React.RefObject<MapRef>}
+					// @ts-ignore
 					mapLib={import("mapbox-gl")}
 					attributionControl={false}
 					logoPosition="bottom-right"

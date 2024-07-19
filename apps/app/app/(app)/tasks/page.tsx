@@ -9,6 +9,10 @@ export default async function TaskTable() {
 		return <div>{tasks.error}</div>;
 	}
 
+	if (!tasks.tasks) {
+		throw new Error("Fetched single task");
+	}
+
 	return (
 		<TRPCReactProvider>
 			<TasksList tasks={tasks.tasks} />

@@ -1,11 +1,5 @@
 "use client";
 
-import type { IStream, ITask } from "@/types/types";
-
-import { format } from "date-fns";
-// Libraries
-import { useEffect, useState } from "react";
-
 import ExpandedCardDialog from "@/components/expanded-card-dialog";
 import {
 	AlertDialog,
@@ -33,6 +27,8 @@ import {
 } from "@/components/ui/tooltip";
 import { api } from "@fr/trpc/clients/react";
 import { streamInput } from "@fr/trpc/routers/streams";
+import type { IStream } from "@fr/trpc/types";
+import { format } from "date-fns";
 // UI Components
 import {
 	AudioLines,
@@ -44,6 +40,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 import { useLocalStorage } from "usehooks-ts";
 import { z } from "zod";
@@ -64,7 +61,7 @@ export default function StreamCard({
 
 	const deleteMutation = api.streams.deleteStream.useMutation();
 	const { data: streamTask } = api.tasks.getTasks.useQuery({
-		taskId: stream.ai_generated?.spawned_task_id,
+		taskId: stream.ai_generated?.spawned_task_id?.toString(),
 	});
 
 	const task = streamTask?.task;
@@ -74,7 +71,9 @@ export default function StreamCard({
 			setLocalStreams((prevStreams) =>
 				prevStreams.filter((n) => n._id !== stream._id),
 			);
-			const response = await deleteMutation.mutateAsync({ id: stream._id });
+			const response = await deleteMutation.mutateAsync({
+				id: stream._id.toString(),
+			});
 			if ("error" in response) {
 				toast.error("Failed to delete stream");
 			} else {

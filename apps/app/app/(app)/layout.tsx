@@ -13,6 +13,7 @@ export default async function RootLayout({
 	modal,
 }: Readonly<{
 	children: React.ReactNode;
+	modal: React.ReactNode;
 }>) {
 	// auth().protect();
 	return (

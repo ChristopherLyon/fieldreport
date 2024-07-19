@@ -1,7 +1,7 @@
 import ExpandedReportDialog from "@/components/expanded-card-dialog";
 import { api } from "@fr/trpc/clients/server";
 
-export default async function Page({ params }) {
+export default async function Page({ params }: { params: { id: string } }) {
 	const report = await api.streams.getStreams({ streamId: params.id });
 
 	if ("error" in report) {

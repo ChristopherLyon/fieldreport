@@ -1,6 +1,4 @@
 "use client";
-// Types
-import type { ILocation, IStream } from "@/types/types";
 
 import GenerateReportButton from "@/components/generate-report-button";
 import LockedMapWidget from "@/components/locked-map-widget";
@@ -24,6 +22,7 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { api } from "@fr/trpc/clients/react";
+import type { IStream } from "@fr/trpc/types";
 import { sub } from "date-fns";
 import { AudioLines, CornerDownLeft, Mic, Paperclip } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -38,7 +37,7 @@ interface AddStreamColumnProps {
 	setLocalStreams: React.Dispatch<React.SetStateAction<IStream[]>>;
 	setStreamAiProcessing: React.Dispatch<React.SetStateAction<boolean>>;
 	userId: string;
-	orgId: string;
+	orgId?: string;
 }
 
 const MINIMUM_STREAM_LENGTH = 20;

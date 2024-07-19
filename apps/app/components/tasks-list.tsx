@@ -34,9 +34,9 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 import { api } from "@fr/trpc/clients/react";
-import type { ISubTask, ITask } from "@fr/trpc/types";
+import type { ISubTask, ITask, Priority } from "@fr/trpc/types";
 
-export const TasksList = ({ tasks }) => {
+export const TasksList = ({ tasks }: { tasks: ITask[] }) => {
 	const [localTasks, setLocalTasks] = useState<ITask[]>(tasks);
 	const router = useRouter();
 
@@ -71,7 +71,11 @@ export const TasksList = ({ tasks }) => {
 
 	const handleTaskUpdate = async (updatedTask: ITask) => {
 		try {
-			const response = await updateTask.mutateAsync(updatedTask);
+			const response = await updateTask.mutateAsync({
+				...updatedTask,
+				_id: updatedTask._id.toString(),
+			});
+
 			if ("error" in response) {
 				throw new Error(response.error);
 			}

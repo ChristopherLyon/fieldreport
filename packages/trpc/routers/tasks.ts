@@ -1,8 +1,8 @@
+import { ObjectId } from "mongodb";
 // trpc handler for tasks
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import type { ITask } from "../types";
-import { ObjectId } from "mongodb";
 
 export const tasksRouter = createTRPCRouter({
 	getTasks: protectedProcedure
@@ -34,7 +34,7 @@ export const tasksRouter = createTRPCRouter({
 	updateTask: protectedProcedure
 		.input(
 			z.object({
-				id: z.string(),
+				_id: z.string(),
 				title: z.string(),
 				description: z.string(),
 				priority: z.enum(["low", "medium", "high", "urgent"]),
@@ -42,7 +42,7 @@ export const tasksRouter = createTRPCRouter({
 		)
 		.mutation(
 			async ({
-				input: { id, title, description, priority },
+				input: { _id: id, title, description, priority },
 				ctx: { db, session },
 			}) => {
 				const taskUpdate: Partial<ITask> = {
