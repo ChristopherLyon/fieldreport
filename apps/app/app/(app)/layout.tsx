@@ -10,7 +10,6 @@ export default async function RootLayout({
 	children: React.ReactNode;
 	modal: React.ReactNode;
 }>) {
-	// auth().protect();
 	return (
 		<ClerkProvider>
 			<main className="h-screen overflow-hidden relative">
