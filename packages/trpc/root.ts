@@ -1,4 +1,6 @@
 import { streamsRouter } from "./routers/streams";
+import { reportsRouter } from "./routers/reports";
+import { tasksRouter } from "./routers/tasks";
 import { createCallerFactory, createTRPCRouter } from "./trpc";
 
 /**
@@ -8,6 +10,8 @@ import { createCallerFactory, createTRPCRouter } from "./trpc";
  */
 export const appRouter = createTRPCRouter({
 	streams: streamsRouter,
+	reports: reportsRouter,
+	tasks: tasksRouter,
 });
 
 // export type definition of API

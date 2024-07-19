@@ -60,31 +60,14 @@ export default function StreamCard({
 }: StreamCardProps) {
 	const [expandedDialogOpen, setExpandedDialogOpen] = useState(false);
 	const [deleteDialogAlertOpen, setDeleteDialogAlertOpen] = useState(false);
-	const [task, setTask] = useState<ITask | null>(null);
 	const router = useRouter();
 
 	const deleteMutation = api.streams.deleteStream.useMutation();
+	const { data: streamTask } = api.tasks.getTasks.useQuery({
+		taskId: stream.ai_generated?.spawned_task_id,
+	});
 
-	useEffect(() => {
-		async function fetchTask() {
-			if (stream.ai_generated?.spawned_task_id) {
-				try {
-					const response = await fetch(
-						`/api/tasks?id=${stream.ai_generated.spawned_task_id.toString()}`,
-					);
-					if (response.ok) {
-						const taskData: ITask = (await response.json()) as ITask;
-						setTask(taskData);
-					} else {
-						console.error("Failed to fetch task:", response.statusText);
-					}
-				} catch (error) {
-					console.error("Error fetching task:", error);
-				}
-			}
-		}
-		void fetchTask();
-	}, [stream]);
+	const task = streamTask?.task;
 
 	const handleDeleteStream = async () => {
 		try {
@@ -166,11 +149,15 @@ export default function StreamCard({
 							</div>
 							<div className="flex items-center justify-between">
 								<div className="flex flex-row items-center gap-2">
+									<Avatar className="size-4">
+										<AvatarImage src="https://github.com/shadcn.png" />
+										<AvatarFallback>CN</AvatarFallback>
+									</Avatar>
 									{task && (
 										<TooltipProvider>
 											<Tooltip>
 												<TooltipTrigger>
-													<Link href={`/tasks/`} data-no-expand>
+													<Link href="/tasks/" data-no-expand>
 														<ListTodo className="w-4 h-4 " />
 													</Link>
 												</TooltipTrigger>
@@ -216,11 +203,6 @@ export default function StreamCard({
 											)}
 										</Tooltip>
 									</TooltipProvider>
-									{/* user avatar */}
-									<Avatar className="size-4">
-										<AvatarImage src="https://github.com/shadcn.png" />
-										<AvatarFallback>CN</AvatarFallback>
-									</Avatar>
 								</div>
 								<div className="text-gray-500 dark:text-gray-400 text-xs items-center flex font-mono">
 									<Calendar className="w-4 h-4 mr-2 inline-block" />

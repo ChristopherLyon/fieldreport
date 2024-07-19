@@ -1,7 +1,12 @@
 import withPWA from "next-pwa";
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
 	// Add any other Next.js configuration options here
+	experimental: {
+		ppr: true,
+		reactCompiler: true,
+	},
 };
 
 export default withPWA({

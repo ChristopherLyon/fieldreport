@@ -1,3 +1,5 @@
+"use client";
+
 import {
 	Dialog,
 	DialogContent,
@@ -18,10 +20,10 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { format } from "date-fns";
 import { CalendarDays } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { api } from "@fr/trpc/clients/react";
 
 export default function GenerateReportComponent() {
 	const router = useRouter();
@@ -30,6 +32,8 @@ export default function GenerateReportComponent() {
 	const [toDate, setToDate] = useState<Date | undefined>(today);
 	const [prompt, setPrompt] = useState<string>("");
 	const [dialogOpen, setDialogOpen] = useState(false);
+
+	const createReport = api.reports.createReport.useMutation();
 
 	const handleGenerateReport = async () => {
 		if (!fromDate || !toDate) {
@@ -40,30 +44,25 @@ export default function GenerateReportComponent() {
 		toast.loading("Generating report...");
 		setDialogOpen(false);
 
-		const response = await fetch("/api/generate-report", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				from: format(fromDate, "yyyy-MM-dd"),
-				to: format(toDate, "yyyy-MM-dd"),
-				prompt,
-			}),
+		const response = await createReport.mutateAsync({
+			from: fromDate,
+			to: toDate,
+			prompt,
 		});
 
-		if (response.ok) {
-			toast.dismiss();
-			toast.success("Report generated successfully", {
-				action: {
-					label: "View",
-					onClick: () => router.push("/reports"),
-				},
-			});
-		} else {
-			toast.dismiss();
-			toast.error("Failed to generate report");
+		toast.dismiss();
+
+		if ("error" in response) {
+			toast.error(`Failed to generate report: ${response.error}`);
+			return;
 		}
+
+		toast.success("Report generated successfully", {
+			action: {
+				label: "View",
+				onClick: () => router.push("/reports"),
+			},
+		});
 	};
 
 	return (

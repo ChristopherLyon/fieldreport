@@ -1,4 +1,4 @@
-import type { IReport } from "@/types/types";
+"use client";
 
 import { format } from "date-fns";
 // Libraries
@@ -26,38 +26,33 @@ import { Calendar, Trash } from "lucide-react";
 import { toast } from "sonner";
 import ExpandedReportDialog from "./expanded-report-dialog";
 import { Badge } from "./ui/badge";
+import type { IReport } from "@fr/trpc/types";
+import { api } from "@fr/trpc/clients/react";
+import { useRouter } from "next/navigation";
 
 interface ReportCardProps {
 	report: IReport;
-	setLocalReports: React.Dispatch<React.SetStateAction<IReport[]>>;
-	mutate: () => void;
 }
 
-export default function ReportCard({
-	report,
-	setLocalReports,
-	mutate,
-}: ReportCardProps) {
+export default function ReportCard({ report }: ReportCardProps) {
 	const [expandedDialogOpen, setExpandedDialogOpen] = useState(false);
 	const [deleteDialogAlertOpen, setDeleteDialogAlertOpen] = useState(false);
+	const router = useRouter();
+
+	const deleteReport = api.reports.deleteReport.useMutation();
 
 	const handleDeleteReport = async () => {
 		try {
-			const response = await fetch("/api/reports", {
-				method: "DELETE",
-				body: JSON.stringify({ _id: report._id }),
-				headers: {
-					"Content-Type": "application/json",
-				},
+			const resp = await deleteReport.mutateAsync({
+				id: report._id.toString(),
 			});
-			if (!response.ok) {
-				throw new Error("Failed to delete report");
+
+			if ("error" in resp) {
+				toast.error(`Failed to delete report: ${resp.error}`);
 			}
-			setLocalReports((prevReports) =>
-				prevReports.filter((n) => n._id !== report._id),
-			);
+
+			router.refresh(); // Revalidate the cache
 			toast.success("Report deleted successfully");
-			mutate(); // Revalidate the cache
 		} catch (error) {
 			toast.error("Failed to delete report");
 		}

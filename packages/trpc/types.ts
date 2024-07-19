@@ -61,6 +61,7 @@ export interface IStream {
 export interface IReport {
 	_id: ObjectId;
 	user_id: string | null | undefined; // REQUIRED: User ID
+	org_id: string | null | undefined; // OPTIONAL: Organization ID
 	created_at: Date; // REQUIRED: Date the stream was created
 	updated_at: Date; // REQUIRED: Date the stream was last updated
 	location?: ILocation; // OPTIONAL: Location of the stream

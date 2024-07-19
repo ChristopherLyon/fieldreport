@@ -25,8 +25,6 @@ export const streamsRouter = createTRPCRouter({
 		return { hello: "world" };
 	}),
 	getStreams: protectedProcedure.query(async ({ ctx: { db, session } }) => {
-		console.log("HELLO", session.userId, session.orgId);
-
 		const streams: IStream[] = await db.db
 			.collection<IStream>("streams")
 			.find({
@@ -35,8 +33,6 @@ export const streamsRouter = createTRPCRouter({
 			})
 			.sort({ created_at: -1 })
 			.toArray();
-
-		console.log("STREAMS", streams);
 
 		return { streams };
 	}),
@@ -151,8 +147,6 @@ export const streamsRouter = createTRPCRouter({
 					tags: parsedAiContent.stream.tags,
 				},
 			};
-
-			console.log("ADDING STREAM", stream);
 
 			// Insert the stream
 			const result = await db.db
