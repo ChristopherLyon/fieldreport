@@ -1,6 +1,6 @@
 import { createTRPCClient, httpBatchLink } from "@trpc/client";
 import { SuperJSON } from "superjson";
-import type { AppRouter } from "./root";
+import type { AppRouter } from "../root";
 
 const BASE_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
 	? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
@@ -8,7 +8,7 @@ const BASE_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
 
 const TRPC_URL = `${BASE_URL}/api/trpc`;
 
-export const client = createTRPCClient<AppRouter>({
+export const api = createTRPCClient<AppRouter>({
 	links: [
 		httpBatchLink({
 			url: TRPC_URL,

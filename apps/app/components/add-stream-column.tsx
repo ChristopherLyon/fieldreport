@@ -23,8 +23,10 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { api } from "@fr/trpc/clients/react";
 import { sub } from "date-fns";
 import { AudioLines, CornerDownLeft, Mic, Paperclip } from "lucide-react";
+import { useRouter } from "next/navigation";
 // UI
 import type React from "react";
 import { useCallback } from "react";
@@ -34,19 +36,20 @@ import { toast } from "sonner";
 interface AddStreamColumnProps {
 	setLocalStreams: React.Dispatch<React.SetStateAction<IStream[]>>;
 	setStreamAiProcessing: React.Dispatch<React.SetStateAction<boolean>>;
-	mutate: () => void;
 }
 
 const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
 	setLocalStreams,
 	setStreamAiProcessing,
-	mutate,
 }) => {
 	const [rawInput, setRawInput] = useState("");
 	const minimumStreamLength = 20;
 	const [location, setLocation] = useState<GeolocationCoordinates | null>(null);
 	const [mobileStreamInputOpen, setMobileStreamInputOpen] =
 		useState<boolean>(false);
+	const router = useRouter();
+
+	const createStreamMutation = api.streams.createStream.useMutation();
 
 	useEffect(() => {
 		navigator.geolocation.getCurrentPosition(
@@ -63,12 +66,8 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
 	}, []);
 
 	const handleSubmit = useCallback(async () => {
-		if (rawInput.trim() === "") {
-			toast.error("Stream cannot be empty");
-			return;
-		}
-
-		if (rawInput.length < minimumStreamLength) {
+		const trimmedInput = rawInput.trim();
+		if (trimmedInput.length < minimumStreamLength) {
 			toast.error(
 				`Stream must be at least ${minimumStreamLength} characters long`,
 			);
@@ -89,48 +88,42 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
 					}
 				: null;
 
-			const response = await fetch("/api/streams", {
-				method: "POST",
-				body: JSON.stringify({
-					raw_stream: rawInput,
-					source: "web",
-					location: sanitizedLocation,
-				}),
-				headers: {
-					"Content-Type": "application/json",
+			if (location === null) {
+				toast.error("Stream does not have a location");
+				return;
+			}
+
+			const response = await createStreamMutation.mutateAsync({
+				raw_stream: trimmedInput,
+				source: "web",
+				location: {
+					type: "Point",
+					coordinates: [location.longitude, location.latitude],
+					accuracy: location.accuracy,
 				},
 			});
 
-			if (!response.ok) {
-				throw new Error("Failed to add stream");
+			if ("error" in response) {
+				throw new Error(response.error);
 			}
 
-			const newStream = (await response.json()) as { stream: IStream };
-			setLocalStreams((prevStreams) => [newStream.stream, ...prevStreams]);
+			setLocalStreams((prevStreams) => [response.stream, ...prevStreams]);
 
 			if (
-				newStream.stream.ai_generated?.user_input_quality_ranking?.score === 10
+				response.stream.ai_generated?.user_input_quality_ranking?.score === 10
 			) {
 				toast.success("Perfect Stream added successfully 🎉");
 			} else {
 				toast.success("Stream added successfully");
 			}
 
-			mutate(); // Revalidate the cache
+			router.refresh(); // Revalidate the cache
 		} catch (error) {
-			toast.error("Failed to add stream");
+			toast.error(`Failed to add stream: ${error}`);
 		} finally {
 			setStreamAiProcessing(false);
 
-			// Check /api/checkSubscription
-			const subscription = await fetch("/api/checkSubscription");
-			const subscriptionData = await subscription.json();
-
-			// If the user does not have an active subscription, redirect to the provided URL
-			if (!subscriptionData.activeSubscription) {
-				window.location.href = subscriptionData.url;
-				return;
-			}
+			// TODO: re-add subscription check
 		}
 	}, [
 		rawInput,
@@ -138,7 +131,6 @@ const AddStreamColumn: React.FC<AddStreamColumnProps> = ({
 		minimumStreamLength,
 		setStreamAiProcessing,
 		setLocalStreams,
-		mutate,
 	]);
 
 	useEffect(() => {

@@ -1,48 +1,30 @@
 "use client";
 
-import { IStream } from "@/types/types";
+import type { IStream } from "@/types/types";
+import { useOrganization, useUser } from "@clerk/nextjs";
+import { api } from "@fr/trpc/clients/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import useSWR from "swr";
-import NoDataContextCard from "./no-data-context-card";
-import { Card } from "./ui/card";
-import StreamCard from "./stream-card";
 import AddStreamColumn from "./add-stream-column";
+import NoDataContextCard from "./no-data-context-card";
+import StreamCard from "./stream-card";
+import { Card } from "./ui/card";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
-interface SWRError {
-	message: string;
-}
-
-export const LocalStreams = () => {
-	const {
-		data: streams,
-		error,
-		isLoading,
-		mutate,
-	} = useSWR<IStream[], SWRError>("/api/streams", fetcher, {
-		refreshInterval: 5000,
-	});
-	const [localStreams, setLocalStreams] = useState<IStream[]>([]);
+export const LocalStreams = ({ initialData }) => {
+	const [localStreams, setLocalStreams] = useState<IStream[]>(initialData);
 	const [streamAiProcessing, setStreamAiProcessing] = useState<boolean>(false);
+	const organization = useOrganization();
+	const router = useRouter();
 
+	// when the org changes, refresh the page to get new data
 	useEffect(() => {
-		if (streams) {
-			setLocalStreams(streams);
-		}
-	}, [streams]);
+		router.refresh();
+	}, [organization.organization, router]);
 
-	if (error)
-		return (
-			<NoDataContextCard title="Error" description="Failed to load streams." />
-		);
-	if (isLoading && localStreams.length === 0)
-		return (
-			<NoDataContextCard
-				title="Loading Streams"
-				description="Please wait while we fetch your streams."
-			/>
-		);
+	// when the initial data changes, set the local streams to the initial data
+	useEffect(() => {
+		setLocalStreams(initialData);
+	}, [initialData]);
 
 	return (
 		<div className="flex flex-1 h-full gap-4">
@@ -58,7 +40,7 @@ export const LocalStreams = () => {
 							{streamAiProcessing && (
 								<Card className="h-64 w-full rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow bg-background flex items-center justify-center">
 									<div className="flex flex-row items-center gap-2">
-										<div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+										<div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
 										<div className="text-sm font-medium animate-pulse">
 											Processing Stream
 										</div>
@@ -70,7 +52,6 @@ export const LocalStreams = () => {
 									key={stream._id.toString()}
 									stream={stream}
 									setLocalStreams={setLocalStreams}
-									mutate={mutate}
 								/>
 							))}
 						</div>
@@ -80,7 +61,6 @@ export const LocalStreams = () => {
 			<AddStreamColumn
 				setLocalStreams={setLocalStreams}
 				setStreamAiProcessing={setStreamAiProcessing}
-				mutate={mutate}
 			/>
 		</div>
 	);

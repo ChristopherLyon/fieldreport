@@ -25,6 +25,7 @@ export type Priority = "low" | "medium" | "high" | "urgent";
 export interface ITask {
 	_id: ObjectId; // GENERATED: Task ID
 	user_id: string | null | undefined; // REQUIRED: User ID
+	org_id?: string | null | undefined; // OPTIONAL: Organization ID
 	stream_id: ObjectId; // REQUIRED: Reference to the associated stream
 	title: string; // REQUIRED: Title of the task
 	description: string; // REQUIRED: Description of the task
@@ -37,6 +38,7 @@ export interface ITask {
 export interface IStream {
 	_id: ObjectId; // GENERATED: Stream ID
 	user_id: string | null | undefined; // REQUIRED: User ID
+	org_id?: string | null | undefined; // OPTIONAL: Organization ID
 	raw_stream: string; // REQUIRED: Raw stream content
 	created_at: Date; // REQUIRED: Date the stream was created
 	updated_at: Date; // REQUIRED: Date the stream was last updated

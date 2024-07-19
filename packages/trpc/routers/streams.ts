@@ -1,39 +1,51 @@
-import { z } from "zod";
+import { ObjectId } from "mongodb";
 import OpenAI from "openai";
-import { createTRPCRouter, publicProcedure } from "../trpc";
-import { IStream, ITask } from "../types";
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import type { IStream, ITask } from "../types";
+
+export const streamInput = z.object({
+	raw_stream: z.string(),
+	location: z.object({
+		type: z.enum(["Point"]),
+		coordinates: z.tuple([z.number(), z.number()]),
+		accuracy: z.number().optional(),
+	}),
+	source: z.enum(["watch", "web", "mobile"]),
+});
 
 // Utility function to get the current date in ISO format
 const getCurrentDate = () => new Date().toISOString().split("T")[0];
 
-export const postRouter = createTRPCRouter({
-	example: publicProcedure.query(async () => {
+export const streamsRouter = createTRPCRouter({
+	example: publicProcedure.query(async ({ ctx: { session } }) => {
 		return { hello: "world" };
 	}),
-	getStreams: publicProcedure.query(async ({ ctx: { db } }) => {
+	getStreams: protectedProcedure.query(async ({ ctx: { db, session } }) => {
+		console.log("HELLO");
+
 		const streams: IStream[] = await db.db
 			.collection<IStream>("streams")
-			.find()
+			.find({
+				user_id: session.userId,
+				org_idg_id: session.orgId,
+			})
 			.sort({ created_at: -1 })
 			.toArray();
 
+		console.log("STREAMS", streams);
+
 		return { streams };
 	}),
-	createStream: publicProcedure
-		.input(
-			z.object({
-				raw_stream: z.string(),
-				location: z.string(),
-				source: z.string(),
-			}),
-		)
-		.mutation(async ({ input, ctx: { db } }) => {
+	createStream: protectedProcedure
+		.input(streamInput)
+		.mutation(async ({ input, ctx: { db, session } }) => {
 			const openai = new OpenAI();
 			const today = getCurrentDate();
 
 			// Construct the prompt dynamically with types and guidelines
 			const aiPrompt = `
-  Today's date is \${today}. You are an advanced note-taking AI assistant for the user \${session.user?.name}. Your task is to process the user's input, enhancing clarity and structure while maintaining their style. Summarize, add context, and suggest tasks only when explicitly indicated by the user. Use rich markdown to improve readability.
+  Today's date is ${today}. You are an advanced note-taking AI assistant for the user ${session.user}. Your task is to process the user's input, enhancing clarity and structure while maintaining their style. Summarize, add context, and suggest tasks only when explicitly indicated by the user. Use rich markdown to improve readability.
 
   Output Schema:
 
@@ -119,7 +131,8 @@ export const postRouter = createTRPCRouter({
 
 			const stream: IStream = {
 				_id: new ObjectId(),
-				user_id: session.user?.email,
+				user_id: session.userId,
+				org_id: session.orgId,
 				raw_stream: input.raw_stream,
 				created_at: new Date(),
 				updated_at: new Date(),
@@ -137,12 +150,15 @@ export const postRouter = createTRPCRouter({
 			};
 
 			// Insert the stream
-			const result = await db.collection<IStream>("streams").insertOne(stream);
+			const result = await db.db
+				.collection<IStream>("streams")
+				.insertOne(stream);
 
 			if (parsedAiContent.task?.is_task) {
 				const task: ITask = {
 					_id: new ObjectId(),
-					user_id: session.user?.email,
+					user_id: session.userId,
+					org_id: session.orgId,
 					stream_id: stream._id,
 					title: parsedAiContent.task.title,
 					description: parsedAiContent.task.description,
@@ -168,8 +184,39 @@ export const postRouter = createTRPCRouter({
 				if (stream.ai_generated) {
 					stream.ai_generated.spawned_task_id = task._id;
 				}
-
-				return { success: true, stream };
 			}
+
+			return { success: true, stream };
+		}),
+	deleteStream: protectedProcedure
+		.input(z.object({ id: z.string() }))
+		.mutation(async ({ input, ctx: { db, session } }) => {
+			const streamId = new ObjectId(input.id);
+			// Find the stream to get the task ID
+			const stream = await db.db.collection<IStream>("streams").findOne({
+				_id: streamId,
+			});
+
+			if (!stream) {
+				return { error: "Stream not found" };
+			}
+
+			// Delete the stream
+			const result = await db.db.collection<IStream>("streams").deleteOne({
+				_id: streamId,
+			});
+
+			if (result.deletedCount === 0) {
+				return { error: "Stream not found" };
+			}
+
+			// Delete the associated task if it exists
+			if (stream.ai_generated?.spawned_task_id) {
+				await db.db.collection<ITask>("tasks").deleteOne({
+					_id: stream.ai_generated.spawned_task_id,
+				});
+			}
+
+			return { success: true };
 		}),
 });

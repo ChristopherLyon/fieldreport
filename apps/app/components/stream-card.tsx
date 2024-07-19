@@ -30,6 +30,8 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { api } from "@fr/trpc/clients/react";
+import { streamInput } from "@fr/trpc/routers/streams";
 // UI Components
 import {
 	AudioLines,
@@ -40,23 +42,26 @@ import {
 	Trash,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { z } from "zod";
 import { Badge } from "./ui/badge";
 
 interface StreamCardProps {
 	stream: IStream;
 	setLocalStreams: React.Dispatch<React.SetStateAction<IStream[]>>;
-	mutate: () => void;
 }
 
 export default function StreamCard({
 	stream,
 	setLocalStreams,
-	mutate,
 }: StreamCardProps) {
 	const [expandedDialogOpen, setExpandedDialogOpen] = useState(false);
 	const [deleteDialogAlertOpen, setDeleteDialogAlertOpen] = useState(false);
 	const [task, setTask] = useState<ITask | null>(null);
+	const router = useRouter();
+
+	const deleteMutation = api.streams.deleteStream.useMutation();
 
 	useEffect(() => {
 		async function fetchTask() {
@@ -81,21 +86,16 @@ export default function StreamCard({
 
 	const handleDeleteStream = async () => {
 		try {
-			const response = await fetch("/api/streams", {
-				method: "DELETE",
-				body: JSON.stringify({ _id: stream._id }),
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
-			if (!response.ok) {
-				throw new Error("Failed to delete stream");
-			}
 			setLocalStreams((prevStreams) =>
 				prevStreams.filter((n) => n._id !== stream._id),
 			);
-			toast.success("Stream deleted successfully");
-			mutate(); // Revalidate the cache
+			const response = await deleteMutation.mutateAsync({ id: stream._id });
+			if ("error" in response) {
+				toast.error("Failed to delete stream");
+			} else {
+				router.refresh();
+				toast.success("Stream deleted successfully");
+			}
 		} catch (error) {
 			toast.error("Failed to delete stream");
 		}

@@ -10,10 +10,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@clerk/nextjs": "^5.2.4",
+    "@tanstack/react-query": "^5.51.9",
     "@trpc/client": "11.0.0-rc.466",
+    "@trpc/react-query": "11.0.0-rc.466",
     "@trpc/server": "11.0.0-rc.466",
     "mongodb": "^6.6.2",
+    "next": "14.2.3",
     "openapi": "^1.0.1",
+    "react": "^18",
     "superjson": "^2.2.1",
     "zod": "^3.23.8"
   }
