@@ -6,7 +6,7 @@ import { api } from "@fr/trpc/clients/server";
 export default async function App() {
 	const session = auth();
 	session.protect();
-	const data = await api.streams.getStreams();
+	const data = await api.streams.getStreams({});
 	return (
 		<TRPCReactProvider>
 			<LocalStreams

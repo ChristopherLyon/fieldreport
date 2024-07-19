@@ -10,6 +10,7 @@ import { auth } from "@clerk/nextjs/server";
 
 export default async function RootLayout({
 	children,
+	modal,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
@@ -20,7 +21,7 @@ export default async function RootLayout({
 				<div className="grid min-h-screen w-full md:grid-cols-[140px_1fr] relative">
 					<div className="hidden md:block">
 						<div className="flex h-full max-h-screen flex-col gap-2">
-							<div className="flex h-14 items-center border-b mx-auto"></div>
+							<div className="flex h-14 items-center border-b mx-auto" />
 							<div className="flex-1 overflow-auto">
 								<NavLinks />
 							</div>
@@ -34,6 +35,7 @@ export default async function RootLayout({
 						</div>
 					</div>
 				</div>
+				{modal}
 			</main>
 		</ClerkProvider>
 	);

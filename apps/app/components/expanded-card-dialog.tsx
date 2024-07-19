@@ -1,9 +1,6 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
-import type { IReport } from "@fr/trpc/types";
-import { X } from "lucide-react";
-import Link from "next/link";
+import type { IStream } from "@fr/trpc/types";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import MarkdownWrapper from "./markdown-wrapper";
@@ -15,15 +12,13 @@ import {
 } from "./ui/dialog";
 
 export default function ExpandedCardDialog({
-	report,
+	stream,
 	expandedDialogOpen,
 	setExpandedDialogOpen,
 }: {
-	report: IReport;
+	stream: IStream;
 	expandedDialogOpen: boolean;
-	setExpandedDialogOpen?:
-		| React.Dispatch<React.SetStateAction<boolean>>
-		| string;
+	setExpandedDialogOpen: React.Dispatch<React.SetStateAction<boolean>> | string;
 }) {
 	const router = useRouter();
 
@@ -36,8 +31,6 @@ export default function ExpandedCardDialog({
 
 	// Close the dialog if the user presses escape
 	useEffect(() => {
-		if (!setExpandedDialogOpen) return;
-
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (event.key === "Escape") {
 				navigate?.();
@@ -50,24 +43,16 @@ export default function ExpandedCardDialog({
 		};
 	}, [setExpandedDialogOpen]);
 
-	const close =
-		typeof setExpandedDialogOpen === "string" ? (
-			<Link href={setExpandedDialogOpen}>
-				<X className="absolute top-2 left-2 cursor-pointer z-50 p-1" />
-			</Link>
-		) : setExpandedDialogOpen ? (
-			<X
-				className="absolute top-2 left-2 cursor-pointer z-50 p-1"
-				onClick={() => setExpandedDialogOpen(false)}
-			/>
-		) : null;
+	if (!expandedDialogOpen) return null;
 
 	return (
 		<Dialog open={expandedDialogOpen} onOpenChange={navigate}>
 			<DialogContent className="max-w-4xl">
-				<DialogTitle>Report</DialogTitle>
+				<DialogTitle>Stream</DialogTitle>
 				<DialogDescription className="max-h-[36rem] overflow-y-scroll">
-					<MarkdownWrapper markdown={report.ai_generated?.markdown_content} />
+					<MarkdownWrapper
+						markdown={stream.ai_generated?.markdown_content ?? ""}
+					/>
 				</DialogDescription>
 			</DialogContent>
 		</Dialog>

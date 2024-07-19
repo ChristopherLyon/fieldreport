@@ -24,18 +24,35 @@ export const streamsRouter = createTRPCRouter({
 	example: publicProcedure.query(async ({ ctx: { session } }) => {
 		return { hello: "world" };
 	}),
-	getStreams: protectedProcedure.query(async ({ ctx: { db, session } }) => {
-		const streams: IStream[] = await db.db
-			.collection<IStream>("streams")
-			.find({
-				user_id: session.userId,
-				org_id: session.orgId,
-			})
-			.sort({ created_at: -1 })
-			.toArray();
+	getStreams: protectedProcedure
+		.input(z.object({ streamId: z.string().optional() }))
+		.query(async ({ ctx: { db, session }, input: { streamId } }) => {
+			if (streamId) {
+				// Fetch specific stream by ID
+				const stream = await db.db.collection<IStream>("streams").findOne({
+					_id: new ObjectId(streamId),
+					user_id: session.userId,
+					org_id: session.orgId,
+				});
 
-		return { streams };
-	}),
+				if (!stream) {
+					return { error: "Stream not found" };
+				}
+
+				return { stream };
+			}
+
+			const streams: IStream[] = await db.db
+				.collection<IStream>("streams")
+				.find({
+					user_id: session.userId,
+					org_id: session.orgId,
+				})
+				.sort({ created_at: -1 })
+				.toArray();
+
+			return { streams };
+		}),
 	createStream: protectedProcedure
 		.input(streamInput)
 		.mutation(async ({ input, ctx: { db, session } }) => {

@@ -21,14 +21,15 @@ import {
 	ContextMenuItem,
 	ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import { api } from "@fr/trpc/clients/react";
+import type { IReport } from "@fr/trpc/types";
 // UI Components
 import { Calendar, Trash } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import ExpandedReportDialog from "./expanded-report-dialog";
 import { Badge } from "./ui/badge";
-import type { IReport } from "@fr/trpc/types";
-import { api } from "@fr/trpc/clients/react";
-import { useRouter } from "next/navigation";
 
 interface ReportCardProps {
 	report: IReport;
@@ -102,44 +103,48 @@ export default function ReportCard({ report }: ReportCardProps) {
 
 			<ContextMenu>
 				<ContextMenuTrigger>
-					<Card
-						onClick={handleCardClick}
-						className="h-64 w-full rounded-lg overflow-hidden hover:shadow-md transition-shadow bg-muted/10"
-					>
-						<CardContent className="h-full grid grid-rows-[auto_1fr_auto] p-6 gap-4">
-							<div className="flex items-center justify-between">
-								<CardTitle className="text-md">{ai_generated?.title}</CardTitle>
-								<div className="flex items-start gap-2 flex-wrap justify-end">
-									{ai_generated?.tags?.map((tag) => (
-										<Badge
-											variant={"outline"}
-											key={tag}
-											className="capitalize first-letter:text-lg"
-										>
-											{tag}
-										</Badge>
-									))}
+					<Link href={`/reports/${report._id.toString()}`}>
+						<Card
+							onClick={handleCardClick}
+							className="h-64 w-full rounded-lg overflow-hidden hover:shadow-md transition-shadow bg-muted/10"
+						>
+							<CardContent className="h-full grid grid-rows-[auto_1fr_auto] p-6 gap-4">
+								<div className="flex items-center justify-between">
+									<CardTitle className="text-md">
+										{ai_generated?.title}
+									</CardTitle>
+									<div className="flex items-start gap-2 flex-wrap justify-end">
+										{ai_generated?.tags?.map((tag) => (
+											<Badge
+												variant={"outline"}
+												key={tag}
+												className="capitalize first-letter:text-lg"
+											>
+												{tag}
+											</Badge>
+										))}
+									</div>
 								</div>
-							</div>
-							<div className="text-gray-500 dark:text-gray-400 line-clamp-3 text-sm">
-								{ai_generated?.summary}
-							</div>
-							<div className="flex items-center justify-between">
-								<div className="flex flex-row items-center gap-2">
-									{ai_generated?.topic_category && (
-										<div className="bg-primary/10 px-3 py-1 rounded-full text-primary font-medium text-xs">
-											{ai_generated.topic_category.charAt(0).toUpperCase() +
-												ai_generated.topic_category.slice(1)}
-										</div>
-									)}
+								<div className="text-gray-500 dark:text-gray-400 line-clamp-3 text-sm">
+									{ai_generated?.summary}
 								</div>
-								<div className="text-gray-500 dark:text-gray-400 text-xs items-center flex font-mono">
-									<Calendar className="w-4 h-4 mr-2 inline-block" />
-									{format(new Date(report.created_at), "MMM dd")}
+								<div className="flex items-center justify-between">
+									<div className="flex flex-row items-center gap-2">
+										{ai_generated?.topic_category && (
+											<div className="bg-primary/10 px-3 py-1 rounded-full text-primary font-medium text-xs">
+												{ai_generated.topic_category.charAt(0).toUpperCase() +
+													ai_generated.topic_category.slice(1)}
+											</div>
+										)}
+									</div>
+									<div className="text-gray-500 dark:text-gray-400 text-xs items-center flex font-mono">
+										<Calendar className="w-4 h-4 mr-2 inline-block" />
+										{format(new Date(report.created_at), "MMM dd")}
+									</div>
 								</div>
-							</div>
-						</CardContent>
-					</Card>
+							</CardContent>
+						</Card>
+					</Link>
 				</ContextMenuTrigger>
 				<ContextMenuContent>
 					<ContextMenuItem
@@ -151,11 +156,11 @@ export default function ReportCard({ report }: ReportCardProps) {
 					</ContextMenuItem>
 				</ContextMenuContent>
 			</ContextMenu>
-			<ExpandedReportDialog
+			{/* <ExpandedReportDialog
 				report={report}
 				expandedDialogOpen={expandedDialogOpen}
 				setExpandedDialogOpen={setExpandedDialogOpen}
-			/>
+			/> */}
 		</>
 	);
 }

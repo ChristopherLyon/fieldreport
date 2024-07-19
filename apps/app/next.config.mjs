@@ -4,7 +4,7 @@ import withPWA from "next-pwa";
 const nextConfig = {
 	// Add any other Next.js configuration options here
 	experimental: {
-		ppr: true,
+		// ppr: true,
 		reactCompiler: true,
 	},
 };

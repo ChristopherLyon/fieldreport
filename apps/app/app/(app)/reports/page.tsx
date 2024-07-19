@@ -1,7 +1,7 @@
 import NoDataContextCard from "@/components/no-data-context-card";
 import ReportCard from "@/components/report-card";
-import { api } from "@fr/trpc/clients/server";
 import { TRPCReactProvider } from "@fr/trpc/clients/react";
+import { api } from "@fr/trpc/clients/server";
 
 export default async function App() {
 	const reports = await api.reports.getReports({});

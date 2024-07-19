@@ -30,11 +30,11 @@ import {
 	Minus,
 	ShieldAlert,
 } from "lucide-react";
-import React from "react";
 import { useRouter } from "next/navigation";
+import React from "react";
 
-import type { ISubTask, ITask } from "@fr/trpc/types";
 import { api } from "@fr/trpc/clients/react";
+import type { ISubTask, ITask } from "@fr/trpc/types";
 
 export const TasksList = ({ tasks }) => {
 	const [localTasks, setLocalTasks] = useState<ITask[]>(tasks);

@@ -20,10 +20,10 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { api } from "@fr/trpc/clients/react";
 import { CalendarDays } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { api } from "@fr/trpc/clients/react";
 
 export default function GenerateReportComponent() {
 	const router = useRouter();

@@ -6,7 +6,7 @@ import { format } from "date-fns";
 // Libraries
 import { useEffect, useState } from "react";
 
-import ExpandedCardDialog from "@/components/expanded-card-dialog copy";
+import ExpandedCardDialog from "@/components/expanded-card-dialog";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -130,96 +130,98 @@ export default function StreamCard({
 
 			<ContextMenu>
 				<ContextMenuTrigger>
-					<Card
-						onClick={handleCardClick}
-						className="h-64 w-full rounded-lg overflow-hidden hover:shadow-md transition-shadow bg-muted/10"
-					>
-						<CardContent className="h-full grid grid-rows-[auto_1fr_auto] p-6 gap-4">
-							<div className="flex flex-col">
-								{ai_generated?.topic_category && (
-									<div className="text-orange-500 font-medium text-xs">
-										{ai_generated.topic_category.charAt(0).toUpperCase() +
-											ai_generated.topic_category.slice(1)}
-									</div>
-								)}
-								<CardTitle className="text-md">{ai_generated?.title}</CardTitle>
-							</div>
-							<div className="text-gray-500 dark:text-gray-400 line-clamp-3 text-sm">
-								{ai_generated?.summary}
-							</div>
-							<div className="flex items-center justify-between">
-								<div className="flex flex-row items-center gap-2">
-									<Avatar className="size-4">
-										<AvatarImage src="https://github.com/shadcn.png" />
-										<AvatarFallback>CN</AvatarFallback>
-									</Avatar>
-									{task && (
+					<Link href={`/streams/${stream._id.toString()}`}>
+						<Card className="h-64 w-full rounded-lg overflow-hidden hover:shadow-md transition-shadow bg-muted/10">
+							<CardContent className="h-full grid grid-rows-[auto_1fr_auto] p-6 gap-4">
+								<div className="flex flex-col">
+									{ai_generated?.topic_category && (
+										<div className="text-orange-500 font-medium text-xs">
+											{ai_generated.topic_category.charAt(0).toUpperCase() +
+												ai_generated.topic_category.slice(1)}
+										</div>
+									)}
+									<CardTitle className="text-md">
+										{ai_generated?.title}
+									</CardTitle>
+								</div>
+								<div className="text-gray-500 dark:text-gray-400 line-clamp-3 text-sm">
+									{ai_generated?.summary}
+								</div>
+								<div className="flex items-center justify-between">
+									<div className="flex flex-row items-center gap-2">
+										<Avatar className="size-4">
+											<AvatarImage src="https://github.com/shadcn.png" />
+											<AvatarFallback>CN</AvatarFallback>
+										</Avatar>
+										{task && (
+											<TooltipProvider>
+												<Tooltip>
+													<TooltipTrigger>
+														<Link href="/tasks/" data-no-expand>
+															<ListTodo className="w-4 h-4 " />
+														</Link>
+													</TooltipTrigger>
+													<TooltipContent>
+														<p className="font-mono text-xs flex flex-row items-center gap-1">
+															<AudioLines className="w-4 h-4 inline-block" />
+															<span>Task</span>
+														</p>
+													</TooltipContent>
+												</Tooltip>
+											</TooltipProvider>
+										)}
 										<TooltipProvider>
 											<Tooltip>
 												<TooltipTrigger>
-													<Link href="/tasks/" data-no-expand>
-														<ListTodo className="w-4 h-4 " />
-													</Link>
+													{ai_generated?.user_input_quality_ranking?.score !==
+														undefined &&
+														(ai_generated.user_input_quality_ranking.score <
+														5 ? (
+															<ThumbsDown
+																className="w-4 h-4 text-red-500"
+																data-no-expand
+															/>
+														) : ai_generated.user_input_quality_ranking.score >=
+															8 ? (
+															<Medal
+																className="w-4 h-4 text-blue-500"
+																data-no-expand
+															/>
+														) : null)}
 												</TooltipTrigger>
-												<TooltipContent>
-													<p className="font-mono text-xs flex flex-row items-center gap-1">
-														<AudioLines className="w-4 h-4 inline-block" />
-														<span>Task</span>
-													</p>
-												</TooltipContent>
+												{ai_generated?.user_input_quality_ranking
+													?.score_tooltip && (
+													<TooltipContent>
+														<p className="font-mono text-xs">
+															{
+																ai_generated.user_input_quality_ranking
+																	.score_tooltip
+															}{" "}
+															[score:{" "}
+															{ai_generated.user_input_quality_ranking.score}]
+														</p>
+													</TooltipContent>
+												)}
 											</Tooltip>
 										</TooltipProvider>
-									)}
-									<TooltipProvider>
-										<Tooltip>
-											<TooltipTrigger>
-												{ai_generated?.user_input_quality_ranking?.score !==
-													undefined &&
-													(ai_generated.user_input_quality_ranking.score < 5 ? (
-														<ThumbsDown
-															className="w-4 h-4 text-red-500"
-															data-no-expand
-														/>
-													) : ai_generated.user_input_quality_ranking.score >=
-														8 ? (
-														<Medal
-															className="w-4 h-4 text-blue-500"
-															data-no-expand
-														/>
-													) : null)}
-											</TooltipTrigger>
-											{ai_generated?.user_input_quality_ranking
-												?.score_tooltip && (
-												<TooltipContent>
-													<p className="font-mono text-xs">
-														{
-															ai_generated.user_input_quality_ranking
-																.score_tooltip
-														}{" "}
-														[score:{" "}
-														{ai_generated.user_input_quality_ranking.score}]
-													</p>
-												</TooltipContent>
-											)}
-										</Tooltip>
-									</TooltipProvider>
+									</div>
+									<div className="text-gray-500 dark:text-gray-400 text-xs items-center flex font-mono">
+										<Calendar className="w-4 h-4 mr-2 inline-block" />
+										{format(new Date(stream.created_at), "MMM dd")}
+									</div>
 								</div>
-								<div className="text-gray-500 dark:text-gray-400 text-xs items-center flex font-mono">
-									<Calendar className="w-4 h-4 mr-2 inline-block" />
-									{format(new Date(stream.created_at), "MMM dd")}
+								<div className="w-full overflow-x-scroll">
+									<div className="flex gap-2 items-center w-max">
+										{ai_generated?.tags?.map((tag) => (
+											<Badge variant={"outline"} key={tag} className="w-max">
+												{tag}
+											</Badge>
+										))}
+									</div>
 								</div>
-							</div>
-							<div className="w-full overflow-x-scroll">
-								<div className="flex gap-2 items-center w-max">
-									{ai_generated?.tags?.map((tag) => (
-										<Badge variant={"outline"} key={tag} className="w-max">
-											{tag}
-										</Badge>
-									))}
-								</div>
-							</div>
-						</CardContent>
-					</Card>
+							</CardContent>
+						</Card>
+					</Link>
 				</ContextMenuTrigger>
 				<ContextMenuContent>
 					<ContextMenuItem
@@ -231,11 +233,6 @@ export default function StreamCard({
 					</ContextMenuItem>
 				</ContextMenuContent>
 			</ContextMenu>
-			<ExpandedCardDialog
-				stream={stream}
-				expandedDialogOpen={expandedDialogOpen}
-				setExpandedDialogOpen={setExpandedDialogOpen}
-			/>
 		</>
 	);
 }
