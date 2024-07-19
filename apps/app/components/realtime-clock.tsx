@@ -1,10 +1,11 @@
 "use client";
-// This component renders a 24 May 2024 12:00:00:000 format clock at 1 second intervals
-// Libraries
+
 import { useEffect, useState } from "react";
 
 export default function RealtimeClock() {
 	const [time, setTime] = useState(new Date());
+
+	if (typeof window === "undefined") return null;
 
 	useEffect(() => {
 		const interval = setInterval(() => {
