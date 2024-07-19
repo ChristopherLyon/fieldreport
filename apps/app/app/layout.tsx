@@ -46,7 +46,7 @@ export default function RootLayout({
 					<meta name="twitter:card" content="summary_large_image" />
 				</head>
 				<body
-					className={`bg-background text-gray-900 dark:text-gray-100 ${dmSans.className}`}
+					className={`bg-background text-neutral-900 dark:text-neutral-100 ${dmSans.className}`}
 				>
 					<ThemeProvider
 						attribute="class"

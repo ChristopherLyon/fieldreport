@@ -150,8 +150,8 @@ export default function AIChatbot({
 										<div
 											className={`flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ${
 												chat.role === "user"
-													? "ml-auto bg-gray-200 text-gray-900 dark:bg-gray-700 dark:text-gray-50"
-													: "mr-auto bg-gray-900 text-gray-50 dark:bg-gray-50 dark:text-gray-900"
+													? "ml-auto bg-neutral-200 text-neutral-900 dark:bg-neutral-700 dark:text-neutral-50"
+													: "mr-auto bg-neutral-900 text-neutral-50 dark:bg-neutral-50 dark:text-neutral-900"
 											}`}
 										>
 											<p>{chat.content}</p>
@@ -160,7 +160,7 @@ export default function AIChatbot({
 								))}
 								{currentAIResponse && (
 									<div className="flex justify-start">
-										<div className="flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm mr-auto bg-gray-900 text-gray-50 dark:bg-gray-50 dark:text-gray-900">
+										<div className="flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm mr-auto bg-neutral-900 text-neutral-50 dark:bg-neutral-50 dark:text-neutral-900">
 											<p>{currentAIResponse}</p>
 										</div>
 									</div>

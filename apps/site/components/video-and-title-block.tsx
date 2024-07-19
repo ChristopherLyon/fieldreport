@@ -37,7 +37,7 @@ export default function VideoAndTitleBlock({
 
 			<div className="relative flex items-center justify-center h-full z-10 px-6 pt-14 lg:px-8">
 				<div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56 text-center">
-					<h1 className="text-6xl tracking-tight text-gray-100 sm:text-6xl ">
+					<h1 className="text-6xl tracking-tight text-neutral-100 sm:text-6xl ">
 						{title}
 					</h1>
 				</div>

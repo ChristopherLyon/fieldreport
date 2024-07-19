@@ -121,7 +121,7 @@ export default function ReportCard({ report }: ReportCardProps) {
 										{ai_generated?.title}
 									</CardTitle>
 								</div>
-								<div className="text-gray-500 dark:text-gray-400 text-sm">
+								<div className="text-neutral-500 dark:text-neutral-400 text-sm">
 									{ai_generated?.summary}
 								</div>
 								<div className="flex items-center justify-between">
@@ -131,7 +131,7 @@ export default function ReportCard({ report }: ReportCardProps) {
 											<AvatarFallback>CN</AvatarFallback>
 										</Avatar>
 									</div>
-									<div className="text-gray-500 dark:text-gray-400 text-xs items-center flex font-mono">
+									<div className="text-neutral-500 dark:text-neutral-400 text-xs items-center flex font-mono">
 										<Calendar className="w-4 h-4 mr-2 inline-block" />
 										{format(new Date(report.created_at), "MMM dd")}
 									</div>

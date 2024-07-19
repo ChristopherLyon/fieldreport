@@ -94,7 +94,7 @@ export default function Footer() {
 			</h2>
 			<div className="mx-auto max-w-5xl pb-8 pt-16 sm:pt-24 lg:pt-32 border-l border-t border-r border-dashed">
 				<div className="xl:grid xl:grid-cols-3 xl:gap-8 px-6">
-					<AudioLines className="h-20 w-auto text-gray-900 dark:text-gray-300 pl-20" />
+					<AudioLines className="h-20 w-auto text-neutral-900 dark:text-neutral-300 pl-20" />
 					<div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
 						<div className="md:grid md:grid-cols-2 md:gap-8">
 							<div>
